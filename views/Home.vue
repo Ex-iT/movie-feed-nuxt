@@ -32,7 +32,7 @@ export default Vue.extend({
     const prefixUrl = '/api/v1'
 
     this.today = await this.$http.$get('movies/today', { prefixUrl })
-    this.tomorrow = await this.$http.$get('/api/v1/movies/tomorrow', {
+    this.tomorrow = await this.$http.$get('movies/tomorrow', {
       prefixUrl,
     })
   },

@@ -29,8 +29,10 @@ export default Vue.extend({
     tomorrow: [],
   }),
   async fetch() {
-    this.today = await this.$http.$get('/api/v1/movies/today')
-    this.tomorrow = await this.$http.$get('/api/v1/movies/tomorrow')
+    const prefixUrl = `${this.$http.getBaseURL()}api/v1`
+
+    this.today = await this.$http.$get('/movies/today', { prefixUrl })
+    this.tomorrow = await this.$http.$get('/movies/tomorrow', { prefixUrl })
   },
   fetchOnServer: false,
 })

@@ -58,9 +58,9 @@ export default Vue.extend({
   },
   methods: {
     async fetchDetails(id: string) {
-      const prefixUrl = '/api/v1'
+      const prefixUrl = '/api/v1/details'
 
-      this.details = await this.$http.$get(`details/${id}`, { prefixUrl })
+      this.details = await this.$http.$get(id, { prefixUrl })
       this.mainImage = this.details?.generic?.image || EMPTY_IMG
       this.isLoading = false
     },

@@ -26,8 +26,8 @@ body {
   width: 100%;
   height: 100vh;
   line-height: 1;
-  background: var(--background-color-main) url('/assets/bg.jpg') center / cover
-    fixed;
+  background: var(--background-color-main) url('/assets/bg.jpg') top left /
+    cover fixed;
   -webkit-font-smoothing: antialiased;
   text-size-adjust: none;
 }

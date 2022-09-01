@@ -46,8 +46,8 @@ export default {
 
   serverMiddleware: [
     {
-      path: '/server-middleware/v1',
-      handler: '~/server-middleware/v1/index.ts',
+      path: '/api/v1',
+      handler: '~/api/v1/index.ts',
     },
   ],
 }

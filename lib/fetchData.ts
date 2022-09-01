@@ -17,6 +17,7 @@ const fetchData = async (uri: string): Promise<any> => {
       }
     }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log(error || 'An unexpected error occurred.')
   }
 }

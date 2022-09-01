@@ -24,9 +24,7 @@
           v-for="({ name, icon }, index) in details.metadata.guidance"
           :key="index"
         >
-          <span>
-            <img :src="icon" :alt="name" :title="name" width="20" height="20" />
-          </span>
+          <img :src="icon" :alt="name" :title="name" width="20" height="20" />
         </li>
       </ul>
     </div>
@@ -54,3 +52,22 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped>
+.guidance {
+  display: flex;
+  column-gap: var(--spacing-medium);
+}
+
+.guidance ul {
+  display: flex;
+  column-gap: var(--spacing-medium);
+  padding: 0;
+  list-style-type: none;
+}
+
+.guidance img {
+  background-color: #fff;
+  border-radius: 50%;
+}
+</style>

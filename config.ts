@@ -28,3 +28,4 @@ export const CHANNELS: { [key: number]: string } = {
 export const EMPTY_IMG =
   'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 export const CACHING_DEFAULT = 'public, max-age=7200'
+export const TICK_TIME = 1e3

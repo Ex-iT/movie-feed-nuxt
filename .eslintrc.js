@@ -11,6 +11,9 @@ module.exports = {
   ],
   plugins: [],
   rules: {
-    camelcase: ['error', { allow: ['_', 'ch_id'] }],
+    camelcase: [
+      'error',
+      { allow: ['_', 'ch_id', 'deep_link', 'channel_label'] },
+    ],
   },
 }

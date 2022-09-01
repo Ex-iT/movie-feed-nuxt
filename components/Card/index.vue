@@ -8,47 +8,34 @@
 
     <template v-if="fetchState.error">
       <CardItem class="error">
-        <h2>Data kan niet opgehaald worden, probeer het later nog eens.</h2>
+        <h2>Data kan niet worden opgehaald, probeer het later nog eens.</h2>
       </CardItem>
     </template>
 
     <CardItem
-      v-for="(programme, index) in programmes"
+      v-for="(prog, index) in progs"
       v-else
-      :key="`${programme.main_id}-${index}`"
-      @card-item-clicked="handleClick(programme.main_id)"
+      :key="`${prog.main_id}-${index}`"
+      :class="{ passed: prog.is_passed }"
+      @card-item-clicked="handleClick(prog.main_id)"
     >
-      <img
-        :src="programme.channel_logo"
-        :alt="programme.channel_label"
-        class="logo"
-        width="40"
-        height="40"
-      />
-      <div class="info">
-        <div class="details">
-          <h2>{{ programme.title }}</h2>
-          {{ programme.start }} - {{ programme.end }}
-        </div>
-        <Details :programme="programme" :is-open="isOpen[programme.main_id]" />
-        <Sharer :programme="programme" />
-      </div>
-      <ProgressIndicator :progress="programme.progress" />
+      <CardContent :programme="prog" :is-open="isOpen[prog.main_id]" />
     </CardItem>
   </ol>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import Sharer from '../Sharer.vue'
-import Details from '../Details.vue'
-import ProgressIndicator from '../ProgressIndicator.vue'
 import CardItem from './CardItem.vue'
+import CardContent from './CardContent.vue'
 import { EnrichedProg, FetchtState } from '~/types/sharedTypes'
+import getEpoch from '~/lib/getEpoch'
+import { TICK_TIME } from '~/config'
+import getProgress from '~/lib/getProgress'
 
 export default Vue.extend({
   name: 'CardComponent',
-  components: { CardItem, Details, Sharer, ProgressIndicator },
+  components: { CardItem, CardContent },
   props: {
     programmes: {
       type: Array as () => EnrichedProg[],
@@ -57,21 +44,69 @@ export default Vue.extend({
     fetchState: {
       type: Object as () => FetchtState,
       default: () => ({
-        pending: false,
+        pending: true,
         error: false,
+        timestamp: 0,
       }),
     },
   },
   data(): {
     isOpen: { [key: string]: boolean }
+    progs: EnrichedProg[]
   } {
     return {
       isOpen: {},
+      progs: [],
     }
+  },
+  watch: {
+    programmes: {
+      handler(newProgs) {
+        this.progs = newProgs
+
+        this.progs.forEach((prog) => {
+          if (!prog.is_passed) {
+            this.updateProgress(prog)
+          }
+        })
+      },
+    },
   },
   methods: {
     handleClick(id: string) {
       this.isOpen = Object.assign({}, this.isOpen, { [id]: !this.isOpen[id] })
+    },
+    updateProgress(prog: EnrichedProg) {
+      const startTime = parseInt(prog.ps, 10)
+      const endTime = parseInt(prog.pe, 10)
+      let now = getEpoch()
+      let rAF: number
+
+      const updateOnrAF = () => {
+        if (!prog.is_passed && now < endTime) {
+          const progress = getProgress(now, startTime, endTime)
+          if (progress > 0) {
+            prog.progress = progress
+          }
+        }
+
+        if (prog.is_passed) {
+          prog.progress = 0
+          window.cancelAnimationFrame(rAF)
+        }
+
+        if (!prog.is_passed && now > endTime) {
+          prog.is_passed = true
+          window.cancelAnimationFrame(rAF)
+        }
+
+        setTimeout(() => {
+          now = getEpoch()
+          rAF = window.requestAnimationFrame(updateOnrAF)
+        }, TICK_TIME)
+      }
+
+      updateOnrAF()
     },
   },
 })
@@ -80,13 +115,13 @@ export default Vue.extend({
 <style scoped>
 .error {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .error h2 {
+  margin: 0;
   font-size: 1rem;
   color: #f44336;
-  margin: 0;
 }
 </style>

@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import CardComponent from '../components/Card/index.vue'
+import CardComponent from '~/components/Card/index.vue'
 
 export default Vue.extend({
   name: 'HomeView',
@@ -35,3 +35,32 @@ export default Vue.extend({
   fetchOnServer: false,
 })
 </script>
+
+<style scoped>
+main {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--spacing-extra-large);
+  min-height: 100vh;
+  padding: 1em;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  font-size: 1em;
+  line-height: 1.375em;
+  color: var(--foreground-color-main);
+}
+
+@media (min-width: 720px) {
+  main {
+    flex-direction: row;
+    column-gap: var(--spacing-medium);
+  }
+
+  .today,
+  .tomorrow {
+    flex: 1 1 50%;
+  }
+}
+</style>

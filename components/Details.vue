@@ -1,21 +1,13 @@
 <template>
   <div class="asset-details" :class="{ open: isOpen }">
     <div class="asset-image">
-      <span>
-        <img
-          :src="mainImage"
-          :alt="details?.generic.title || ''"
-          width="615"
-          height="400"
-        />
-      </span>
+      <img :src="mainImage" :alt="details?.generic.title || ''" />
     </div>
     <div class="synopsis">
-      <strong v-if="programme.subgenre" class="prefix-description">{{
-        programme.subgenre
-      }}</strong>
-      <p v-if="programme.descr">{{ programme.descr }}</p>
-      <br v-else />
+      <p v-if="programme.descr">
+        <strong v-if="programme.subgenre">{{ programme.subgenre }} </strong
+        >{{ programme.descr }}
+      </p>
       <MetaInfo
         :programme="programme"
         :details="details"
@@ -57,16 +49,18 @@ export default Vue.extend({
   },
   watch: {
     isOpen: {
-      async handler(isOpen) {
+      handler(isOpen) {
         if (isOpen) {
-          this.details = await this.$http.$get(
-            `/api/v1/details/${this.programme.main_id}`
-          )
-
-          this.mainImage = this.details?.generic?.image || EMPTY_IMG
-          this.isLoading = false
+          this.fetchDetails(this.programme.main_id)
         }
       },
+    },
+  },
+  methods: {
+    async fetchDetails(id: string) {
+      this.details = await this.$http.$get(`/api/v1/details/${id}`)
+      this.mainImage = this.details?.generic?.image || EMPTY_IMG
+      this.isLoading = false
     },
   },
 })

@@ -20,21 +20,31 @@
 <script lang="ts">
 import Vue from 'vue'
 import CardComponent from '~/components/Card/index.vue'
+import { EnrichedProg } from '~/types/sharedTypes'
+
+type ProgrammesType = [Promise<EnrichedProg[]>, Promise<EnrichedProg[]>]
 
 export default Vue.extend({
   name: 'HomeView',
   components: { CardComponent },
-  data: () => ({
-    today: [],
-    tomorrow: [],
-  }),
+  data(): {
+    today: EnrichedProg[]
+    tomorrow: EnrichedProg[]
+  } {
+    return {
+      today: [],
+      tomorrow: [],
+    }
+  },
   async fetch() {
     const prefixUrl = '/api/v1'
+    const [today, tomorrow] = await Promise.all<ProgrammesType>([
+      this.$http.$get('movies/today', { prefixUrl }),
+      this.$http.$get('movies/tomorrow', { prefixUrl }),
+    ])
 
-    this.today = await this.$http.$get('movies/today', { prefixUrl })
-    this.tomorrow = await this.$http.$get('movies/tomorrow', {
-      prefixUrl,
-    })
+    this.today = today
+    this.tomorrow = tomorrow
   },
   fetchOnServer: false,
 })

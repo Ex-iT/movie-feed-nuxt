@@ -12,9 +12,22 @@ export default {
         name: 'description',
         content: 'Overzicht van de films van vandaag en morgen op TV',
       },
-      { name: 'format-detection', content: 'telephone=no' },
+      {
+        name: 'theme-color',
+        content: '#000000',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'preconnect',
+        href: 'https://tvgidsassets.nl',
+      },
+      {
+        rel: 'manifest',
+        href: '/manifest.json',
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -34,7 +47,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxt/http'],
+  modules: ['@nuxt/http', '@nuxt/image'],
 
   // nuxt/http module options: https://http.nuxtjs.org/API/options
   http: {

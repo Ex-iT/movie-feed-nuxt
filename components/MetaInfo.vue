@@ -24,7 +24,14 @@
           v-for="({ name, icon }, index) in details.metadata.guidance"
           :key="index"
         >
-          <img :src="icon" :alt="name" :title="name" width="20" height="20" />
+          <nuxt-img
+            loading="lazy"
+            :src="icon"
+            :alt="name"
+            :title="name"
+            width="20"
+            height="20"
+          />
         </li>
       </ul>
     </div>

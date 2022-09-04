@@ -1,6 +1,6 @@
 <template>
   <fragment>
-    <img
+    <nuxt-img
       :src="programme.channel_logo"
       :alt="programme.channel_label"
       width="40"

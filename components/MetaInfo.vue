@@ -35,12 +35,44 @@
         </li>
       </ul>
     </div>
+
+    <div v-if="hasExternalLinks" class="external">
+      <strong>Meer info:</strong>
+      <a
+        v-if="details?.generic?.imdb"
+        :href="`${imdbUrl}${details.generic.imdb}`"
+        target="_blank"
+        rel="noreferrer noopener"
+        @click.stop
+      >
+        <img
+          src="~assets/svg/logo_imdb.svg"
+          :alt="`Bekijk ${programme?.title} op IMDb`"
+          :title="`Bekijk ${programme?.title} op IMDb`"
+        />
+      </a>
+
+      <a
+        v-if="details?.generic?.yt_id"
+        :href="`${ytUrl}${details.generic.yt_id}`"
+        target="_blank"
+        rel="noreferrer noopener"
+        @click.stop
+      >
+        <img
+          src="~assets/svg/yt_btn_play.svg"
+          :alt="`Bekijk ${programme?.title} op YouTube`"
+          :title="`Bekijk ${programme?.title} op YouTube`"
+        />
+      </a>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { EnrichedProg, MovieDetails } from '~/types/sharedTypes'
+import { IMDB_URL, YT_URL } from '~/config'
 
 export default Vue.extend({
   props: {
@@ -57,11 +89,27 @@ export default Vue.extend({
       default: false,
     },
   },
+  data(): {
+    imdbUrl: string
+    ytUrl: string
+  } {
+    return {
+      imdbUrl: IMDB_URL,
+      ytUrl: YT_URL,
+    }
+  },
+  computed: {
+    hasExternalLinks() {
+      const details = this.details as MovieDetails
+      return details?.generic?.imdb || details?.generic?.yt_id
+    },
+  },
 })
 </script>
 
 <style scoped>
-.guidance {
+.guidance,
+.external {
   display: flex;
   column-gap: var(--spacing-medium);
 }
@@ -76,5 +124,14 @@ export default Vue.extend({
 .guidance img {
   background-color: #fff;
   border-radius: 50%;
+}
+
+.external {
+  align-items: center;
+}
+
+.external img {
+  width: auto;
+  height: 40px;
 }
 </style>

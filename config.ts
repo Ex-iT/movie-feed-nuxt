@@ -1,7 +1,7 @@
 const API_URI = 'https://json.tvgids.nl'
 const API_VERSION = 'v6'
 const ASSET_URI = 'https://tvgidsassets.nl'
-const ASSET_VERSION = 'v213'
+const ASSET_VERSION = 'v247'
 const ASSET_DIMENSIONS = '40x40'
 
 export const MOVIES_URI = `${API_URI}/${API_VERSION}/movies`
@@ -29,3 +29,5 @@ export const EMPTY_IMG =
   'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 export const CACHING_DEFAULT = 'public, max-age=7200'
 export const TICK_TIME = 1e3
+export const IMDB_URL = 'https://www.imdb.com/title/'
+export const YT_URL = 'https://www.youtube.com/watch?v='

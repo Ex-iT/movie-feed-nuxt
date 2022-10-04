@@ -1,0 +1,19 @@
+name: Trigger cache request
+
+on:
+  workflow_dispatch:
+  schedule:
+    # https://crontab.guru/#33_*/3_*_*_* (https://crontab.guru/#33_*/3_*_*_*)
+    - cron: '33 */3 * * *'
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: HTTP request to cache endpoint
+        id: cacheRequest
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://7f9a-77-168-0-165.eu.ngrok.io/api/v1/cache'
+          method: 'GET'

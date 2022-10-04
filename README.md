@@ -12,6 +12,8 @@ First, install dependencies:
 yarn install
 ```
 
+Copy `.env.example` to `.env` in the root of the project and update the `API_SECRET_KEY`.
+
 And run the development server:
 
 ```bash
@@ -27,3 +29,5 @@ To create a production build run:
 ```bash
 yarn build
 ```
+
+Make sure the `API_SECRET_KEY` is set as an environment variable.

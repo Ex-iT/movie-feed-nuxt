@@ -68,3 +68,17 @@ export interface FetchtState {
   error: boolean
   timestamp: number
 }
+
+export interface CacheableProg extends EnrichedProg {
+  details: MovieDetails
+}
+
+export interface Cacheables {
+  createdAt: number
+  today: CacheableProg[]
+  tomorrow: CacheableProg[]
+  log: {
+    message: string
+    success: boolean
+  }
+}

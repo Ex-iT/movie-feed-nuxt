@@ -1,12 +1,12 @@
 const API_URI = 'https://json.tvgids.nl'
 const API_VERSION = 'v6'
 const ASSET_URI = 'https://tvgidsassets.nl'
-const ASSET_VERSION = 'v247'
+const ASSET_VERSION = 'v252'
 const ASSET_DIMENSIONS = '40x40'
 
 export const MOVIES_URI = `${API_URI}/${API_VERSION}/movies`
 export const DETAIL_URI = `${API_URI}/${API_VERSION}/detail`
-export const CHANNEL_LOGO_SRC = `${ASSET_URI}/${ASSET_VERSION}/img/channels/${ASSET_DIMENSIONS}/%s.png`
+export const CHANNEL_LOGO_SRC = `${ASSET_URI}/${ASSET_VERSION}/img/channels/${ASSET_DIMENSIONS}/%s_dark.png`
 export const DEEP_LINK = 'https://www.tvgids.nl/film'
 export const DAY_STARTS_AT = 6 // 06:00 at night the next day
 export const CHANNELS: { [key: number]: string } = {

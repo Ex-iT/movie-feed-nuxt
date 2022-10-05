@@ -15,5 +15,5 @@ jobs:
         id: cacheRequest
         uses: fjogeleit/http-request-action@v1
         with:
-          url: 'https://movie-feed-nuxt-lptmsd7jx-exit.vercel.app/api/v1/cache'
+          url: 'https://moviefeed.ishetaldonderdag.nl/api/v1/cache'
           method: 'GET'

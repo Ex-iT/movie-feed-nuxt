@@ -20,9 +20,10 @@ const shouldUpdate = async () => {
   const latestDoc = await getLatestDoc()
 
   if (latestDoc) {
+    const success = latestDoc.get('log.success')
     const createdAt = latestDoc.get('createdAt')
     const coolDownTime = HOUR_SEC * 3
-    if (epoch >= createdAt + coolDownTime) {
+    if (!success || epoch >= createdAt + coolDownTime) {
       return true
     }
   }

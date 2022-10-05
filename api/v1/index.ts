@@ -1,6 +1,7 @@
 import express from 'express'
 import { CACHING_DEFAULT } from '../../config'
 import { Days } from '../../types/sharedTypes'
+import getCacheables from './getCacheables'
 
 import getDetails from './getDetails'
 import getMovies from './getMovies'
@@ -10,7 +11,21 @@ const PREFIX = `/api/${VERSION}`
 const app = express()
 
 app.get('/', (_req, res) => {
-  res.json({ text: CACHING_DEFAULT })
+  res
+    .status(418)
+    .setHeader('Cache-Control', CACHING_DEFAULT)
+    .json({ ok: true, error: 'Fight The Future' })
+})
+
+app.get('/cache', async (req, res) => {
+  if (req.method === 'GET') {
+    const cacheables = await getCacheables()
+    // @TODO: enable caching in prod
+    // .setHeader('Cache-Control', CACHING_DEFAULT)
+    res.status(200).json(cacheables)
+  } else {
+    res.status(405).json({ ok: false, error: 'Method Not Allowed' })
+  }
 })
 
 app.get('/movies/:day', async (req, res) => {

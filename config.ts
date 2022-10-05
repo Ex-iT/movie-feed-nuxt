@@ -31,3 +31,5 @@ export const CACHING_DEFAULT = 'public, max-age=7200'
 export const TICK_TIME = 1e3
 export const IMDB_URL = 'https://www.imdb.com/title/'
 export const YT_URL = 'https://www.youtube.com/watch?v='
+export const HOUR_SEC = 3600
+export const FIREBASE_COLLECTION = 'MovieFeed'

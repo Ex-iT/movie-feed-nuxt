@@ -1,0 +1,19 @@
+name: Trigger cache request
+
+on:
+  workflow_dispatch:
+  schedule:
+    # At minute 33 past every 3rd hour. (https://crontab.guru/#33_*/3_*_*_*)
+    - cron: '33 */3 * * *'
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: HTTP request to cache endpoint
+        id: cacheRequest
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://movie-feed-nuxt-lptmsd7jx-exit.vercel.app/api/v1/cache'
+          method: 'GET'

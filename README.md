@@ -2,7 +2,7 @@
 
 Daily listing of movies on Dutch TV using the [TVgids.nl](https://www.tvgids.nl/) API. This web app is suitable to be 'installed' on a mobile device which allows native sharing.
 
-This is a [NuxtJS](https://nuxtjs.org/) with [TypeScript](https://www.typescriptlang.org/) project bootstrapped with [`create-nuxt-app`](https://nuxtjs.org/docs/get-started/installation/).
+This is a [NuxtJS](https://nuxtjs.org/) with [TypeScript](https://www.typescriptlang.org/) project bootstrapped with [`create-nuxt-app`](https://nuxtjs.org/docs/get-started/installation/). It uses a [Cloud Firestore](https://firebase.google.com/docs/firestore) to save store the cached JSON data. The cache gets updated by a cronjob running as a [GitHub Workflow](https://docs.github.com/en/actions/using-workflows).
 
 ## Development
 
@@ -12,7 +12,7 @@ First, install dependencies:
 yarn install
 ```
 
-Copy `.env.example` to `.env` in the root of the project and update the `API_SECRET_KEY`.
+Copy `.env.example` to `.env` in the root of the project and set the values.
 
 And run the development server:
 
@@ -29,5 +29,3 @@ To create a production build run:
 ```bash
 yarn build
 ```
-
-Make sure the `API_SECRET_KEY` is set as an environment variable.

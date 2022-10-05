@@ -18,8 +18,14 @@ import fetchData from '../../lib/fetchData'
 
 export default async function getMovies(day = Days.today) {
   try {
+    const url = `${MOVIES_URI}/?day=${day}`
     const json = await fetchData(`${MOVIES_URI}/?day=${day}`)
-    return filterChannels(json?.data || [])
+
+    if (json) {
+      return filterChannels(json.data || [])
+    }
+
+    return { ok: false, error: `Unable to fetch data from: ${url}` }
   } catch (error) {
     return { ok: false, error: `Unable to fetch data. ${error}` }
   }

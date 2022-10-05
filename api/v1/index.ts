@@ -1,5 +1,5 @@
 import express from 'express'
-import { CACHING_DEFAULT } from '../../config'
+import { CACHING_DEFAULT, CACHING_SHORT } from '../../config'
 import { Days } from '../../types/sharedTypes'
 import getCacheables from './getCacheables'
 
@@ -20,9 +20,7 @@ app.get('/', (_req, res) => {
 app.get('/cache', async (req, res) => {
   if (req.method === 'GET') {
     const cacheables = await getCacheables()
-    // @TODO: enable caching in prod
-    // .setHeader('Cache-Control', CACHING_DEFAULT)
-    res.status(200).json(cacheables)
+    res.status(200).setHeader('Cache-Control', CACHING_SHORT).json(cacheables)
   } else {
     res.status(405).json({ ok: false, error: 'Method Not Allowed' })
   }

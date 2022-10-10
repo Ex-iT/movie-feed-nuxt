@@ -116,6 +116,7 @@ export default Vue.extend({
 
 .guidance ul {
   display: flex;
+  flex-direction: row;
   column-gap: var(--spacing-medium);
   padding: 0;
   list-style-type: none;

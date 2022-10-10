@@ -1,6 +1,7 @@
 :root {
   --background-color-main: #000;
   --foreground-color-main: #fff;
+  --error-color-main: #f44336;
   --border-radius: 2px;
   --spacing-small: 0.313rem;
   --spacing-medium: 0.625rem;
@@ -52,13 +53,20 @@ i {
   font-style: italic;
 }
 
-ol {
+ul {
   display: flex;
   flex-direction: column;
   row-gap: var(--spacing-medium);
   padding: 0;
   margin: 0;
   list-style-type: none;
+}
+
+main {
+  padding: 1em;
+  font-family: Arial, sans-serif;
+  line-height: 1.375em;
+  color: var(--foreground-color-main);
 }
 
 .yt-play-button {
@@ -105,12 +113,8 @@ ol {
   transition: color 0.3s ease-in;
 }
 
-.card:not(.loading) {
+.card:not(.loading, .error) {
   cursor: pointer;
-}
-
-.card.loading {
-  overflow: hidden;
 }
 
 .info {

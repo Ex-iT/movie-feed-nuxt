@@ -21,6 +21,7 @@ const defaultErrorObject = {
 }
 
 export default Vue.extend({
+  name: 'ErrorLayout',
   layout: 'error',
   props: {
     error: {
@@ -33,10 +34,6 @@ export default Vue.extend({
 
 <style scoped>
 main {
-  padding: 1em;
-  font-family: Arial, sans-serif;
-  line-height: 1.375em;
-  color: var(--foreground-color-main);
   text-align: center;
 }
 </style>

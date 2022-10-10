@@ -56,12 +56,8 @@ main {
   flex-direction: column;
   row-gap: var(--spacing-extra-large);
   min-height: 100vh;
-  padding: 1em;
   overflow: hidden;
-  font-family: Arial, sans-serif;
   font-size: 1em;
-  line-height: 1.375em;
-  color: var(--foreground-color-main);
 }
 
 @media (min-width: 720px) {

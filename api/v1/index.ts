@@ -5,6 +5,7 @@ import getCacheables from './getCacheables'
 
 import getDetails from './getDetails'
 import getMovies from './getMovies'
+import getStatus from './getStatus'
 
 const VERSION = 'v1'
 const PREFIX = `/api/${VERSION}`
@@ -21,6 +22,15 @@ app.get('/cache', async (req, res) => {
   if (req.method === 'GET') {
     const cacheables = await getCacheables()
     res.status(200).setHeader('Cache-Control', CACHING_SHORT).json(cacheables)
+  } else {
+    res.status(405).json({ ok: false, error: 'Method Not Allowed' })
+  }
+})
+
+app.get('/status', async (req, res) => {
+  if (req.method === 'GET') {
+    const status = await getStatus()
+    res.status(200).setHeader('Cache-Control', CACHING_SHORT).json(status)
   } else {
     res.status(405).json({ ok: false, error: 'Method Not Allowed' })
   }

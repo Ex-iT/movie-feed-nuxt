@@ -82,7 +82,7 @@ const getMovieData = async (): Promise<Cacheables> => {
     today,
     tomorrow,
     log: {
-      message: messages.join('\n'),
+      message: messages.join(' '),
       success,
     },
   }

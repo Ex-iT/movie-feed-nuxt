@@ -73,12 +73,19 @@ export interface CacheableProg extends EnrichedProg {
   details: MovieDetails
 }
 
+export interface CacheablesLog {
+  message: string
+  success: boolean
+}
+
 export interface Cacheables {
   createdAt: number
   today: CacheableProg[]
   tomorrow: CacheableProg[]
-  log: {
-    message: string
-    success: boolean
-  }
+  log: CacheablesLog
+}
+
+export interface Status {
+  createdAt: string
+  log: CacheablesLog
 }

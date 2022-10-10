@@ -15,11 +15,5 @@ module.exports = {
       'error',
       { allow: ['_', 'ch_id', 'deep_link', 'channel_label'] },
     ],
-    'vue/multi-word-component-names': [
-      'error',
-      {
-        ignores: ['error'],
-      },
-    ],
   },
 }

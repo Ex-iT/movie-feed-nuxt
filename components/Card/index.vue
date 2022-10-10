@@ -1,5 +1,5 @@
 <template>
-  <ol>
+  <ul>
     <template v-if="fetchState.pending">
       <CardItem class="loading" />
       <CardItem class="loading" />
@@ -21,7 +21,7 @@
     >
       <CardContent :programme="prog" :is-open="isOpen[prog.main_id]" />
     </CardItem>
-  </ol>
+  </ul>
 </template>
 
 <script lang="ts">
@@ -117,11 +117,12 @@ export default Vue.extend({
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid var(--error-color-main);
 }
 
 .error h2 {
   margin: 0;
   font-size: 1rem;
-  color: #f44336;
+  color: var(--error-color-main);
 }
 </style>

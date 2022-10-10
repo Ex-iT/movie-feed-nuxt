@@ -6,21 +6,20 @@
       <CardItem class="loading" />
     </template>
 
-    <template v-if="fetchState.error">
-      <CardItem class="error">
-        <h2>Data kan niet worden opgehaald, probeer het later nog eens.</h2>
+    <CardItem v-if="fetchState.error" class="error">
+      <h2>Data kan niet worden opgehaald, probeer het later nog eens.</h2>
+    </CardItem>
+
+    <template v-else>
+      <CardItem
+        v-for="(prog, index) in progs"
+        :key="`${prog.main_id}-${index}`"
+        :class="{ passed: prog.is_passed }"
+        @card-item-clicked="handleClick(prog.main_id)"
+      >
+        <CardContent :programme="prog" :is-open="isOpen[prog.main_id]" />
       </CardItem>
     </template>
-
-    <CardItem
-      v-for="(prog, index) in progs"
-      v-else
-      :key="`${prog.main_id}-${index}`"
-      :class="{ passed: prog.is_passed }"
-      @card-item-clicked="handleClick(prog.main_id)"
-    >
-      <CardContent :programme="prog" :is-open="isOpen[prog.main_id]" />
-    </CardItem>
   </ul>
 </template>
 

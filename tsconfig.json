@@ -19,5 +19,9 @@
     },
     "types": ["@nuxt/types", "@types/node", "@nuxt/http"]
   },
+  "vueCompilerOptions": {
+    "target": 2.7,
+    "experimentalDisableTemplateSupport": true
+  },
   "exclude": ["node_modules", ".nuxt", "dist"]
 }

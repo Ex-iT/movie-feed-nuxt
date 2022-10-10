@@ -3,22 +3,38 @@
     <h1>Status</h1>
     <section>
       <ul>
-        <li
-          v-for="({ createdAt, log }, index) in status"
-          :key="index"
-          :class="{ error: !log.success }"
-          class="card"
-        >
-          <h2>
-            <span v-if="log.success">✅</span>
-            <span v-else>❌</span>
-            {{ createdAt }}
-          </h2>
-          <p v-if="log.message">
-            {{ log.message }}
-          </p>
-          <p v-else>Success.</p>
-        </li>
+        <template v-if="$fetchState.pending">
+          <CardItem class="loading" />
+          <CardItem class="loading" />
+          <CardItem class="loading" />
+          <CardItem class="loading" />
+          <CardItem class="loading" />
+          <CardItem class="loading" />
+          <CardItem class="loading" />
+        </template>
+
+        <CardItem v-if="$fetchState.error" class="error">
+          <h2>Data kan niet worden opgehaald, probeer het later nog eens.</h2>
+        </CardItem>
+
+        <template v-else>
+          <CardItem
+            v-for="({ createdAt, log }, index) in status"
+            :key="index"
+            :class="{ error: !log.success }"
+            class="card"
+          >
+            <h2>
+              <span v-if="log.success">✅</span>
+              <span v-else>❌</span>
+              {{ createdAt }}
+            </h2>
+            <p v-if="log.message">
+              {{ log.message }}
+            </p>
+            <p v-else>Success.</p>
+          </CardItem>
+        </template>
       </ul>
     </section>
   </main>
@@ -26,11 +42,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import CardItem from './../components/Card/CardItem.vue'
 import { Status } from '~/types/sharedTypes'
 
 export default Vue.extend({
   name: 'StatusView',
-  components: {},
+  components: { CardItem },
   data(): {
     status: Status[]
   } {
@@ -70,6 +87,10 @@ ul {
   row-gap: var(--spacing-medium);
   padding: 0;
   list-style-type: none;
+}
+
+li {
+  min-height: 76px;
 }
 
 h2 {

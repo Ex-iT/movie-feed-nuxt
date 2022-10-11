@@ -54,7 +54,7 @@ export default {
   http: {
     serverTimeout: 10000,
     baseUrl: process.env.VERCEL_URL
-      ? `${process.env.VERCEL_URL}/api/v1`
+      ? `https://${process.env.VERCEL_URL}/api/v1`
       : 'http://localhost:3000/api/v1',
   },
 

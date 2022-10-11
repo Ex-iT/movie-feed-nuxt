@@ -53,9 +53,15 @@ export default {
   // nuxt/http module options: https://http.nuxtjs.org/API/options
   http: {
     serverTimeout: 10000,
-    baseUrl: process.env.NUXT_ENV_VERCEL_URL
-      ? `https://${process.env.NUXT_ENV_VERCEL_URL}/api/v1`
-      : 'http://localhost:3000/api/v1',
+    baseUrl: 'http://localhost:3000/api/v1',
+  },
+
+  privateRuntimeConfig: {
+    http: {
+      baseURL: process.env.NUXT_ENV_VERCEL_URL
+        ? `https://${process.env.NUXT_ENV_VERCEL_URL}/api/v1`
+        : 'http://localhost:3000/api/v1',
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

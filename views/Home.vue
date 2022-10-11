@@ -31,7 +31,7 @@ export default Vue.extend({
   async fetch() {
     const { today, tomorrow } = (await this.$http.$get('cache')) as Cacheables
 
-    console.log({ prefixUrl: this.$http._defaults.prefixUrl })
+    console.log(this.$http)
 
     this.today = today
     this.tomorrow = tomorrow

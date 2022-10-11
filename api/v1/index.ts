@@ -30,7 +30,7 @@ app.get('/cache', async (req, res) => {
 app.get('/status', async (req, res) => {
   if (req.method === 'GET') {
     const status = await getStatus()
-    res.status(200).setHeader('Cache-Control', CACHING_SHORT).json(status)
+    res.status(200).json(status)
   } else {
     res.status(405).json({ ok: false, error: 'Method Not Allowed' })
   }

@@ -98,9 +98,6 @@ main {
 }
 
 .card {
-  position: relative;
-  display: flex;
-  column-gap: var(--spacing-medium);
   width: 100%;
   min-height: 4.438rem;
   padding: var(--spacing-medium);
@@ -108,12 +105,18 @@ main {
   border-radius: var(--border-radius);
 }
 
+.card article {
+  position: relative;
+  display: flex;
+  column-gap: var(--spacing-medium);
+}
+
 .card.passed .details {
   color: rgb(255 255 255 / 70%);
   transition: color 0.3s ease-in;
 }
 
-.card:not(.loading, .error) {
+.card:not(.error) {
   cursor: pointer;
 }
 
@@ -195,7 +198,7 @@ main {
   max-width: 100%;
   height: auto;
   aspect-ratio: 123/80;
-  vertical-align: middle;
+  vertical-align: bottom;
 }
 
 @keyframes pulse {
@@ -205,29 +208,5 @@ main {
 
   100% {
     opacity: 1;
-  }
-}
-
-.loading::after {
-  position: absolute;
-  inset: 0;
-  content: '';
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgb(255 255 255 / 8%),
-    transparent
-  );
-  transform: translateX(-100%);
-  animation: 1.5s linear 0.5s infinite normal none running swipe;
-}
-
-@keyframes swipe {
-  0% {
-    transform: translateX(-100%);
-  }
-
-  100% {
-    transform: translateX(100%);
   }
 }

@@ -1,12 +1,10 @@
 <template>
   <div class="meta-info">
-    <p v-if="isLoading" class="loading"></p>
-    <p v-else-if="programme?.tvg_rating">
+    <p v-if="programme?.tvg_rating">
       <strong>Waardering:</strong> {{ programme.tvg_rating }}
     </p>
 
-    <p v-if="isLoading" class="loading"></p>
-    <p v-else-if="details?.generic?.year">
+    <p v-if="details?.generic?.year">
       <strong>Jaar:</strong> {{ details.generic.year }}
     </p>
 
@@ -71,22 +69,18 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { EnrichedProg, MovieDetails } from '~/types/sharedTypes'
+import { CacheableProg, MovieDetails } from '~/types/sharedTypes'
 import { IMDB_URL, YT_URL } from '~/config'
 
 export default Vue.extend({
   props: {
     programme: {
-      type: Object as () => EnrichedProg,
+      type: Object as () => CacheableProg,
       default: () => {},
     },
     details: {
       type: Object as () => MovieDetails,
       default: () => {},
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
     },
   },
   data(): {

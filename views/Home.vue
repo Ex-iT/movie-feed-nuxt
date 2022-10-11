@@ -2,17 +2,11 @@
   <main>
     <section class="today">
       <h1>Films vandaag op televisie</h1>
-      <CardComponent
-        :programmes="today"
-        :fetch-state="$fetchState"
-      ></CardComponent>
+      <CardComponent :programmes="today"></CardComponent>
     </section>
     <section class="tomorrow">
       <h1>Films morgen op televisie</h1>
-      <CardComponent
-        :programmes="tomorrow"
-        :fetch-state="$fetchState"
-      ></CardComponent>
+      <CardComponent :programmes="tomorrow"></CardComponent>
     </section>
   </main>
 </template>
@@ -20,14 +14,14 @@
 <script lang="ts">
 import Vue from 'vue'
 import CardComponent from '~/components/Card/index.vue'
-import { EnrichedProg } from '~/types/sharedTypes'
+import { CacheableProg, Cacheables } from '~/types/sharedTypes'
 
 export default Vue.extend({
   name: 'HomeView',
   components: { CardComponent },
   data(): {
-    today: EnrichedProg[]
-    tomorrow: EnrichedProg[]
+    today: CacheableProg[]
+    tomorrow: CacheableProg[]
   } {
     return {
       today: [],
@@ -35,16 +29,11 @@ export default Vue.extend({
     }
   },
   async fetch() {
-    const prefixUrl = '/api/v1/movies'
-    const [today, tomorrow] = await Promise.all([
-      this.$http.$get('today', { prefixUrl }) as Promise<EnrichedProg[]>,
-      this.$http.$get('tomorrow', { prefixUrl }) as Promise<EnrichedProg[]>,
-    ])
+    const { today, tomorrow } = (await this.$http.$get('cache')) as Cacheables
 
     this.today = today
     this.tomorrow = tomorrow
   },
-  fetchOnServer: false,
 })
 </script>
 

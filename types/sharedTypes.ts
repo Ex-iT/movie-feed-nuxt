@@ -63,12 +63,6 @@ export interface MovieDetails {
   }
 }
 
-export interface FetchtState {
-  pending: boolean
-  error: boolean
-  timestamp: number
-}
-
 export interface CacheableProg extends EnrichedProg {
   details: MovieDetails
 }

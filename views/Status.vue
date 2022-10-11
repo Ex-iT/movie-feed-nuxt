@@ -3,38 +3,22 @@
     <h1>Status</h1>
     <section>
       <ul>
-        <template v-if="$fetchState.pending">
-          <CardItem class="loading" />
-          <CardItem class="loading" />
-          <CardItem class="loading" />
-          <CardItem class="loading" />
-          <CardItem class="loading" />
-          <CardItem class="loading" />
-          <CardItem class="loading" />
-        </template>
-
-        <CardItem v-if="$fetchState.error" class="error">
-          <h2>Data kan niet worden opgehaald, probeer het later nog eens.</h2>
+        <CardItem
+          v-for="({ createdAt, log }, index) in status"
+          :key="index"
+          :class="{ error: !log.success }"
+          class="card"
+        >
+          <h2>
+            <span v-if="log.success">✅</span>
+            <span v-else>❌</span>
+            {{ createdAt }}
+          </h2>
+          <p v-if="log.message">
+            {{ log.message }}
+          </p>
+          <p v-else-if="log.success">Success.</p>
         </CardItem>
-
-        <template v-else>
-          <CardItem
-            v-for="({ createdAt, log }, index) in status"
-            :key="index"
-            :class="{ error: !log.success }"
-            class="card"
-          >
-            <h2>
-              <span v-if="log.success">✅</span>
-              <span v-else>❌</span>
-              {{ createdAt }}
-            </h2>
-            <p v-if="log.message">
-              {{ log.message }}
-            </p>
-            <p v-else>Success.</p>
-          </CardItem>
-        </template>
       </ul>
     </section>
   </main>
@@ -56,8 +40,7 @@ export default Vue.extend({
     }
   },
   async fetch() {
-    const prefixUrl = '/api/v1'
-    this.status = await this.$http.$get('status', { prefixUrl })
+    this.status = await this.$http.$get('status')
   },
   head() {
     return {
@@ -71,7 +54,6 @@ export default Vue.extend({
       ],
     }
   },
-  fetchOnServer: false,
 })
 </script>
 

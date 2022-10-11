@@ -1,5 +1,5 @@
 <template>
-  <fragment>
+  <article>
     <nuxt-img
       :src="programme.channel_logo"
       :alt="programme.channel_label"
@@ -15,23 +15,22 @@
       <Sharer :programme="programme" />
     </div>
     <ProgressIndicator :progress="programme.progress" />
-  </fragment>
+  </article>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { Fragment } from 'vue-fragment'
 import ProgressIndicator from '~/components/ProgressIndicator.vue'
 import Sharer from '~/components/Sharer.vue'
 import Details from '~/components/Details.vue'
-import { EnrichedProg } from '~/types/sharedTypes'
+import { CacheableProg } from '~/types/sharedTypes'
 
 export default Vue.extend({
   name: 'CardComponent',
-  components: { Fragment, ProgressIndicator, Sharer, Details },
+  components: { ProgressIndicator, Sharer, Details },
   props: {
     programme: {
-      type: Object as () => EnrichedProg,
+      type: Object as () => CacheableProg,
       required: true,
     },
     isOpen: {

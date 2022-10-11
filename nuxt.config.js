@@ -58,7 +58,9 @@ export default {
 
   privateRuntimeConfig: {
     http: {
-      baseURL: process.env.NUXT_ENV_VERCEL_URL,
+      baseURL: process.env.NUXT_ENV_VERCEL_URL
+        ? `https://${process.env.NUXT_ENV_VERCEL_URL}/api/v1`
+        : 'http://localhost:3000/api/v1',
     },
   },
 

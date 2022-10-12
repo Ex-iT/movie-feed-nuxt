@@ -13,8 +13,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import CardItem from './CardItem.vue'
-import CardContent from './CardContent.vue'
 import { CacheableProg } from '~/types/sharedTypes'
 import getEpoch from '~/lib/getEpoch'
 import { TICK_TIME } from '~/config'
@@ -22,7 +20,6 @@ import getProgress from '~/lib/getProgress'
 
 export default Vue.extend({
   name: 'CardComponent',
-  components: { CardItem, CardContent },
   props: {
     programmes: {
       type: Array as () => CacheableProg[],
@@ -77,18 +74,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style scoped>
-.error {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--error-color-main);
-}
-
-.error h2 {
-  margin: 0;
-  font-size: 1rem;
-  color: var(--error-color-main);
-}
-</style>

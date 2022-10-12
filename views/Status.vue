@@ -26,12 +26,10 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import CardItem from './../components/Card/CardItem.vue'
 import { Status } from '~/types/sharedTypes'
 
 export default Vue.extend({
   name: 'StatusView',
-  components: { CardItem },
   data(): {
     status: Status[]
   } {

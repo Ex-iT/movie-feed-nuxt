@@ -56,11 +56,19 @@ export default {
     baseUrl: 'http://localhost:3000/api/v1',
   },
 
+  publicRuntimeConfig: {
+    http: {
+      browserBaseURL: process.env.NUXT_ENV_VERCEL_URL
+        ? `https://${process.env.NUXT_ENV_VERCEL_URL}`
+        : 'http://localhost:3000' + '/api/v1',
+    },
+  },
+
   privateRuntimeConfig: {
     http: {
       baseURL: process.env.NUXT_ENV_VERCEL_URL
-        ? `https://${process.env.NUXT_ENV_VERCEL_URL}/api/v1`
-        : 'http://localhost:3000/api/v1',
+        ? `https://${process.env.NUXT_ENV_VERCEL_URL}`
+        : 'http://localhost:3000' + '/api/v1',
     },
   },
 

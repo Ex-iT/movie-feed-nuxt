@@ -15,13 +15,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import MetaInfo from './MetaInfo.vue'
 import { CacheableProg, MovieDetails } from '~/types/sharedTypes'
 import { EMPTY_IMG } from '~/config'
 
 export default Vue.extend({
   name: 'AssetDetails',
-  components: { MetaInfo },
   props: {
     programme: {
       type: Object as () => CacheableProg,

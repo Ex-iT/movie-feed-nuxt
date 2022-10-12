@@ -31,8 +31,6 @@ export default Vue.extend({
   async fetch() {
     const { today, tomorrow } = (await this.$http.$get('cache')) as Cacheables
 
-    console.log(this.$http)
-
     this.today = today
     this.tomorrow = tomorrow
   },

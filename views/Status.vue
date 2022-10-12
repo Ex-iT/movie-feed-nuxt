@@ -2,7 +2,10 @@
   <main>
     <h1>Status</h1>
     <section>
-      <ul>
+      <pre>{{ $http }}</pre>
+      <pre>{{ env }}</pre>
+
+      <!-- <ul>
         <CardItem
           v-for="({ createdAt, log }, index) in status"
           :key="index"
@@ -19,7 +22,7 @@
           </p>
           <p v-else-if="log.success">Success.</p>
         </CardItem>
-      </ul>
+      </ul> -->
     </section>
   </main>
 </template>
@@ -32,9 +35,11 @@ export default Vue.extend({
   name: 'StatusView',
   data(): {
     status: Status[]
+    env: {}
   } {
     return {
       status: [],
+      env: process.env,
     }
   },
   async fetch() {

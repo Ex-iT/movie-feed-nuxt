@@ -58,17 +58,21 @@ export default {
 
   publicRuntimeConfig: {
     http: {
-      browserBaseURL: process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : 'http://localhost:3000' + '/api/v1',
+      browserBaseURL: `${
+        process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
+          : 'http://localhost:3000'
+      }/api/v1`,
     },
   },
 
   privateRuntimeConfig: {
     http: {
-      baseURL: process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : 'http://localhost:3000' + '/api/v1',
+      baseURL: `${
+        process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
+          : 'http://localhost:3000'
+      }/api/v1`,
     },
   },
 

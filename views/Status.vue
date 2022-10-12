@@ -3,9 +3,8 @@
     <h1>Status</h1>
     <section>
       <pre>{{ $http }}</pre>
-      <pre>{{ env }}</pre>
 
-      <!-- <ul>
+      <ul>
         <CardItem
           v-for="({ createdAt, log }, index) in status"
           :key="index"
@@ -22,7 +21,7 @@
           </p>
           <p v-else-if="log.success">Success.</p>
         </CardItem>
-      </ul> -->
+      </ul>
     </section>
   </main>
 </template>

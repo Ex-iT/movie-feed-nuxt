@@ -100,17 +100,17 @@ main {
 }
 
 .card {
+  position: relative;
   width: 100%;
   min-height: 4.438rem;
-  padding: var(--spacing-medium);
   background-color: rgb(255 255 255 / 20%);
   border-radius: var(--border-radius);
 }
 
 .card article {
-  position: relative;
   display: flex;
   column-gap: var(--spacing-medium);
+  padding: var(--spacing-medium);
 }
 
 .card.passed .details {

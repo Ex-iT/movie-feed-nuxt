@@ -17,3 +17,4 @@ jobs:
         with:
           url: 'https://moviefeed.ishetaldonderdag.nl/api/v1/cache'
           method: 'GET'
+          timeout: 10000

@@ -1,7 +1,8 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Films vandaag op de Nederlandse Televisie | IsHetAlDonderdag.nl',
+    title:
+      'Films vandaag op de Nederlandse Televisie | MovieFeed | IsHetAlDonderdag.nl',
     htmlAttrs: {
       lang: 'nl',
     },
@@ -53,6 +54,27 @@ export default {
   // nuxt/http module options: https://http.nuxtjs.org/API/options
   http: {
     serverTimeout: 10000,
+    baseUrl: 'http://localhost:3000/api/v1',
+  },
+
+  publicRuntimeConfig: {
+    http: {
+      browserBaseURL: `${
+        process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
+          : 'http://localhost:3000'
+      }/api/v1`,
+    },
+  },
+
+  privateRuntimeConfig: {
+    http: {
+      baseURL: `${
+        process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
+          : 'http://localhost:3000'
+      }/api/v1`,
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -64,4 +86,6 @@ export default {
       handler: '~/api/v1/index.ts',
     },
   ],
+
+  target: 'server',
 }

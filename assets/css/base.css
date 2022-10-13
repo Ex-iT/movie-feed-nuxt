@@ -170,12 +170,14 @@ main {
 @media (min-width: 720px) {
   .synopsis {
     flex: 1 1 66%;
+    width: 66%;
   }
 }
 
 @media (min-width: 720px) {
   .asset-image {
     flex: 1 1 33%;
+    width: 33%;
   }
 }
 

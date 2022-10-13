@@ -63,7 +63,9 @@ ul {
 }
 
 main {
+  max-width: 1536px;
   padding: 1em;
+  margin: auto;
   font-family: Arial, sans-serif;
   line-height: 1.375em;
   color: var(--foreground-color-main);

@@ -1,7 +1,13 @@
 <template>
   <div class="asset-details" :class="{ open: isOpen }">
     <div class="asset-image">
-      <nuxt-img :src="mainImage" :alt="details?.generic.title || ''" />
+      <nuxt-img
+        :src="mainImage"
+        :alt="details?.generic.title || ''"
+        width="615"
+        height="400"
+        sizes="md:570px lg:210px"
+      />
     </div>
     <div class="synopsis">
       <p v-if="programme.descr">

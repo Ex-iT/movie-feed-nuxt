@@ -2,14 +2,11 @@
   <main>
     <h1>Status</h1>
     <section>
-      <pre>{{ $http }}</pre>
-
       <ul>
         <CardItem
-          v-for="({ createdAt, log }, index) in status"
+          v-for="({ createdAt, log }, index) in pageData"
           :key="index"
           :class="{ error: !log.success }"
-          class="card"
         >
           <h2>
             <span v-if="log.success">✅</span>
@@ -27,32 +24,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 import { Status } from '~/types/sharedTypes'
 
 export default Vue.extend({
   name: 'StatusView',
-  data(): {
-    status: Status[]
-  } {
-    return {
-      status: [],
-    }
-  },
-  async fetch() {
-    this.status = await this.$http.$get('status')
-  },
-  head() {
-    return {
-      title: 'MovieFeed Status | IsHetAlDonderdag.nl',
-      meta: [
-        {
-          hid: 'robots',
-          name: 'robots',
-          content: 'noindex',
-        },
-      ],
-    }
+  props: {
+    pageData: {
+      type: Array as PropType<Status[]>,
+      default: () => [],
+      required: true,
+    },
   },
 })
 </script>

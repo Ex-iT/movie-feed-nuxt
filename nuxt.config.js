@@ -1,7 +1,8 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Films vandaag op de Nederlandse Televisie | IsHetAlDonderdag.nl',
+    title:
+      'Films vandaag op de Nederlandse Televisie | MovieFeed | IsHetAlDonderdag.nl',
     htmlAttrs: {
       lang: 'nl',
     },

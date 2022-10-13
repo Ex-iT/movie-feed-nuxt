@@ -2,37 +2,29 @@
   <main>
     <section class="today">
       <h1>Films vandaag op televisie</h1>
-      <CardComponent :programmes="today"></CardComponent>
+      <CardComponent :programmes="pageData.today"></CardComponent>
     </section>
     <section class="tomorrow">
       <h1>Films morgen op televisie</h1>
-      <CardComponent :programmes="tomorrow"></CardComponent>
+      <CardComponent :programmes="pageData.tomorrow"></CardComponent>
     </section>
   </main>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 import CardComponent from '~/components/Card/index.vue'
-import { CacheableProg, Cacheables } from '~/types/sharedTypes'
+import { Cacheables } from '~/types/sharedTypes'
 
 export default Vue.extend({
   name: 'HomeView',
   components: { CardComponent },
-  data(): {
-    today: CacheableProg[]
-    tomorrow: CacheableProg[]
-  } {
-    return {
-      today: [],
-      tomorrow: [],
-    }
-  },
-  async fetch() {
-    const { today, tomorrow } = (await this.$http.$get('cache')) as Cacheables
-
-    this.today = today
-    this.tomorrow = tomorrow
+  props: {
+    pageData: {
+      type: Object as PropType<Cacheables>,
+      default: () => ({ today: [], tomorrow: [], log: {}, createdAt: 0 }),
+      required: true,
+    },
   },
 })
 </script>

@@ -47,6 +47,8 @@
           src="~assets/svg/logo_imdb.svg"
           :alt="`Bekijk ${programme?.title} op IMDb`"
           :title="`Bekijk ${programme?.title} op IMDb`"
+          width="79"
+          height="40"
         />
       </a>
 
@@ -61,6 +63,8 @@
           src="~assets/svg/yt_btn_play.svg"
           :alt="`Bekijk ${programme?.title} op YouTube`"
           :title="`Bekijk ${programme?.title} op YouTube`"
+          width="57"
+          height="40"
         />
       </a>
     </div>

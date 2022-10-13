@@ -6,7 +6,6 @@
         :alt="details?.generic.title || ''"
         width="615"
         height="400"
-        sizes="md:570px lg:210px"
       />
     </div>
     <div class="synopsis">

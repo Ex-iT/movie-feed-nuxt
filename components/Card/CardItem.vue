@@ -2,7 +2,7 @@
   <li
     class="card"
     :class="$attrs.class"
-    @click="$emit('card-item-clicked', $event.target)"
+    @click="$emit('card-item-clicked', $event)"
   >
     <slot></slot>
   </li>

@@ -2,39 +2,45 @@
   <main>
     <h1>Status</h1>
     <section>
-      <ul>
+      <CardComponent :fetch-state="fetchState">
         <CardItem
           v-for="({ createdAt, log }, index) in pageData"
           :key="index"
           :class="{ error: !log.success }"
         >
-          <h2>
-            <span v-if="log.success">✅</span>
-            <span v-else>❌</span>
-            {{ createdAt }}
-          </h2>
-          <p v-if="log.message">
-            {{ log.message }}
-          </p>
-          <p v-else-if="log.success">Success.</p>
+          <article>
+            <h2>
+              <span v-if="log.success">✅</span>
+              <span v-else>❌</span>
+              {{ createdAt }}
+            </h2>
+            <p v-if="log.message">
+              {{ log.message }}
+            </p>
+            <p v-else-if="log.success">Success.</p>
+          </article>
         </CardItem>
-      </ul>
+      </CardComponent>
     </section>
   </main>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
+import CardComponent from '~/components/Card/index.vue'
+import { FetchStateProp } from '~/props/sharedProps'
 import { Status } from '~/types/sharedTypes'
 
 export default Vue.extend({
   name: 'StatusView',
+  components: { CardComponent },
   props: {
     pageData: {
       type: Array as PropType<Status[]>,
       default: () => [],
       required: true,
     },
+    fetchState: FetchStateProp,
   },
 })
 </script>
@@ -57,23 +63,15 @@ li {
   min-height: 76px;
 }
 
+article {
+  flex-direction: column;
+  row-gap: var(--spacing-medium);
+  width: 100%;
+}
+
 h2 {
   display: flex;
   column-gap: var(--spacing-medium);
-  margin: 0 0 var(--spacing-medium);
-}
-
-.card {
-  flex-direction: column;
-  cursor: unset;
-  border: 1px solid transparent;
-}
-
-.error {
-  border-color: var(--error-color-main);
-}
-
-.error h2 {
-  color: var(--error-color-main);
+  margin: 0;
 }
 </style>

@@ -2,11 +2,39 @@
   <main>
     <section class="today">
       <h1>Films vandaag op televisie</h1>
-      <CardComponent :programmes="pageData.today"></CardComponent>
+      <CardComponent :fetch-state="fetchState">
+        <CardItem
+          v-for="programme in pageData.today"
+          :key="`${programme.ps}:${programme.main_id}`"
+          :class="{ passed: programme.is_passed }"
+          @card-item-clicked="
+            handleClick(`${programme.ps}:${programme.main_id}`)
+          "
+        >
+          <MovieCardContent
+            :ref="`${programme.ps}:${programme.main_id}`"
+            :programme="programme"
+          />
+        </CardItem>
+      </CardComponent>
     </section>
     <section class="tomorrow">
       <h1>Films morgen op televisie</h1>
-      <CardComponent :programmes="pageData.tomorrow"></CardComponent>
+      <CardComponent :fetch-state="fetchState">
+        <CardItem
+          v-for="programme in pageData.tomorrow"
+          :key="`${programme.ps}:${programme.main_id}`"
+          :class="{ passed: programme.is_passed }"
+          @card-item-clicked="
+            handleClick(`${programme.ps}:${programme.main_id}`)
+          "
+        >
+          <MovieCardContent
+            :ref="`${programme.ps}:${programme.main_id}`"
+            :programme="programme"
+          />
+        </CardItem>
+      </CardComponent>
     </section>
   </main>
 </template>
@@ -14,16 +42,25 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 import CardComponent from '~/components/Card/index.vue'
+import MovieCardContent from '~/components/MovieCardContent.vue'
 import { Cacheables } from '~/types/sharedTypes'
+import { FetchStateProp } from '~/props/sharedProps'
 
 export default Vue.extend({
   name: 'HomeView',
-  components: { CardComponent },
+  components: { CardComponent, MovieCardContent },
   props: {
     pageData: {
       type: Object as PropType<Cacheables>,
       default: () => ({ today: [], tomorrow: [], log: {}, createdAt: 0 }),
       required: true,
+    },
+    fetchState: FetchStateProp,
+  },
+  methods: {
+    handleClick(id: string) {
+      const component = this.$refs[id] as Array<Vue<HTMLDivElement>>
+      component[0]?.$el.classList.toggle('open')
     },
   },
 })

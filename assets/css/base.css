@@ -71,26 +71,6 @@ main {
   color: var(--foreground-color-main);
 }
 
-.yt-play-button {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 63;
-  width: 68px;
-  height: 48px;
-  margin-top: -24px;
-  margin-left: -34px;
-  transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1);
-}
-
-.yt-play-button svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
 .a11y-only {
   position: absolute;
   width: 1px;
@@ -113,12 +93,16 @@ main {
   padding: var(--spacing-medium);
 }
 
+.card.passed .channel-logo {
+  opacity: 0.75;
+}
+
 .card.passed .details {
   color: rgb(255 255 255 / 70%);
   transition: color 0.3s ease-in;
 }
 
-.card:not(.error) {
+.card:not(.loading, .error) {
   cursor: pointer;
 }
 
@@ -138,7 +122,7 @@ main {
   transition: height 0.3s ease-out, margin 0.3s ease-out;
 }
 
-.asset-details.open {
+.open .asset-details {
   height: 100%;
   margin-top: var(--spacing-medium);
   transition: height 0.3s ease-out, margin 0.3s ease-out;
@@ -176,6 +160,14 @@ main {
   }
 }
 
+.error {
+  border: 1px solid var(--error-color-main);
+}
+
+.error h2 {
+  color: var(--error-color-main);
+}
+
 @media (min-width: 720px) {
   .asset-image {
     flex: 1 1 33%;
@@ -203,6 +195,14 @@ main {
   height: auto;
   aspect-ratio: 123/80;
   vertical-align: bottom;
+}
+
+.loading::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background-color: rgb(255 255 255 / 20%);
+  animation: 1.5s linear 0.5s infinite alternate none running pulse;
 }
 
 @keyframes pulse {

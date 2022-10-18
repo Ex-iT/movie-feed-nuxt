@@ -1,5 +1,5 @@
 <template>
-  <HomeView :page-data="pageData" />
+  <HomeView :page-data="pageData" :fetch-state="$fetchState" />
 </template>
 
 <script lang="ts">
@@ -10,10 +10,6 @@ import HomeView from '~/views/Home.vue'
 export default Vue.extend({
   name: 'IndexPage',
   components: { HomeView },
-  async asyncData({ $http }) {
-    const pageData = await $http.$get('cache')
-    return { pageData }
-  },
   data(): {
     pageData: Cacheables
   } {
@@ -28,6 +24,9 @@ export default Vue.extend({
         createdAt: 0,
       },
     }
+  },
+  async fetch() {
+    this.pageData = await this.$http.$get('cache')
   },
 })
 </script>

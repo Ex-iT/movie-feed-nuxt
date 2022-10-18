@@ -1,5 +1,5 @@
 <template>
-  <div class="asset-details" :class="{ open: isOpen }">
+  <div class="asset-details">
     <div class="asset-image">
       <nuxt-img
         :src="mainImage"
@@ -29,10 +29,6 @@ export default Vue.extend({
     programme: {
       type: Object as () => CacheableProg,
       required: true,
-    },
-    isOpen: {
-      type: Boolean,
-      default: false,
     },
   },
   data(): {

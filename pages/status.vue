@@ -1,5 +1,5 @@
 <template>
-  <StatusView :page-data="pageData" />
+  <StatusView :page-data="pageData" :fetch-state="$fetchState" />
 </template>
 
 <script lang="ts">
@@ -10,26 +10,19 @@ import StatusView from '~/views/Status.vue'
 export default Vue.extend({
   name: 'StatusPage',
   components: { StatusView },
-  async asyncData({ $http }) {
-    const pageData = await $http.$get('status')
-    return { pageData }
-  },
   data(): {
-    pageData: Status
+    pageData: Status[]
   } {
     return {
-      pageData: {
-        createdAt: '',
-        log: {
-          message: '',
-          success: true,
-        },
-      },
+      pageData: [],
     }
+  },
+  async fetch() {
+    this.pageData = await this.$http.$get('status')
   },
   head() {
     return {
-      title: 'Status | MovieFeed | IsHetAlDonderdag.nl',
+      title: 'Status - MovieFeed | IsHetAlDonderdag.nl',
       meta: [
         {
           hid: 'robots',

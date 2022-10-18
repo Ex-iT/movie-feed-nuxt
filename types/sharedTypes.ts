@@ -83,3 +83,9 @@ export interface Status {
   createdAt: string
   log: CacheablesLog
 }
+
+export interface FetchtState {
+  pending: boolean
+  error: boolean
+  timestamp: number
+}

@@ -60,9 +60,11 @@ export default {
   publicRuntimeConfig: {
     http: {
       browserBaseURL: `${
-        process.env.VERCEL_URL
+        ['production'].includes(process.env.VERCEL_ENV)
+          ? `https://${process.env.DOMAIN_URL}`
+          : ['preview', 'development'].includes(process.env.VERCEL_ENV)
           ? `https://${process.env.VERCEL_URL}`
-          : 'http://localhost:3000'
+          : `http://localhost:3000`
       }/api/v1`,
     },
   },
@@ -70,9 +72,11 @@ export default {
   privateRuntimeConfig: {
     http: {
       baseURL: `${
-        process.env.VERCEL_URL
+        ['production'].includes(process.env.VERCEL_ENV)
+          ? `https://${process.env.DOMAIN_URL}`
+          : ['preview', 'development'].includes(process.env.VERCEL_ENV)
           ? `https://${process.env.VERCEL_URL}`
-          : 'http://localhost:3000'
+          : `http://localhost:3000`
       }/api/v1`,
     },
   },

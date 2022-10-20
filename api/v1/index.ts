@@ -7,6 +7,9 @@ const VERSION = 'v1'
 const PREFIX = `/api/${VERSION}`
 const app = express()
 
+// Disable 'Powered by' header
+app.disable('x-powered-by')
+
 app.get('/', (_req, res) => {
   res
     .status(418)

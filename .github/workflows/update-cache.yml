@@ -1,4 +1,4 @@
-name: Trigger cache request
+name: Trigger /programmes API request
 
 on:
   workflow_dispatch:
@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: HTTP request to cache endpoint
+      - name: HTTP request to /programmes endpoint
         id: cacheRequest
         uses: fjogeleit/http-request-action@v1
         with:
-          url: 'https://moviefeed.ishetaldonderdag.nl/api/v1/cache'
+          url: 'https://moviefeed.ishetaldonderdag.nl/api/v1/programmes'
           method: 'GET'
           timeout: 10000

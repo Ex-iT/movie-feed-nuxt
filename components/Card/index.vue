@@ -34,6 +34,7 @@ export default Vue.extend({
   align-items: center;
   justify-content: center;
 }
+
 .error h2 {
   padding-inline: var(--spacing-medium);
   margin: 0;

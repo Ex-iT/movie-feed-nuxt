@@ -7,9 +7,6 @@
           v-for="programme in pageData.today"
           :key="`${programme.ps}:${programme.main_id}`"
           :class="{ passed: programme.is_passed }"
-          @card-item-clicked="
-            handleClick(`${programme.ps}:${programme.main_id}`)
-          "
         >
           <MovieCardContent
             :ref="`${programme.ps}:${programme.main_id}`"
@@ -25,9 +22,6 @@
           v-for="programme in pageData.tomorrow"
           :key="`${programme.ps}:${programme.main_id}`"
           :class="{ passed: programme.is_passed }"
-          @card-item-clicked="
-            handleClick(`${programme.ps}:${programme.main_id}`)
-          "
         >
           <MovieCardContent
             :ref="`${programme.ps}:${programme.main_id}`"
@@ -56,12 +50,6 @@ export default Vue.extend({
       required: true,
     },
     fetchState: FetchStateProp,
-  },
-  methods: {
-    handleClick(id: string) {
-      const component = this.$refs[id] as Array<Vue<HTMLDivElement>>
-      component[0]?.$el.classList.toggle('open')
-    },
   },
 })
 </script>

@@ -1,20 +1,25 @@
 <template>
   <article>
-    <nuxt-img
-      class="channel-logo"
-      :src="programme.channel_logo"
-      :alt="programme.channel_label"
-      width="40"
-      height="40"
-    />
-    <div class="info">
-      <div class="details">
-        <h2>{{ programme.title }}</h2>
-        {{ programme.start }} - {{ programme.end }}
-      </div>
-      <Details :programme="programme" />
-      <Sharer :programme="programme" />
-    </div>
+    <Accordion>
+      <template #summary>
+        <nuxt-img
+          :src="programme.channel_logo"
+          :alt="programme.channel_label"
+          width="40"
+          height="40"
+        />
+        <div class="info">
+          <div class="details">
+            <h2>{{ programme.title }}</h2>
+            {{ programme.start }} - {{ programme.end }}
+          </div>
+          <Sharer :programme="programme" />
+        </div>
+      </template>
+      <template #content>
+        <Details :programme="programme" />
+      </template>
+    </Accordion>
     <ProgressIndicator :progress="progress" />
   </article>
 </template>

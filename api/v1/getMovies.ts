@@ -13,7 +13,7 @@ import formatHours from '../../lib/formatHours'
 import formatTime from '../../lib/formatTime'
 import getEpoch from '../../lib/getEpoch'
 import getProgress from '../../lib/getProgress'
-import { Days, Prog } from '../../types/sharedTypes'
+import { Days, ProgrammesRaw } from '../../types/sharedTypes'
 import fetchData from '../../lib/fetchData'
 
 export default async function getMovies(day = Days.today) {
@@ -31,7 +31,7 @@ export default async function getMovies(day = Days.today) {
   }
 }
 
-const filterChannels = (channels: Array<Prog>) => {
+const filterChannels = (channels: Array<ProgrammesRaw>) => {
   const channelData = channels.filter((channel) => {
     return Object.keys(CHANNELS).includes(channel.ch_id)
   })
@@ -39,7 +39,7 @@ const filterChannels = (channels: Array<Prog>) => {
   return enrichData(channelData)
 }
 
-const enrichData = (channelData: Array<Prog>) => {
+const enrichData = (channelData: Array<ProgrammesRaw>) => {
   const ONE_DAY = 24 * 3600
   return channelData
     .map((movie) => {

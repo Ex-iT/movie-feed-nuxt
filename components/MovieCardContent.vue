@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { CacheableProg } from '~/types/sharedTypes'
+import { Programme } from '~/types/sharedTypes'
 import getEpoch from '~/lib/getEpoch'
 import { TICK_TIME } from '~/config'
 import getProgress from '~/lib/getProgress'
@@ -30,7 +30,7 @@ export default Vue.extend({
   name: 'MovieCardComponent',
   props: {
     programme: {
-      type: Object as () => CacheableProg,
+      type: Object as () => Programme,
       required: true,
     },
   },
@@ -45,7 +45,7 @@ export default Vue.extend({
     this.updateProgress(this.programme)
   },
   methods: {
-    updateProgress(programme: CacheableProg) {
+    updateProgress(programme: Programme) {
       const startTime = parseInt(programme.ps, 10)
       const endTime = parseInt(programme.pe, 10)
       let now = getEpoch()

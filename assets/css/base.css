@@ -102,7 +102,7 @@ main {
   transition: color 0.3s ease-in;
 }
 
-.card:not(.loading, .error) {
+.card:not(.loading, .error, .status) {
   cursor: pointer;
 }
 

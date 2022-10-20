@@ -20,6 +20,7 @@ export default Vue.extend({
   async fetch() {
     this.pageData = await this.$http.$get('status')
   },
+  fetchOnServer: false,
   head() {
     return {
       title: 'Status - MovieFeed | IsHetAlDonderdag.nl',

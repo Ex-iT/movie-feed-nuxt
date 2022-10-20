@@ -43,7 +43,7 @@
 import Vue, { PropType } from 'vue'
 import CardComponent from '~/components/Card/index.vue'
 import MovieCardContent from '~/components/MovieCardContent.vue'
-import { Cacheables } from '~/types/sharedTypes'
+import { Programmes } from '~/types/sharedTypes'
 import { FetchStateProp } from '~/props/sharedProps'
 
 export default Vue.extend({
@@ -51,7 +51,7 @@ export default Vue.extend({
   components: { CardComponent, MovieCardContent },
   props: {
     pageData: {
-      type: Object as PropType<Cacheables>,
+      type: Object as PropType<Programmes>,
       default: () => ({ today: [], tomorrow: [], log: {}, createdAt: 0 }),
       required: true,
     },

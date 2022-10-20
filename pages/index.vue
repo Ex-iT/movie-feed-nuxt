@@ -4,14 +4,14 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Cacheables } from '~/types/sharedTypes'
+import { Programmes } from '~/types/sharedTypes'
 import HomeView from '~/views/Home.vue'
 
 export default Vue.extend({
   name: 'IndexPage',
   components: { HomeView },
   data(): {
-    pageData: Cacheables
+    pageData: Programmes
   } {
     return {
       pageData: {
@@ -26,7 +26,8 @@ export default Vue.extend({
     }
   },
   async fetch() {
-    this.pageData = await this.$http.$get('cache')
+    this.pageData = await this.$http.$get('programmes')
   },
+  fetchOnServer: false,
 })
 </script>

@@ -6,6 +6,7 @@
         <CardItem
           v-for="({ createdAt, log }, index) in pageData"
           :key="index"
+          class="status"
           :class="{ error: !log.success }"
         >
           <article>

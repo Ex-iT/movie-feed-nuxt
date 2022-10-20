@@ -73,13 +73,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { CacheableProg, MovieDetails } from '~/types/sharedTypes'
+import { Programme, MovieDetails } from '~/types/sharedTypes'
 import { IMDB_URL, YT_URL } from '~/config'
 
 export default Vue.extend({
   props: {
     programme: {
-      type: Object as () => CacheableProg,
+      type: Object as () => Programme,
       default: () => {},
     },
     details: {

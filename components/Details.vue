@@ -20,14 +20,14 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { CacheableProg, MovieDetails } from '~/types/sharedTypes'
+import { Programme, MovieDetails } from '~/types/sharedTypes'
 import { EMPTY_IMG } from '~/config'
 
 export default Vue.extend({
   name: 'AssetDetails',
   props: {
     programme: {
-      type: Object as () => CacheableProg,
+      type: Object as () => Programme,
       required: true,
     },
   },

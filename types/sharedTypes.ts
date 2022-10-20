@@ -1,14 +1,13 @@
-export interface Error {
-  ok: boolean
-  error: string
-}
+import { EnrichedProgrammesRaw } from './EnrichedProgrammesRaw'
+import { Generic } from './Generic'
+import { MetaData } from './MetaData'
 
 export enum Days {
   today = '0',
   tomorrow = '1',
 }
 
-export interface Prog {
+export interface ProgrammesRaw {
   db_id?: string // Legacy ID
   ps: string
   pe: string
@@ -22,70 +21,28 @@ export interface Prog {
   main_id: string
 }
 
-export interface EnrichedProg extends Prog {
-  channel_logo: string
-  channel_label: string
-  start: string
-  end: string
-  is_passed: boolean
-  progress: number
-  deep_link: string
-  day: string
-}
-
-interface Generic {
-  id: number
-  title: string
-  year?: string
-  imdb?: string
-  yt_id?: string
-  subcategory?: string
-  image?: string
-  duration?: string
-}
-
-interface Items {
-  label: string
-  value: string
-}
-
-interface Guidance {
-  name: string
-  short: string
-  icon: string
-}
-
 export interface MovieDetails {
   generic: Generic
-  metadata: {
-    items?: Array<Items>
-    guidance?: Array<Guidance>
-  }
+  metadata: MetaData
 }
 
-export interface CacheableProg extends EnrichedProg {
+export interface Programme extends EnrichedProgrammesRaw {
   details: MovieDetails
 }
 
-export interface CacheablesLog {
+export interface ProgrammesLog {
   message: string
   success: boolean
 }
 
-export interface Cacheables {
+export interface Programmes {
   createdAt: number
-  today: CacheableProg[]
-  tomorrow: CacheableProg[]
-  log: CacheablesLog
+  today: Programme[]
+  tomorrow: Programme[]
+  log: ProgrammesLog
 }
 
 export interface Status {
   createdAt: string
-  log: CacheablesLog
-}
-
-export interface FetchtState {
-  pending: boolean
-  error: boolean
-  timestamp: number
+  log: ProgrammesLog
 }

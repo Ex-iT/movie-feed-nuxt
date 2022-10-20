@@ -1,5 +1,5 @@
 import { DocumentData, QueryDocumentSnapshot } from 'firebase-admin/firestore'
-import { Cacheables, CacheableProg, Days } from '../../types/sharedTypes'
+import { Programmes, Programme, Days } from '../../types/sharedTypes'
 import getFirestoreDb from '../../lib/getFirestoreDb'
 import { FIREBASE_COLLECTION, HOUR_SEC } from '../../config'
 import getDetails from './getDetails'
@@ -31,22 +31,22 @@ const shouldUpdate = async () => {
   return false
 }
 
-const getMovieData = async (): Promise<Cacheables> => {
+const getMovieData = async (): Promise<Programmes> => {
   const messages: string[] = []
   let success = true
-  let today: CacheableProg[] = []
-  let tomorrow: CacheableProg[] = []
+  let today: Programme[] = []
+  let tomorrow: Programme[] = []
 
   try {
     const [todayProg, tomorrowProg] = await Promise.all([
-      getMovies(Days.today) as Promise<CacheableProg[]>,
-      getMovies(Days.tomorrow) as Promise<CacheableProg[]>,
+      getMovies(Days.today) as Promise<Programme[]>,
+      getMovies(Days.tomorrow) as Promise<Programme[]>,
     ])
 
     // 'ok' is only in the object as the request fails and is set to false
     if ('ok' in todayProg && 'ok' in tomorrowProg) {
       success = false
-      messages.push('Unable to fetch cacheable movie data.')
+      messages.push('Unable to fetch movies data.')
     }
 
     try {
@@ -74,7 +74,7 @@ const getMovieData = async (): Promise<Cacheables> => {
     }
   } catch (error) {
     success = false
-    messages.push('Unable to fetch cacheable data')
+    messages.push('Unable to fetch programmes data')
   }
 
   return {
@@ -88,20 +88,20 @@ const getMovieData = async (): Promise<Cacheables> => {
   }
 }
 
-const getCacheables = async (): Promise<Cacheables> => {
+const getProgrammes = async (): Promise<Programmes> => {
   if (await shouldUpdate()) {
-    const cacheables = await getMovieData()
+    const programmes = await getMovieData()
     const docName = String(new Date().getDay())
     const docRef = collection.doc(docName)
 
-    // Put cacheables in Firestore
-    await docRef.set(cacheables)
+    // Put programmes in Firestore
+    await docRef.set(programmes)
 
-    return cacheables
+    return programmes
   } else {
-    // Return the latest cacheables from Firestore
-    return (await (await getLatestDoc()).data()) as Cacheables
+    // Return the latest programmes from Firestore
+    return (await (await getLatestDoc()).data()) as Programmes
   }
 }
 
-export default getCacheables
+export default getProgrammes

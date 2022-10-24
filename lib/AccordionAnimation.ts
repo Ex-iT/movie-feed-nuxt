@@ -7,20 +7,23 @@ export class Accordion {
   animation: Animation | null
   isClosing: Boolean
   isExpanding: Boolean
+  closedHeight: string
 
   constructor(element: HTMLDetailsElement) {
     // Store the <details> element
     this.element = element
-    // Store the <summary> element
-    this.summary = element.querySelector('summary')
     // Store the <article> element
     this.content = element.querySelector('article')
+    // Store the <summary> element
+    this.summary = element.querySelector('summary')
     // Store the animation object (so we can cancel it if needed)
     this.animation = null
     // Store if the element is closing
     this.isClosing = false
     // Store if the element is expanding
     this.isExpanding = false
+    // Store the closed height of the <details> element
+    this.closedHeight = `${this.element.offsetHeight}px`
   }
 
   init() {
@@ -50,8 +53,6 @@ export class Accordion {
 
     // Store the current height of the element
     const startHeight = `${this.element.offsetHeight}px`
-    // Calculate the height of the summary
-    const endHeight = `${this.summary?.offsetHeight || 0}px`
 
     // If there is already an animation running
     if (this.animation) {
@@ -63,7 +64,7 @@ export class Accordion {
     this.animation = this.element.animate(
       {
         // Set the keyframes from the startHeight to endHeight
-        height: [startHeight, endHeight],
+        height: [startHeight, this.closedHeight],
       },
       {
         duration: 300,
@@ -89,8 +90,6 @@ export class Accordion {
   expand() {
     // Set the element as "being expanding"
     this.isExpanding = true
-    // Get the current fixed height of the element
-    const startHeight = `${this.element.offsetHeight}px`
     // Calculate the open height of the element (summary height + content height)
     const endHeight = `${
       (this.summary?.offsetHeight || 0) + (this.content?.offsetHeight || 0)
@@ -106,7 +105,7 @@ export class Accordion {
     this.animation = this.element.animate(
       {
         // Set the keyframes from the startHeight to endHeight
-        height: [startHeight, endHeight],
+        height: [this.closedHeight, endHeight],
       },
       {
         duration: 300,

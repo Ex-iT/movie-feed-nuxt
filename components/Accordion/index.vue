@@ -1,5 +1,5 @@
 <template>
-  <details ref="details" @click="handleClick">
+  <details ref="details" @click.prevent="handleClick">
     <AccordionSummary :ref="summaryRef" class="summary">
       <slot name="summary"></slot>
     </AccordionSummary>
@@ -44,10 +44,8 @@ export default Vue.extend({
     contentRef(contentElement: Vue<Element>) {
       this.contentEl = contentElement.$el as HTMLDivElement
     },
-    handleClick(event: MouseEvent) {
+    handleClick() {
       // Modified version of https://css-tricks.com/how-to-animate-the-details-element-using-waapi/
-      event.preventDefault()
-
       if (this.accordionEl) {
         this.accordionEl.style.overflow = 'hidden'
 
@@ -142,6 +140,11 @@ details {
   column-gap: var(--spacing-medium);
   padding-right: var(--spacing-medium);
   list-style: none;
+}
+
+.summary::marker,
+.summary::-webkit-details-marker {
+  display: none;
 }
 
 .content {

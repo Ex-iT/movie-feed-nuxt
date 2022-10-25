@@ -1,6 +1,7 @@
 :root {
   --background-color-main: #000;
   --foreground-color-main: #fff;
+  --highlight-color-main: #0070ff;
   --error-color-main: #f44336;
   --border-radius: 2px;
   --spacing-small: 0.313rem;
@@ -93,7 +94,7 @@ main {
 
 .card.passed .details {
   color: rgb(255 255 255 / 70%);
-  transition: color 0.3s ease-in;
+  transition: color 300ms ease-in;
 }
 
 .card:not(.loading, .error, .status) {

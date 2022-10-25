@@ -1,12 +1,13 @@
 <template>
-  <li class="card" :class="$attrs.class">
+  <summary :class="$attrs.class">
     <slot></slot>
-  </li>
+  </summary>
 </template>
+
 <script lang="ts">
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'CardItem',
+  name: 'AccordionSummary',
 })
 </script>

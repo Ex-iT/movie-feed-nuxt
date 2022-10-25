@@ -65,9 +65,12 @@ li {
 }
 
 article {
+  display: flex;
   flex-direction: column;
   row-gap: var(--spacing-medium);
+  column-gap: var(--spacing-medium);
   width: 100%;
+  padding: var(--spacing-medium);
 }
 
 h2 {

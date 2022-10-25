@@ -1,6 +1,7 @@
 :root {
   --background-color-main: #000;
   --foreground-color-main: #fff;
+  --highlight-color-main: #0070ff;
   --error-color-main: #f44336;
   --border-radius: 2px;
   --spacing-small: 0.313rem;
@@ -87,19 +88,13 @@ main {
   border-radius: var(--border-radius);
 }
 
-.card article {
-  display: flex;
-  column-gap: var(--spacing-medium);
-  padding: var(--spacing-medium);
-}
-
 .card.passed .channel-logo {
   opacity: 0.75;
 }
 
 .card.passed .details {
   color: rgb(255 255 255 / 70%);
-  transition: color 0.3s ease-in;
+  transition: color 300ms ease-in;
 }
 
 .card:not(.loading, .error, .status) {
@@ -116,16 +111,6 @@ main {
   display: flex;
   flex-direction: column;
   row-gap: var(--spacing-medium);
-  height: 0;
-  margin-top: 0;
-  overflow: hidden;
-  transition: height 0.3s ease-out, margin 0.3s ease-out;
-}
-
-.open .asset-details {
-  height: 100%;
-  margin-top: var(--spacing-medium);
-  transition: height 0.3s ease-out, margin 0.3s ease-out;
 }
 
 @media (min-width: 720px) {

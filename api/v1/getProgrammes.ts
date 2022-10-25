@@ -23,12 +23,11 @@ const shouldUpdate = async () => {
     const success = latestDoc.get('log.success')
     const createdAt = latestDoc.get('createdAt')
     const coolDownTime = HOUR_SEC * 3
-    if (!success || epoch >= createdAt + coolDownTime) {
-      return true
-    }
+
+    return !success || epoch >= createdAt + coolDownTime
   }
 
-  return false
+  return true
 }
 
 const getMovieData = async (): Promise<Programmes> => {

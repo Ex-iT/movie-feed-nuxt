@@ -13,6 +13,9 @@
     "lint": "yarn lint:js && yarn lint:prettier && yarn lint:css",
     "lintfix": "prettier --write --list-different . && yarn lint:js --fix && yarn lint:css --fix"
   },
+  "engines": {
+    "node": ">=16.15.0 <17"
+  },
   "dependencies": {
     "@nuxt/http": "^0.6.4",
     "@sindresorhus/slugify": "^2.1.0",

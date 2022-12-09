@@ -1,7 +1,7 @@
 const API_URI = 'https://json.tvgids.nl'
 const API_VERSION = 'v6'
 const ASSET_URI = 'https://tvgidsassets.nl'
-const ASSET_VERSION = 'v252'
+const ASSET_VERSION = 'v273'
 const ASSET_DIMENSIONS = '40x40'
 
 export const MOVIES_URI = `${API_URI}/${API_VERSION}/movies`
@@ -22,7 +22,7 @@ export const CHANNELS: { [key: number]: string } = {
   91: 'Comedy Central',
   92: 'RTL 8',
   440: 'FOX',
-  460: 'RTL 9',
+  460: 'SBS 9',
   496: 'Paramount Network',
 }
 export const EMPTY_IMG =

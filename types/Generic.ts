@@ -1,4 +1,4 @@
-export interface Generic {
+export default interface Generic {
   id: number
   title: string
   year?: string

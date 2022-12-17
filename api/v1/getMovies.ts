@@ -17,17 +17,28 @@ import { Days, ProgrammesRaw } from '../../types/sharedTypes'
 import fetchData from '../../lib/fetchData'
 
 export default async function getMovies(day = Days.today) {
+  const errorObject = (error: string | Object) => ({
+    generic: { id: 0, title: '' },
+    metadata: {},
+    ok: false,
+    error,
+  })
+
   try {
     const url = `${MOVIES_URI}/?day=${day}`
-    const json = await fetchData(`${MOVIES_URI}/?day=${day}`)
+    const json = await fetchData(url)
 
     if (json) {
-      return filterChannels(json.data || [])
+      return {
+        ok: true,
+        error: '',
+        filteredProgrammes: filterChannels(json?.data || []),
+      }
     }
 
-    return { ok: false, error: `Unable to fetch data from: ${url}` }
-  } catch (error) {
-    return { ok: false, error: `Unable to fetch data. ${error}` }
+    return errorObject(`Unable to fetch data from: ${url}`)
+  } catch (error: any) {
+    return errorObject(error)
   }
 }
 

@@ -46,7 +46,13 @@ export default {
     '@nuxt/typescript-build',
     '@nuxtjs/stylelint-module',
     '@nuxtjs/svg',
+    'nuxt-vite',
   ],
+
+  // Vite build - https://vite.nuxtjs.org/getting-started/build
+  vite: {
+    build: true,
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: ['@nuxt/http', '@nuxt/image'],

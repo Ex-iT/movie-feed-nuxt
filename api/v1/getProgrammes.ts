@@ -1,5 +1,10 @@
 import { DocumentData, QueryDocumentSnapshot } from 'firebase-admin/firestore'
-import { Programmes, Programme, Days } from '../../types/sharedTypes'
+import {
+  Programmes,
+  Programme,
+  Days,
+  ProgrammeDetails,
+} from '../../types/sharedTypes'
 import getFirestoreDb from '../../lib/getFirestoreDb'
 import { FIREBASE_COLLECTION, HOUR_SEC } from '../../config'
 import getDetails from './getDetails'
@@ -17,15 +22,15 @@ const getLatestDoc = async () => {
 }
 
 const shouldUpdate = async () => {
-  const latestDoc = await getLatestDoc()
+  // const latestDoc = await getLatestDoc()
 
-  if (latestDoc) {
-    const success = latestDoc.get('log.success')
-    const createdAt = latestDoc.get('createdAt')
-    const coolDownTime = HOUR_SEC * 3
+  // if (latestDoc) {
+  //   const success = latestDoc.get('log.success')
+  //   const createdAt = latestDoc.get('createdAt')
+  //   const coolDownTime = HOUR_SEC * 3
 
-    return !success || epoch >= createdAt + coolDownTime
-  }
+  //   return !success || epoch >= createdAt + coolDownTime
+  // }
 
   return true
 }
@@ -38,20 +43,24 @@ const getMovieData = async (): Promise<Programmes> => {
 
   try {
     const [todayProg, tomorrowProg] = await Promise.all([
-      getMovies(Days.today) as Promise<Programme[]>,
-      getMovies(Days.tomorrow) as Promise<Programme[]>,
+      getMovies(Days.today) as Promise<ProgrammeDetails>,
+      getMovies(Days.tomorrow) as Promise<ProgrammeDetails>,
     ])
 
-    // 'ok' is only in the object as the request fails and is set to false
-    if ('ok' in todayProg && 'ok' in tomorrowProg) {
+    if (todayProg.ok && tomorrowProg.ok) {
       success = false
       messages.push('Unable to fetch movies data.')
     }
 
     try {
       today = await Promise.all(
-        todayProg.map(async (prog) => {
-          prog.details = await getDetails(prog.main_id)
+        todayProg.filteredProgrammes.map(async (prog) => {
+          const details = await getDetails(prog.main_id)
+
+          if (details.ok) {
+            prog.details = details
+          }
+
           return prog
         })
       )
@@ -62,8 +71,13 @@ const getMovieData = async (): Promise<Programmes> => {
 
     try {
       tomorrow = await Promise.all(
-        tomorrowProg.map(async (prog) => {
-          prog.details = await getDetails(prog.main_id)
+        tomorrowProg.filteredProgrammes.map(async (prog) => {
+          const details = await getDetails(prog.main_id)
+
+          if (details.ok) {
+            prog.details = details
+          }
+
           return prog
         })
       )

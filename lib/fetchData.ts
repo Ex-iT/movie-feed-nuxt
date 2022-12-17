@@ -1,6 +1,3 @@
-import fetch from 'node-fetch'
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fetchData = async (uri: string): Promise<any> => {
   try {
     const response = await fetch(uri)
@@ -19,6 +16,14 @@ const fetchData = async (uri: string): Promise<any> => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error || 'An unexpected error occurred.')
+
+    return {
+      url: uri,
+      status: 500,
+      statusText: error
+        ? JSON.stringify(error)
+        : 'An unexpected error occurred.',
+    }
   }
 }
 

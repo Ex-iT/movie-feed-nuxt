@@ -1,12 +1,7 @@
 <template>
   <div class="asset-details">
     <div class="asset-image">
-      <nuxt-img
-        :src="mainImage"
-        :alt="details?.generic.title || ''"
-        width="615"
-        height="400"
-      />
+      <nuxt-img :src="mainImage" :alt="alt" width="615" height="400" />
     </div>
     <div class="synopsis">
       <p v-if="programme.descr">
@@ -31,14 +26,16 @@ export default Vue.extend({
       required: true,
     },
   },
-  data(): {
-    mainImage: string
-    details: MovieDetails | null
-  } {
-    return {
-      mainImage: this.programme.details?.generic?.image || EMPTY_IMG,
-      details: this.programme.details || null,
-    }
+  computed: {
+    mainImage(): string {
+      return (this.programme as Programme).details?.generic?.image || EMPTY_IMG
+    },
+    details(): MovieDetails | null {
+      return (this.programme as Programme).details || null
+    },
+    alt(): string {
+      return (this.programme as Programme).details?.generic?.title || ''
+    },
   },
 })
 </script>

@@ -1,6 +1,7 @@
 import { EnrichedProgrammesRaw } from './EnrichedProgrammesRaw'
-import { Generic } from './Generic'
-import { MetaData } from './MetaData'
+import Generic from './Generic'
+import MetaData from './MetaData'
+import ResponseData from './ResponseData'
 
 export enum Days {
   today = '0',
@@ -21,13 +22,17 @@ export interface ProgrammesRaw {
   main_id: string
 }
 
-export interface MovieDetails {
+export interface MovieDetails extends ResponseData {
   generic: Generic
   metadata: MetaData
 }
 
 export interface Programme extends EnrichedProgrammesRaw {
   details: MovieDetails
+}
+
+export interface ProgrammeDetails extends ResponseData {
+  filteredProgrammes: Programme[]
 }
 
 export interface ProgrammesLog {

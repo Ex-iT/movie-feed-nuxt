@@ -1,26 +1,22 @@
 <template>
   <div class="meta-info">
-    <p v-if="programme?.tvg_rating">
-      <strong>Waardering:</strong> {{ programme.tvg_rating }}
-    </p>
+    <p v-if="tvgRating"><strong>Waardering:</strong> {{ tvgRating }}</p>
 
-    <p v-if="details?.generic?.year">
-      <strong>Jaar:</strong> {{ details.generic.year }}
-    </p>
+    <p v-if="year"><strong>Jaar:</strong> {{ year }}</p>
 
     <p
-      v-for="({ label, value }, index) in details?.metadata.items"
-      :key="index"
+      v-for="({ label, value }, index) in metaData"
+      :key="`meta-items-${index}`"
     >
       <strong>{{ label }}:</strong> {{ value }}
     </p>
 
-    <div v-if="details?.metadata.guidance?.length" class="guidance">
+    <div v-if="guidance.length" class="guidance">
       <strong>Kijkwijzer:</strong>
       <ul>
         <li
-          v-for="({ name, icon }, index) in details.metadata.guidance"
-          :key="index"
+          v-for="({ name, icon }, index) in guidance"
+          :key="`guidance-${index}`"
         >
           <nuxt-img
             loading="lazy"
@@ -37,32 +33,32 @@
     <div v-if="hasExternalLinks" class="external">
       <strong>Meer info:</strong>
       <a
-        v-if="details?.generic?.imdb"
-        :href="`${imdbUrl}${details.generic.imdb}`"
+        v-if="imdbUrl"
+        :href="imdbUrl"
         target="_blank"
         rel="noreferrer noopener"
         @click.stop
       >
         <img
           src="~assets/svg/logo_imdb.svg"
-          :alt="`Bekijk ${programme?.title} op IMDb`"
-          :title="`Bekijk ${programme?.title} op IMDb`"
+          :alt="`Bekijk ${programmeTitle} op IMDb`"
+          :title="`Bekijk ${programmeTitle} op IMDb`"
           width="79"
           height="40"
         />
       </a>
 
       <a
-        v-if="details?.generic?.yt_id"
-        :href="`${ytUrl}${details.generic.yt_id}`"
+        v-if="ytUrl"
+        :href="ytUrl"
         target="_blank"
         rel="noreferrer noopener"
         @click.stop
       >
         <img
           src="~assets/svg/yt_btn_play.svg"
-          :alt="`Bekijk ${programme?.title} op YouTube`"
-          :title="`Bekijk ${programme?.title} op YouTube`"
+          :alt="`Bekijk ${programmeTitle} op YouTube`"
+          :title="`Bekijk ${programmeTitle} op YouTube`"
           width="57"
           height="40"
         />
@@ -75,6 +71,8 @@
 import Vue from 'vue'
 import { Programme, MovieDetails } from '~/types/sharedTypes'
 import { IMDB_URL, YT_URL } from '~/config'
+import { Guidance } from '~/types/Guidance'
+import { Items } from '~/types/Items'
 
 export default Vue.extend({
   props: {
@@ -87,16 +85,28 @@ export default Vue.extend({
       default: () => {},
     },
   },
-  data(): {
-    imdbUrl: string
-    ytUrl: string
-  } {
-    return {
-      imdbUrl: IMDB_URL,
-      ytUrl: YT_URL,
-    }
-  },
   computed: {
+    tvgRating(): string {
+      return (this.programme as Programme)?.tvg_rating || ''
+    },
+    year(): string {
+      return (this.details as MovieDetails)?.generic?.year || ''
+    },
+    metaData(): Items[] {
+      return (this.details as MovieDetails)?.metadata.items || []
+    },
+    guidance(): Guidance[] {
+      return (this.details?.metadata.guidance || []) as Guidance[]
+    },
+    imdbUrl(): string {
+      return `${IMDB_URL}${(this.details as MovieDetails)?.generic?.imdb}`
+    },
+    ytUrl(): string {
+      return `${YT_URL}${(this.details as MovieDetails)?.generic?.yt_id}`
+    },
+    programmeTitle(): string {
+      return (this.programme as Programme)?.title || ''
+    },
     hasExternalLinks() {
       const details = this.details as MovieDetails
       return details?.generic?.imdb || details?.generic?.yt_id

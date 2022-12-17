@@ -22,15 +22,15 @@ const getLatestDoc = async () => {
 }
 
 const shouldUpdate = async () => {
-  // const latestDoc = await getLatestDoc()
+  const latestDoc = await getLatestDoc()
 
-  // if (latestDoc) {
-  //   const success = latestDoc.get('log.success')
-  //   const createdAt = latestDoc.get('createdAt')
-  //   const coolDownTime = HOUR_SEC * 3
+  if (latestDoc) {
+    const success = latestDoc.get('log.success')
+    const createdAt = latestDoc.get('createdAt')
+    const coolDownTime = HOUR_SEC * 3
 
-  //   return !success || epoch >= createdAt + coolDownTime
-  // }
+    return !success || epoch >= createdAt + coolDownTime
+  }
 
   return true
 }

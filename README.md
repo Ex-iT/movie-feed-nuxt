@@ -1,3 +1,6 @@
+[![ci](https://github.com/Ex-iT/movie-feed-nuxt/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Ex-iT/movie-feed-nuxt/actions/workflows/ci.yml)
+[![Vercel](https://vercelbadge.vercel.app/api/ex-it/movie-feed-nuxt)](https://moviefeed.ishetaldonderdag.nl/)
+
 # Moviefeed
 
 Daily listing of movies on Dutch TV using the [TVgids.nl](https://www.tvgids.nl/) API. This web app is suitable to be 'installed' on a mobile device which allows native sharing.

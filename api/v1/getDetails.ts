@@ -16,6 +16,12 @@ export default async function getDetails(id: string) {
       delete details.viewMore
       delete details.news
 
+      if (details.metadata?.guidance) {
+        details.metadata.guidance = Object.keys(details.metadata.guidance).map(
+          (key) => ({ ...details.metadata.guidance[key] })
+        )
+      }
+
       return details
     }
 

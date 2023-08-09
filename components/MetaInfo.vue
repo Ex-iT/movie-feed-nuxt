@@ -19,7 +19,9 @@
       <strong>Kijkwijzer:</strong>
       <ul>
         <li
-          v-for="({ name, icon }, index) in details.metadata.guidance"
+          v-for="({ name, icon }, index) in details.metadata.guidance.filter(
+            (guidance) => Boolean(guidance.icon)
+          )"
           :key="index"
         >
           <nuxt-img

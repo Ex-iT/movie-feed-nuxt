@@ -1,6 +1,5 @@
 import fetch from 'node-fetch'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fetchData = async (uri: string): Promise<any> => {
   try {
     const response = await fetch(uri)

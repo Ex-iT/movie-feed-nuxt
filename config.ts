@@ -1,7 +1,7 @@
 const API_URI = 'https://json.tvgids.nl'
 const API_VERSION = 'v6'
 const ASSET_URI = 'https://tvgidsassets.nl'
-const ASSET_VERSION = 'v299'
+const ASSET_VERSION = 'v311'
 const ASSET_DIMENSIONS = '40x40'
 
 export const MOVIES_URI = `${API_URI}/${API_VERSION}/movies`

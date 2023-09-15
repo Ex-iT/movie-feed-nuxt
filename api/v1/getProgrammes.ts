@@ -1,34 +1,8 @@
-import { DocumentData, QueryDocumentSnapshot } from 'firebase-admin/firestore'
 import { Programmes, Programme, Days } from '../../types/sharedTypes'
-import getFirestoreDb from '../../lib/getFirestoreDb'
-import { FIREBASE_COLLECTION, HOUR_SEC } from '../../config'
 import getDetails from './getDetails'
 import getMovies from './getMovies'
 
 const epoch = Math.floor(new Date().getTime() / 1000)
-const db = getFirestoreDb()
-const collection = db.collection(FIREBASE_COLLECTION)
-
-const getLatestDoc = async () => {
-  const snapshot = await collection.orderBy('createdAt', 'desc').limit(1).get()
-  const docs: QueryDocumentSnapshot<DocumentData>[] = []
-  snapshot.forEach((doc) => docs.push(doc))
-  return docs[0]
-}
-
-const shouldUpdate = async () => {
-  const latestDoc = await getLatestDoc()
-
-  if (latestDoc) {
-    const success = latestDoc.get('log.success')
-    const createdAt = latestDoc.get('createdAt')
-    const coolDownTime = HOUR_SEC * 3
-
-    return !success || epoch >= createdAt + coolDownTime
-  }
-
-  return true
-}
 
 const getMovieData = async (): Promise<Programmes> => {
   const messages: string[] = []
@@ -88,19 +62,7 @@ const getMovieData = async (): Promise<Programmes> => {
 }
 
 const getProgrammes = async (): Promise<Programmes> => {
-  if (await shouldUpdate()) {
-    const programmes = await getMovieData()
-    const docName = String(new Date().getDay())
-    const docRef = collection.doc(docName)
-
-    // Put programmes in Firestore
-    await docRef.set(programmes)
-
-    return programmes
-  } else {
-    // Return the latest programmes from Firestore
-    return (await (await getLatestDoc()).data()) as Programmes
-  }
+  return await getMovieData()
 }
 
 export default getProgrammes

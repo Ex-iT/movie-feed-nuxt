@@ -88,5 +88,8 @@ const getChannelLabel = (id: number) => CHANNELS[id] || ''
 const getDeepLinkUrl = (title: string) =>
   `${DEEP_LINK}/${slugify(title, {
     decamelize: false,
-    customReplacements: [['&', '']],
+    customReplacements: [
+      ["'", '-'],
+      ['&', ''],
+    ],
   })}`

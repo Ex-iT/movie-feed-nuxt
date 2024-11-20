@@ -130,6 +130,7 @@ export default Vue.extend({
 details {
   position: relative;
   display: flex;
+  flex-direction: column;
   column-gap: var(--spacing-medium);
   padding: var(--spacing-medium);
 }

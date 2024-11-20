@@ -5,7 +5,7 @@
 
 Daily listing of movies on Dutch TV using the [TVgids.nl](https://www.tvgids.nl/) API. This web app is suitable to be 'installed' on a mobile device which allows native sharing.
 
-This is a [NuxtJS](https://nuxtjs.org/) with [TypeScript](https://www.typescriptlang.org/) project bootstrapped with [`create-nuxt-app`](https://nuxtjs.org/docs/get-started/installation/). It uses a [Cloud Firestore](https://firebase.google.com/docs/firestore) to save store the cached JSON data. The cache gets updated by a cronjob running as a [GitHub Workflow](https://docs.github.com/en/actions/using-workflows).
+This is a [NuxtJS](https://nuxtjs.org/) with [TypeScript](https://www.typescriptlang.org/) project bootstrapped with [`create-nuxt-app`](https://nuxtjs.org/docs/get-started/installation/).
 
 ## Development
 

@@ -1,8 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title:
-      'Films vandaag op de Nederlandse Televisie - MovieFeed',
+    title: 'Films vandaag op de Nederlandse Televisie - MovieFeed',
     htmlAttrs: {
       lang: 'nl',
     },
@@ -58,23 +57,25 @@ export default {
 
   publicRuntimeConfig: {
     http: {
-      browserBaseURL: `${['production'].includes(process.env.VERCEL_ENV)
+      browserBaseURL: `${
+        ['production'].includes(process.env.VERCEL_ENV)
           ? `https://${process.env.DOMAIN_URL}`
           : ['preview', 'development'].includes(process.env.VERCEL_ENV)
-            ? `https://${process.env.VERCEL_URL}`
-            : `http://localhost:3000`
-        }/api/v1`,
+          ? `https://${process.env.VERCEL_URL}`
+          : `http://localhost:3000`
+      }/api/v1`,
     },
   },
 
   privateRuntimeConfig: {
     http: {
-      baseURL: `${['production'].includes(process.env.VERCEL_ENV)
+      baseURL: `${
+        ['production'].includes(process.env.VERCEL_ENV)
           ? `https://${process.env.DOMAIN_URL}`
           : ['preview', 'development'].includes(process.env.VERCEL_ENV)
-            ? `https://${process.env.VERCEL_URL}`
-            : `http://localhost:3000`
-        }/api/v1`,
+          ? `https://${process.env.VERCEL_URL}`
+          : `http://localhost:3000`
+      }/api/v1`,
     },
   },
 

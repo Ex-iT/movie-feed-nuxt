@@ -1,5 +1,5 @@
 [![ci](https://github.com/Ex-iT/movie-feed-nuxt/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Ex-iT/movie-feed-nuxt/actions/workflows/ci.yml)
-[![Vercel](https://vercelbadge.vercel.app/api/ex-it/movie-feed-nuxt)](https://moviefeed.ishetaldonderdag.nl/)
+[![Vercel](https://vercelbadge.vercel.app/api/ex-it/movie-feed-nuxt)](https://moviefeed.ex-it.nl/)
 
 # Moviefeed
 

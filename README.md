@@ -15,8 +15,6 @@ First, install dependencies:
 pnpm install
 ```
 
-Copy `.env.example` to `.env` in the root of the project and set the values.
-
 And run the development server:
 
 ```bash

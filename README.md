@@ -1,75 +1,34 @@
-# Nuxt Minimal Starter
+[![ci](https://github.com/Ex-iT/movie-feed-nuxt/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Ex-iT/movie-feed-nuxt/actions/workflows/ci.yml)
+[![Vercel](https://vercelbadge.vercel.app/api/ex-it/movie-feed-nuxt)](https://moviefeed.ex-it.nl/)
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# Moviefeed
 
-## Setup
+Daily listing of movies on Dutch TV using the [TVgids.nl](https://www.tvgids.nl/) API. This web app is suitable to be 'installed' on a mobile device which allows native sharing.
 
-Make sure to install dependencies:
+This is a [NuxtJS](https://nuxtjs.org/) with [TypeScript](https://www.typescriptlang.org/) project bootstrapped with [`create-nuxt-app`](https://nuxtjs.org/docs/get-started/installation/).
+
+## Development
+
+First, install dependencies:
 
 ```bash
-# npm
-npm install
-
-# pnpm
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+Copy `.env.example` to `.env` in the root of the project and set the values.
 
-Start the development server on `http://localhost:3000`:
+And run the development server:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+pnpm run dev
 ```
 
-## Production
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Build the application for production:
+## Linting
+
+To run the linting (Eslint and Typescript):
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+pnpm run lint
 ```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

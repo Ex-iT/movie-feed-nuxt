@@ -38,10 +38,7 @@ export default defineNuxtConfig({
 
   css: ['@/assets/css/main.css'],
 
-  modules: [
-    '@nuxt/image',
-    'nuxt-svgo',
-  ],
+  modules: ['@nuxt/image'],
 
   typescript: {
     typeCheck: true,

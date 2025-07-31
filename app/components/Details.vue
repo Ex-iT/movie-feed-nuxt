@@ -37,7 +37,7 @@ export default defineComponent({
       <p v-if="programme.descr">
         <strong v-if="programme.subgenre">
           {{ programme.subgenre }}
-        </strong>{{ programme.descr }}
+        </strong> {{ programme.descr }}
       </p>
       <MetaInfo :programme="programme" :details="programme.details" />
     </div>

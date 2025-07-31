@@ -84,6 +84,7 @@ export default defineComponent({
           :title="`Bekijk ${programme?.title} op IMDb`"
           width="79"
           height="40"
+          loading="lazy"
         />
       </a>
 
@@ -100,6 +101,7 @@ export default defineComponent({
           :title="`Bekijk ${programme?.title} op YouTube`"
           width="57"
           height="40"
+          loading="lazy"
         />
       </a>
     </div>

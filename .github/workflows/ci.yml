@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - nuxt-vue-migration
   pull_request:
     branches:
       - main
+      - nuxt-vue-migration
 
 jobs:
   ci:

@@ -1,26 +1,6 @@
-<template>
-  <div class="asset-details">
-    <div class="asset-image">
-      <nuxt-img
-        :src="mainImage"
-        :alt="details?.generic.title || ''"
-        width="615"
-        height="400"
-      />
-    </div>
-    <div class="synopsis">
-      <p v-if="programme.descr">
-        <strong v-if="programme.subgenre">{{ programme.subgenre }} </strong
-        >{{ programme.descr }}
-      </p>
-      <MetaInfo :programme="programme" :details="programme.details" />
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
+import type { MovieDetails, Programme } from '~~/shared/types/Common'
 import { EMPTY_IMG } from '~/config'
-import type { Programme, MovieDetails } from '~~/shared/types/sharedTypes'
 
 export default defineComponent({
   name: 'AssetDetails',
@@ -41,3 +21,25 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="asset-details">
+    <div class="asset-image">
+      <nuxt-img
+        :src="mainImage"
+        :alt="details?.generic.title || ''"
+        width="615"
+        height="400"
+        loading="lazy"
+      />
+    </div>
+    <div class="synopsis">
+      <p v-if="programme.descr">
+        <strong v-if="programme.subgenre">
+          {{ programme.subgenre }}
+        </strong>{{ programme.descr }}
+      </p>
+      <MetaInfo :programme="programme" :details="programme.details" />
+    </div>
+  </div>
+</template>

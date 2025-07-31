@@ -1,34 +1,11 @@
-import express from 'express'
-import { CACHING_DEFAULT } from '../../config'
-import getProgrammes from './getProgrammes'
+import { CACHING_DEFAULT } from '@/config'
 
-const VERSION = 'v1'
-const PREFIX = `/api/${VERSION}`
-const app = express()
+export default defineEventHandler((event) => {
+  setResponseStatus(event, 418)
+  setHeader(event, 'Cache-Control', CACHING_DEFAULT)
 
-// Disable 'Powered by' header
-app.disable('x-powered-by')
-
-app.get('/', (_req, res) => {
-  res
-    .status(418)
-    .setHeader('Cache-Control', CACHING_DEFAULT)
-    .json({ ok: false, error: 'Fight The Future' })
-})
-
-app.get('/programmes', async (req, res) => {
-  if (req.method === 'GET') {
-    const programmes = await getProgrammes()
-    res.status(200).setHeader('Cache-Control', CACHING_DEFAULT).json(programmes)
-  } else {
-    res
-      .status(405)
-      .setHeader('Cache-Control', CACHING_DEFAULT)
-      .json({ ok: false, error: 'Method Not Allowed' })
+  return {
+    ok: false,
+    error: 'Fight The Future',
   }
 })
-
-export default {
-  path: PREFIX,
-  handler: app,
-}

@@ -1,33 +1,7 @@
-<template>
-  <article>
-    <Accordion>
-      <template #summary>
-        <nuxt-img
-          :src="programme.channel_logo"
-          :alt="programme.channel_label"
-          width="40"
-          height="40"
-        />
-        <div class="info">
-          <div class="details">
-            <h2>{{ programme.title }}</h2>
-            {{ programme.start }} - {{ programme.end }}
-          </div>
-          <Sharer :programme="programme" />
-        </div>
-      </template>
-      <template #content>
-        <Details :programme="programme" />
-      </template>
-    </Accordion>
-    <ProgressIndicator :progress="progress" />
-  </article>
-</template>
-
 <script lang="ts">
-import type { Programme } from '~~/shared/types/sharedTypes'
-import getEpoch from '~/utils/getEpoch'
+import type { Programme } from '~~/shared/types/Common'
 import { TICK_TIME } from '~/config'
+import getEpoch from '~/utils/getEpoch'
 import getProgress from '~/utils/getProgress'
 
 export default defineComponent({
@@ -50,8 +24,8 @@ export default defineComponent({
   },
   methods: {
     updateProgress(programme: Programme) {
-      const startTime = parseInt(programme.ps, 10)
-      const endTime = parseInt(programme.pe, 10)
+      const startTime = Number.parseInt(programme.ps, 10)
+      const endTime = Number.parseInt(programme.pe, 10)
       let now = getEpoch()
       let rAF: number
 
@@ -84,3 +58,29 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <article>
+    <Accordion>
+      <template #summary>
+        <nuxt-img
+          :src="programme.channel_logo"
+          :alt="programme.channel_label"
+          width="40"
+          height="40"
+        />
+        <div class="info">
+          <div class="details">
+            <h2>{{ programme.title }}</h2>
+            {{ programme.start }} - {{ programme.end }}
+          </div>
+          <Sharer :programme="programme" />
+        </div>
+      </template>
+      <template #content>
+        <Details :programme="programme" />
+      </template>
+    </Accordion>
+    <ProgressIndicator :progress="progress" />
+  </article>
+</template>

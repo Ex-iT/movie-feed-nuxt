@@ -1,12 +1,13 @@
 import { DETAIL_URI } from '../../config'
-import fetchData from '../../lib/fetchData'
 
 export default async function getDetails(id: string) {
   try {
-    const json = await fetchData(`${DETAIL_URI}/${id}`)
+    const url = `${DETAIL_URI}/${id}`
+    const response = await fetch(url)
+    const { data: json } = await response.json()
 
-    if (json.data) {
-      const details = json.data
+    if (json) {
+      const details = json
       delete details.linear
       delete details.linearMore
       delete details.streaming
@@ -18,7 +19,7 @@ export default async function getDetails(id: string) {
 
       if (details.metadata?.guidance) {
         details.metadata.guidance = Object.keys(details.metadata.guidance).map(
-          (key) => ({ ...details.metadata.guidance[key] })
+          key => ({ ...details.metadata.guidance[key] }),
         )
       }
 
@@ -26,7 +27,8 @@ export default async function getDetails(id: string) {
     }
 
     return { ok: false, error: `Unable to fetch details for ${id}.` }
-  } catch (error) {
+  }
+  catch (_error) {
     return { ok: false, error: `Unable to fetch details for ${id}.` }
   }
 }

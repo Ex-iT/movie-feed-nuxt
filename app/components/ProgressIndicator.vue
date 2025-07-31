@@ -1,9 +1,3 @@
-<template>
-  <progress :max="max" :aria-label="label" :value="progress">
-    {{ progress }}%
-  </progress>
-</template>
-
 <script lang="ts">
 export default defineComponent({
   name: 'ProgressIndicator',
@@ -23,6 +17,12 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <progress :max="max" :aria-label="label" :value="progress">
+    {{ progress }}%
+  </progress>
+</template>
 
 <style scoped>
 progress {

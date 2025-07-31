@@ -1,33 +1,71 @@
+<script setup lang="ts">
+import type { FetchData, Programmes } from '~~/shared/types/Common'
+
+const { data: pageData, status, error } = useFetch<Programmes>('/api/v1/programmes')
+
+const fetchData = computed<FetchData>(() => ({
+  pending: status.value === 'pending',
+  error: error.value,
+  data: pageData.value || { today: [], tomorrow: [], log: {}, createdAt: 0 },
+}))
+</script>
+
 <template>
-  <HomeView :page-data="pageData" :fetch-state="$fetchState" />
+  <main>
+    <section class="today">
+      <h1>Films vandaag op televisie</h1>
+      <Card :fetch-data="fetchData">
+        <CardItem
+          v-for="programme in fetchData.data.today"
+          :key="`${programme.ps}:${programme.main_id}`"
+          :class="{ passed: programme.is_passed }"
+        >
+          <MovieCardContent
+            :ref="`${programme.ps}:${programme.main_id}`"
+            :programme="programme"
+          />
+        </CardItem>
+      </Card>
+    </section>
+    <section class="tomorrow">
+      <h1>Films morgen op televisie</h1>
+      <Card :fetch-data="fetchData">
+        <CardItem
+          v-for="programme in fetchData.data.tomorrow"
+          :key="`${programme.ps}:${programme.main_id}`"
+          :class="{ passed: programme.is_passed }"
+        >
+          <MovieCardContent
+            :ref="`${programme.ps}:${programme.main_id}`"
+            :programme="programme"
+          />
+        </CardItem>
+      </Card>
+    </section>
+  </main>
 </template>
 
-<script lang="ts">
-import type { Programmes } from '~~/shared/types/sharedTypes'
-import HomeView from '~/views/Home.vue'
+<style scoped>
+main {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--spacing-extra-large);
+  min-height: 100vh;
+  overflow: hidden;
+  font-size: 1em;
+}
 
-export default defineComponent({
-  name: 'IndexPage',
-  components: { HomeView },
-  data(): {
-    pageData: Programmes
-  } {
-    return {
-      pageData: {
-        today: [],
-        tomorrow: [],
-        log: {
-          message: '',
-          success: false,
-        },
-        createdAt: 0,
-      },
-    }
-  },
-  async fetch() {
-    // @TODO: useFetch
-    // this.pageData = await this.$http.$get('programmes')
-  },
-  fetchOnServer: false,
-})
-</script>
+@media (min-width: 720px) {
+  main {
+    flex-direction: row;
+    column-gap: var(--spacing-medium);
+  }
+
+  .today,
+  .tomorrow {
+    flex: 1 1 50%;
+  }
+}
+</style>

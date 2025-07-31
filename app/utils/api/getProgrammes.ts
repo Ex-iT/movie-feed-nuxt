@@ -1,10 +1,11 @@
-import { Programmes, Programme, Days } from '../../types/sharedTypes'
-import getDetails from './getDetails'
-import getMovies from './getMovies'
+import type { Programme, Programmes } from '~~/shared/types/Common'
+import { Days } from '~~/shared/types/Common'
+import getDetails from '~/utils/api/getDetails'
+import getMovies from '~/utils/api/getMovies'
 
 const epoch = Math.floor(new Date().getTime() / 1000)
 
-const getMovieData = async (): Promise<Programmes> => {
+async function getMovieData(): Promise<Programmes> {
   const messages: string[] = []
   let success = true
   let today: Programme[] = []
@@ -27,9 +28,10 @@ const getMovieData = async (): Promise<Programmes> => {
         todayProg.map(async (prog) => {
           prog.details = await getDetails(prog.main_id)
           return prog
-        })
+        }),
       )
-    } catch (error) {
+    }
+    catch (_error) {
       success = false
       messages.push('Unable to fetch details for today.')
     }
@@ -39,13 +41,15 @@ const getMovieData = async (): Promise<Programmes> => {
         tomorrowProg.map(async (prog) => {
           prog.details = await getDetails(prog.main_id)
           return prog
-        })
+        }),
       )
-    } catch (error) {
+    }
+    catch (_error) {
       success = false
       messages.push('Unable to fetch details for tomorrow.')
     }
-  } catch (error) {
+  }
+  catch (_error) {
     success = false
     messages.push('Unable to fetch programmes data')
   }
@@ -61,7 +65,7 @@ const getMovieData = async (): Promise<Programmes> => {
   }
 }
 
-const getProgrammes = async (): Promise<Programmes> => {
+async function getProgrammes(): Promise<Programmes> {
   return await getMovieData()
 }
 

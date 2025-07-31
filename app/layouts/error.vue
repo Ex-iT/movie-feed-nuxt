@@ -1,34 +1,16 @@
-<template>
-  <main>
-    <h1>This is not a page...</h1>
-    <p>What are you doing here? 👀</p>
-  </main>
-</template>
+<script setup lang="ts">
+import type { NuxtError } from '#app'
 
-<script lang="ts">
-interface ErrorObject {
-  statusCode: number
-  path: string
-  message: string
-}
-
-const defaultErrorObject = {
-  statusCode: 0,
-  path: '',
-  message: '',
-}
-
-export default defineComponent({
-  name: 'ErrorLayout',
-  layout: 'error',
-  props: {
-    error: {
-      type: Object as () => ErrorObject,
-      default: () => defaultErrorObject,
-    },
-  },
+const props = defineProps({
+  error: Object as () => NuxtError,
 })
 </script>
+
+<template>
+  <main>
+    <slot :error="props.error" />
+  </main>
+</template>
 
 <style scoped>
 main {

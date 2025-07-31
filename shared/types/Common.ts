@@ -46,3 +46,14 @@ export interface Status {
   createdAt: string
   log: ProgrammesLog
 }
+
+export interface FetchData {
+  pending: boolean
+  error: Record<string, any> | undefined
+  data: Programmes | {
+    today: never[]
+    tomorrow: never[]
+    log: Record<string, any>
+    createdAt: number
+  }
+}

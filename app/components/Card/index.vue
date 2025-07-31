@@ -1,31 +1,28 @@
+<script setup lang="ts">
+import type { FetchData } from '~~/shared/types/Common'
+
+const props = defineProps<{
+  fetchData: FetchData
+}>()
+</script>
+
 <template>
   <ul>
-    <template v-if="fetchState.pending">
+    <template v-if="props.fetchData.pending">
       <CardItem class="loading" />
       <CardItem class="loading" />
       <CardItem class="loading" />
     </template>
 
-    <CardItem v-if="fetchState.error" class="error">
+    <CardItem v-if="props.fetchData.error" class="error">
       <h2>Data kan niet worden opgehaald, probeer het later nog eens.</h2>
     </CardItem>
 
     <template v-else>
-      <slot></slot>
+      <slot />
     </template>
   </ul>
 </template>
-
-<script lang="ts">
-import { FetchStateProp } from '~~/shared/props/sharedProps'
-
-export default defineComponent({
-  name: 'CardComponent',
-  props: {
-    fetchState: FetchStateProp,
-  },
-})
-</script>
 
 <style scoped>
 .error {

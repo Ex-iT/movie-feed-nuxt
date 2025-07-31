@@ -1,17 +1,4 @@
-<template>
-  <details ref="details" @click.prevent="handleClick">
-    <AccordionSummary :ref="summaryRef" class="summary">
-      <slot name="summary"></slot>
-    </AccordionSummary>
-    <AccordionContent :ref="contentRef" class="content">
-      <slot name="content"></slot>
-    </AccordionContent>
-  </details>
-</template>
-
 <script lang="ts">
-import type { VNodeRef } from 'vue'
-
 export default defineComponent({
   name: 'AccordionComponent',
   data(): {
@@ -19,8 +6,8 @@ export default defineComponent({
     summaryEl: HTMLDivElement | undefined
     contentEl: HTMLDivElement | undefined
     animation: Animation | null
-    isClosing: Boolean
-    isExpanding: Boolean
+    isClosing: boolean
+    isExpanding: boolean
     closedHeight: string
   } {
     return {
@@ -51,7 +38,8 @@ export default defineComponent({
 
         if (this.isClosing || !this.accordionEl.open) {
           this.open()
-        } else if (this.isExpanding || this.accordionEl.open) {
+        }
+        else if (this.isExpanding || this.accordionEl.open) {
           this.shrink()
         }
       }
@@ -69,8 +57,8 @@ export default defineComponent({
       if (this.accordionEl) {
         this.isExpanding = true
         const endHeight = `${
-          (this.summaryEl?.offsetHeight || 0) +
-          (this.contentEl?.offsetHeight || 0)
+          (this.summaryEl?.offsetHeight || 0)
+          + (this.contentEl?.offsetHeight || 0)
         }px`
 
         if (this.animation) {
@@ -84,7 +72,7 @@ export default defineComponent({
           {
             duration: 300,
             easing: 'ease-in-out',
-          }
+          },
         )
         this.animation.onfinish = () => this.onAnimationFinish(true)
         this.animation.oncancel = () => (this.isExpanding = false)
@@ -106,7 +94,7 @@ export default defineComponent({
           {
             duration: 300,
             easing: 'ease-in-out',
-          }
+          },
         )
 
         this.animation.onfinish = () => this.onAnimationFinish(false)
@@ -125,6 +113,17 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <details ref="details" @click.prevent="handleClick">
+    <AccordionSummary :ref="summaryRef" class="summary">
+      <slot name="summary" />
+    </AccordionSummary>
+    <AccordionContent :ref="contentRef" class="content">
+      <slot name="content" />
+    </AccordionContent>
+  </details>
+</template>
 
 <style scoped>
 details {

@@ -1,37 +1,38 @@
+import type { ProgrammesRaw } from '~~/shared/types/Common'
 import slugify from '@sindresorhus/slugify'
-
+import { Days } from '~~/shared/types/Common'
 import {
-  CHANNELS,
   CHANNEL_LOGO_SRC,
+  CHANNELS,
   DAY_STARTS_AT,
   DEEP_LINK,
   EMPTY_IMG,
   MOVIES_URI,
-} from '../../config'
-import formatDate from '../../lib/formatDate'
-import formatHours from '../../lib/formatHours'
-import formatTime from '../../lib/formatTime'
-import getEpoch from '../../lib/getEpoch'
-import getProgress from '../../lib/getProgress'
-import { Days, ProgrammesRaw } from '../../types/sharedTypes'
-import fetchData from '../../lib/fetchData'
+} from '~/config'
+import formatDate from '~/utils/formatDate'
+import formatHours from '~/utils/formatHours'
+import formatTime from '~/utils/formatTime'
+import getEpoch from '~/utils/getEpoch'
+import getProgress from '~/utils/getProgress'
 
 export default async function getMovies(day = Days.today) {
   try {
     const url = `${MOVIES_URI}/?day=${day}`
-    const json = await fetchData(`${MOVIES_URI}/?day=${day}`)
+    const response = await fetch(url)
+    const { data: json } = await response.json()
 
     if (json) {
-      return filterChannels(json.data || [])
+      return filterChannels(json || [])
     }
 
     return { ok: false, error: `Unable to fetch data from: ${url}` }
-  } catch (error) {
+  }
+  catch (error) {
     return { ok: false, error: `Unable to fetch data. ${error}` }
   }
 }
 
-const filterChannels = (channels: Array<ProgrammesRaw>) => {
+function filterChannels(channels: Array<ProgrammesRaw>) {
   const channelData = channels.filter((channel) => {
     return Object.keys(CHANNELS).includes(channel.ch_id)
   })
@@ -39,14 +40,16 @@ const filterChannels = (channels: Array<ProgrammesRaw>) => {
   return enrichData(channelData)
 }
 
-const enrichData = (channelData: Array<ProgrammesRaw>) => {
+const getChannelLabel = (id: number) => CHANNELS[id] || ''
+
+function enrichData(channelData: Array<ProgrammesRaw>) {
   const ONE_DAY = 24 * 3600
   return channelData
     .map((movie) => {
       const { ch_id, ps, pe } = movie
       const now = getEpoch()
-      let start = parseInt(ps, 10)
-      let end = parseInt(pe, 10)
+      let start = Number.parseInt(ps, 10)
+      let end = Number.parseInt(pe, 10)
 
       // Fix for end time before start time
       if (end < start) {
@@ -55,7 +58,7 @@ const enrichData = (channelData: Array<ProgrammesRaw>) => {
 
       // Adjust start time to make the next
       // day start at `NEXT_STARTS_AT` at night
-      if (parseInt(formatHours(start), 10) <= DAY_STARTS_AT) {
+      if (Number.parseInt(formatHours(start), 10) <= DAY_STARTS_AT) {
         start = start + ONE_DAY
         end = end + ONE_DAY
       }
@@ -63,7 +66,7 @@ const enrichData = (channelData: Array<ProgrammesRaw>) => {
       return {
         ...movie,
         channel_logo: getChannelLogo(ch_id),
-        channel_label: getChannelLabel(parseInt(ch_id, 10)),
+        channel_label: getChannelLabel(Number.parseInt(ch_id, 10)),
         start: formatTime(start),
         end: formatTime(end),
         is_passed: now > end,
@@ -76,20 +79,20 @@ const enrichData = (channelData: Array<ProgrammesRaw>) => {
         pe: String(end),
       }
     })
-    .sort((a, z) => parseInt(a.ps, 10) - parseInt(z.ps, 10)) // Sort with original timestamp
-    .sort((a, z) => parseInt(a.ch_id, 10) - parseInt(z.ch_id, 10))
+    .sort((a, z) => Number.parseInt(a.ps, 10) - Number.parseInt(z.ps, 10)) // Sort with original timestamp
+    .sort((a, z) => Number.parseInt(a.ch_id, 10) - Number.parseInt(z.ch_id, 10))
 }
 
-const getChannelLogo = (id: string) =>
-  id ? CHANNEL_LOGO_SRC.replace(/%s/g, id) : EMPTY_IMG
+function getChannelLogo(id: string) {
+  return id ? CHANNEL_LOGO_SRC.replace(/%s/g, id) : EMPTY_IMG
+}
 
-const getChannelLabel = (id: number) => CHANNELS[id] || ''
-
-const getDeepLinkUrl = (title: string) =>
-  `${DEEP_LINK}/${slugify(title, {
+function getDeepLinkUrl(title: string) {
+  return `${DEEP_LINK}/${slugify(title, {
     decamelize: false,
     customReplacements: [
-      ["'", '-'],
+      ['\'', '-'],
       ['&', ''],
     ],
   })}`
+}

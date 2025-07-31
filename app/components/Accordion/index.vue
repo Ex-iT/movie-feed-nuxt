@@ -25,11 +25,11 @@ export default defineComponent({
     this.closedHeight = `${this.accordionEl.offsetHeight}px`
   },
   methods: {
-    summaryRef(summaryElement) {
-      this.summaryEl = summaryElement.$el as HTMLDivElement
+    summaryRef(summaryElement: any) {
+      this.summaryEl = summaryElement?.$el as HTMLDivElement
     },
-    contentRef(contentElement) {
-      this.contentEl = contentElement.$el as HTMLDivElement
+    contentRef(contentElement: any) {
+      this.contentEl = contentElement?.$el as HTMLDivElement
     },
     handleClick() {
       // Modified version of https://css-tricks.com/how-to-animate-the-details-element-using-waapi/

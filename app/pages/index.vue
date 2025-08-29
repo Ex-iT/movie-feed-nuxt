@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { FetchData, Programmes } from '~~/shared/types/Common'
 
-const { data: pageData, status, error } = useFetch<Programmes>('/api/v1/programmes')
+const { data: pageData, status, error } = useFetch<Programmes>('/api/v1/programmes', {
+  lazy: true,
+})
 
 const fetchData = computed<FetchData>(() => ({
   pending: status.value === 'pending',

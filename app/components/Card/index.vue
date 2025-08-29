@@ -9,9 +9,7 @@ const props = defineProps<{
 <template>
   <ul>
     <template v-if="props.fetchData.pending">
-      <CardItem class="loading" />
-      <CardItem class="loading" />
-      <CardItem class="loading" />
+      <CardItem v-for="i in 6" :key="`loading-${i}`" class="loading" />
     </template>
 
     <CardItem v-if="props.fetchData.error" class="error">

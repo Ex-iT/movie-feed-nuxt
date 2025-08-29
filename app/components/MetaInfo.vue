@@ -1,62 +1,33 @@
-<script lang="ts">
+<script setup lang="ts">
 import type { MovieDetails, Programme } from '~~/shared/types/Common'
 import { IMDB_URL, YT_URL } from '~/config'
 
-export default defineComponent({
-  props: {
-    programme: {
-      type: Object as () => Programme,
-      default: () => {},
-    },
-    details: {
-      type: Object as () => MovieDetails,
-      default: () => {},
-    },
-  },
-  data(): {
-    imdbUrl: string
-    ytUrl: string
-  } {
-    return {
-      imdbUrl: IMDB_URL,
-      ytUrl: YT_URL,
-    }
-  },
-  computed: {
-    hasExternalLinks() {
-      const details = this.details as MovieDetails
-      return details?.generic?.imdb || details?.generic?.yt_id
-    },
-  },
-})
+const props = defineProps<{
+  programme: Programme
+  details: MovieDetails
+}>()
+
+const hasExternalLinks = computed(() => props.details.generic.imdb || props.details.generic.yt_id)
 </script>
 
 <template>
   <div class="meta-info">
-    <p v-if="programme?.tvg_rating">
-      <strong>Waardering:</strong> {{ programme.tvg_rating }}
+    <p v-if="props.programme.tvg_rating">
+      <strong>Waardering:</strong> {{ props.programme.tvg_rating }}
     </p>
 
-    <p v-if="details?.generic?.year">
-      <strong>Jaar:</strong> {{ details.generic.year }}
+    <p v-if="details.generic.year">
+      <strong>Jaar:</strong> {{ props.details.generic.year }}
     </p>
 
-    <p
-      v-for="({ label, value }, index) in details?.metadata.items"
-      :key="index"
-    >
+    <p v-for="({ label, value }, index) in props.details.metadata.items" :key="`index-${index}`">
       <strong>{{ label }}:</strong> {{ value }}
     </p>
 
-    <div v-if="details?.metadata.guidance?.length" class="guidance">
+    <div v-if="props.details.metadata.guidance?.length" class="guidance">
       <strong>Kijkwijzer:</strong>
       <ul>
-        <li
-          v-for="({ name, icon }, index) in details.metadata.guidance.filter(
-            (guidance) => Boolean(guidance.icon),
-          )"
-          :key="index"
-        >
+        <li v-for="({ name, icon }, index) in props.details.metadata.guidance.filter((guidance) => Boolean(guidance.icon))" :key="`guidance-${index}`">
           <nuxt-img
             loading="lazy"
             :src="icon"
@@ -72,16 +43,16 @@ export default defineComponent({
     <div v-if="hasExternalLinks" class="external">
       <strong>Meer info:</strong>
       <a
-        v-if="details?.generic?.imdb"
-        :href="`${imdbUrl}${details.generic.imdb}`"
+        v-if="props.details.generic.imdb"
+        :href="`${IMDB_URL}${props.details.generic.imdb}`"
         target="_blank"
         rel="noreferrer noopener"
         @click.stop
       >
         <NuxtImg
           src="/assets/logo_imdb.svg"
-          :alt="`Bekijk ${programme?.title} op IMDb`"
-          :title="`Bekijk ${programme?.title} op IMDb`"
+          :alt="`Bekijk ${props.programme.title} op IMDb`"
+          :title="`Bekijk ${props.programme.title} op IMDb`"
           width="79"
           height="40"
           loading="lazy"
@@ -89,16 +60,16 @@ export default defineComponent({
       </a>
 
       <a
-        v-if="details?.generic?.yt_id"
-        :href="`${ytUrl}${details.generic.yt_id}`"
+        v-if="props.details.generic.yt_id"
+        :href="`${YT_URL}${props.details.generic.yt_id}`"
         target="_blank"
         rel="noreferrer noopener"
         @click.stop
       >
         <NuxtImg
           src="/assets/yt_btn_play.svg"
-          :alt="`Bekijk ${programme?.title} op YouTube`"
-          :title="`Bekijk ${programme?.title} op YouTube`"
+          :alt="`Bekijk ${props.programme.title} op YouTube`"
+          :title="`Bekijk ${props.programme.title} op YouTube`"
           width="57"
           height="40"
           loading="lazy"

@@ -1,26 +1,18 @@
-<script lang="ts">
-export default defineComponent({
-  name: 'ProgressIndicator',
-  props: {
-    progress: {
-      type: Number,
-      default: 0,
-    },
-    max: {
-      type: Number,
-      default: 100,
-    },
-    label: {
-      type: String,
-      default: 'Voortgang',
-    },
-  },
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  progress?: number
+  max?: number
+  label?: string
+}>(), {
+  progress: 0,
+  max: 100,
+  label: 'Voortgang',
 })
 </script>
 
 <template>
-  <progress :max="max" :aria-label="label" :value="progress">
-    {{ progress }}%
+  <progress :max="props.max" :aria-label="props.label" :value="props.progress">
+    {{ props.progress }}%
   </progress>
 </template>
 

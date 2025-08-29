@@ -1,61 +1,50 @@
-<script lang="ts">
+<script setup lang="ts">
 import type { Programme } from '~~/shared/types/Common'
 import { TICK_TIME } from '~/config'
 import getEpoch from '~/utils/getEpoch'
 import getProgress from '~/utils/getProgress'
 
-export default defineComponent({
-  name: 'MovieCardComponent',
-  props: {
-    programme: {
-      type: Object as () => Programme,
-      required: true,
-    },
-  },
-  data(): {
-    progress: number
-  } {
-    return {
-      progress: 0,
-    }
-  },
-  mounted() {
-    this.updateProgress(this.programme)
-  },
-  methods: {
-    updateProgress(programme: Programme) {
-      const startTime = Number.parseInt(programme.ps, 10)
-      const endTime = Number.parseInt(programme.pe, 10)
-      let now = getEpoch()
-      let rAF: number
+const props = defineProps<{
+  programme: Programme
+}>()
 
-      const updateOnrAF = () => {
-        if (!programme.is_passed && now >= startTime && now < endTime) {
-          const progress = getProgress(now, startTime, endTime)
-          if (progress > 0) {
-            this.progress = progress
-          }
-        }
+const progress = ref(0)
 
-        if (programme.is_passed) {
-          this.progress = 0
-          window.cancelAnimationFrame(rAF)
-        }
+function updateProgress(programme: Programme) {
+  const startTime = Number.parseInt(programme.ps, 10)
+  const endTime = Number.parseInt(programme.pe, 10)
+  let now = getEpoch()
+  let rAF: number
 
-        if (!programme.is_passed && now > endTime) {
-          programme.is_passed = true
-          window.cancelAnimationFrame(rAF)
-        }
-
-        setTimeout(() => {
-          now = getEpoch()
-          rAF = window.requestAnimationFrame(updateOnrAF)
-        }, TICK_TIME)
+  const updateOnrAF = () => {
+    if (!programme.is_passed && now >= startTime && now < endTime) {
+      const progressValue = getProgress(now, startTime, endTime)
+      if (progress.value > 0) {
+        progress.value = progressValue
       }
+    }
 
-      updateOnrAF()
-    },
-  },
+    if (programme.is_passed) {
+      progress.value = 0
+      window.cancelAnimationFrame(rAF)
+    }
+
+    if (!programme.is_passed && now > endTime) {
+      programme.is_passed = true
+      window.cancelAnimationFrame(rAF)
+    }
+
+    setTimeout(() => {
+      now = getEpoch()
+      rAF = window.requestAnimationFrame(updateOnrAF)
+    }, TICK_TIME)
+  }
+
+  updateOnrAF()
+}
+
+onMounted(() => {
+  updateProgress(props.programme)
 })
 </script>
 
@@ -64,21 +53,21 @@ export default defineComponent({
     <Accordion>
       <template #summary>
         <nuxt-img
-          :src="programme.channel_logo"
-          :alt="programme.channel_label"
+          :src="props.programme.channel_logo"
+          :alt="props.programme.channel_label"
           width="40"
           height="40"
         />
         <div class="info">
           <div class="details">
-            <h2>{{ programme.title }}</h2>
-            {{ programme.start }} - {{ programme.end }}
+            <h2>{{ props.programme.title }}</h2>
+            {{ props.programme.start }} - {{ props.programme.end }}
           </div>
-          <Sharer :programme="programme" />
+          <Sharer :programme="props.programme" />
         </div>
       </template>
       <template #content>
-        <Details :programme="programme" />
+        <Details :programme="props.programme" />
       </template>
     </Accordion>
     <ProgressIndicator :progress="progress" />

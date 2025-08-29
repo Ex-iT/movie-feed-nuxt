@@ -1,32 +1,21 @@
-<script lang="ts">
+<script setup lang="ts">
 import ucFirst from '~/utils/ucFirst'
 
-export default defineComponent({
-  name: 'SharerButton',
-  props: {
-    programme: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    canShare() {
-      return typeof window !== 'undefined' ? !!window.navigator?.share : false
-    },
-  },
-  methods: {
-    share() {
-      const { deep_link, title, channel_label, start, end, day }
-        = this.programme
+const props = defineProps<{
+  programme: Programme
+}>()
 
-      navigator.share({
-        title: `${title} ${day} op ${channel_label} om ${start}`,
-        text: `${title}\n${ucFirst(day)} ${channel_label}, ${start} - ${end}\n`,
-        url: deep_link,
-      })
-    },
-  },
-})
+const canShare = typeof window !== 'undefined' ? !!window.navigator?.share : false
+
+function share() {
+  const { deep_link, title, channel_label, start, end, day } = props.programme
+
+  navigator.share({
+    title: `${title} ${day} op ${channel_label} om ${start}`,
+    text: `${title}\n${ucFirst(day)} ${channel_label}, ${start} - ${end}\n`,
+    url: deep_link,
+  })
+}
 </script>
 
 <template>

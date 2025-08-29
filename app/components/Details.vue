@@ -1,25 +1,12 @@
-<script lang="ts">
-import type { MovieDetails, Programme } from '~~/shared/types/Common'
+<script setup lang="ts">
+import type { Programme } from '~~/shared/types/Common'
 import { EMPTY_IMG } from '~/config'
 
-export default defineComponent({
-  name: 'AssetDetails',
-  props: {
-    programme: {
-      type: Object as () => Programme,
-      required: true,
-    },
-  },
-  data(): {
-    mainImage: string
-    details: MovieDetails | null
-  } {
-    return {
-      mainImage: this.programme.details?.generic?.image || EMPTY_IMG,
-      details: this.programme.details || null,
-    }
-  },
-})
+const props = defineProps<{
+  programme: Programme
+}>()
+
+const mainImage = computed(() => props.programme.details.generic.image || EMPTY_IMG)
 </script>
 
 <template>
@@ -27,19 +14,19 @@ export default defineComponent({
     <div class="asset-image">
       <nuxt-img
         :src="mainImage"
-        :alt="details?.generic.title || ''"
+        :alt="props.programme.details.generic.title"
         width="615"
         height="400"
         loading="lazy"
       />
     </div>
     <div class="synopsis">
-      <p v-if="programme.descr">
-        <strong v-if="programme.subgenre">
-          {{ programme.subgenre }}
-        </strong> {{ programme.descr }}
+      <p v-if="props.programme.descr">
+        <strong v-if="props.programme.subgenre">
+          {{ props.programme.subgenre }}
+        </strong> {{ props.programme.descr }}
       </p>
-      <MetaInfo :programme="programme" :details="programme.details" />
+      <MetaInfo :programme="props.programme" :details="props.programme.details" />
     </div>
   </div>
 </template>

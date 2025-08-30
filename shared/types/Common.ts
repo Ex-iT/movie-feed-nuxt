@@ -56,4 +56,5 @@ export interface FetchData {
     log: Record<string, any>
     createdAt: number
   }
+  refresh: () => void
 }

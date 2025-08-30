@@ -19,7 +19,8 @@ function updateProgress(programme: Programme) {
   const updateOnrAF = () => {
     if (!programme.is_passed && now >= startTime && now < endTime) {
       const progressValue = getProgress(now, startTime, endTime)
-      if (progress.value > 0) {
+
+      if (progressValue > 0) {
         progress.value = progressValue
       }
     }

@@ -1,153 +1,65 @@
-<script lang="ts">
-export default defineComponent({
-  name: 'AccordionComponent',
-  data(): {
-    accordionEl: HTMLDetailsElement | undefined
-    summaryEl: HTMLDivElement | undefined
-    contentEl: HTMLDivElement | undefined
-    animation: Animation | null
-    isClosing: boolean
-    isExpanding: boolean
-    closedHeight: string
-  } {
-    return {
-      accordionEl: undefined,
-      summaryEl: undefined,
-      contentEl: undefined,
-      animation: null,
-      isClosing: false,
-      isExpanding: false,
-      closedHeight: '0px',
-    }
-  },
-  mounted() {
-    this.accordionEl = this.$refs.details as HTMLDetailsElement
-    this.closedHeight = `${this.accordionEl.offsetHeight}px`
-  },
-  methods: {
-    summaryRef(summaryElement: any) {
-      this.summaryEl = summaryElement?.$el as HTMLDivElement
-    },
-    contentRef(contentElement: any) {
-      this.contentEl = contentElement?.$el as HTMLDivElement
-    },
-    handleClick() {
-      // Modified version of https://css-tricks.com/how-to-animate-the-details-element-using-waapi/
-      if (this.accordionEl) {
-        this.accordionEl.style.overflow = 'hidden'
+<script setup lang="ts">
+const detailsRef = useTemplateRef<HTMLDetailsElement>('detailsRef')
 
-        if (this.isClosing || !this.accordionEl.open) {
-          this.open()
-        }
-        else if (this.isExpanding || this.accordionEl.open) {
-          this.shrink()
-        }
-      }
-    },
-    open() {
-      if (this.accordionEl) {
-        this.accordionEl.style.height = `${this.accordionEl.offsetHeight}px`
-        this.closedHeight = `${this.accordionEl.offsetHeight}px`
-        this.accordionEl.open = true
-
-        window.requestAnimationFrame(() => this.expand())
-      }
-    },
-    expand() {
-      if (this.accordionEl) {
-        this.isExpanding = true
-        const endHeight = `${
-          (this.summaryEl?.offsetHeight || 0)
-          + (this.contentEl?.offsetHeight || 0)
-        }px`
-
-        if (this.animation) {
-          this.animation.cancel()
-        }
-
-        this.animation = this.accordionEl.animate(
-          {
-            height: [this.closedHeight, endHeight],
-          },
-          {
-            duration: 300,
-            easing: 'ease-in-out',
-          },
-        )
-        this.animation.onfinish = () => this.onAnimationFinish(true)
-        this.animation.oncancel = () => (this.isExpanding = false)
-      }
-    },
-    shrink() {
-      if (this.accordionEl) {
-        this.isClosing = true
-        const startHeight = `${this.accordionEl.offsetHeight}px`
-
-        if (this.animation) {
-          this.animation.cancel()
-        }
-
-        this.animation = this.accordionEl.animate(
-          {
-            height: [startHeight, this.closedHeight],
-          },
-          {
-            duration: 300,
-            easing: 'ease-in-out',
-          },
-        )
-
-        this.animation.onfinish = () => this.onAnimationFinish(false)
-        this.animation.oncancel = () => (this.isClosing = false)
-      }
-    },
-    onAnimationFinish(open: boolean) {
-      if (this.accordionEl) {
-        this.accordionEl.open = open
-        this.animation = null
-        this.isClosing = false
-        this.isExpanding = false
-        this.accordionEl.style.height = this.accordionEl.style.overflow = ''
-      }
-    },
-  },
-})
+function handleClick() {
+  if (detailsRef.value) {
+    detailsRef.value.open = !detailsRef.value.open
+  }
+}
 </script>
 
 <template>
-  <details ref="details" @click.prevent="handleClick">
-    <AccordionSummary :ref="summaryRef" class="summary">
+  <details ref="detailsRef" @click.prevent="handleClick">
+    <summary>
       <slot name="summary" />
-    </AccordionSummary>
-    <AccordionContent :ref="contentRef" class="content">
-      <slot name="content" />
-    </AccordionContent>
+    </summary>
+    <div>
+      <article>
+        <slot name="content" />
+      </article>
+    </div>
   </details>
 </template>
+
+<style>
+:root {
+  interpolate-size: allow-keywords;
+}
+</style>
 
 <style scoped>
 details {
   position: relative;
-  display: flex;
   flex-direction: column;
   column-gap: var(--spacing-medium);
   padding: var(--spacing-medium);
 }
 
-.summary {
-  position: relative;
+summary {
   display: flex;
   column-gap: var(--spacing-medium);
   padding-right: var(--spacing-medium);
   list-style: none;
+
+  &::marker,
+  &::-webkit-details-marker {
+    display: none;
+  }
 }
 
-.summary::marker,
-.summary::-webkit-details-marker {
-  display: none;
+::details-content {
+  transition:
+    height 0.3s ease-in-out,
+    content-visibility 0.3s allow-discrete;
+  height: 0;
+  overflow: clip;
 }
 
-.content {
+[open]::details-content {
+  height: auto;
+}
+
+article {
   display: flex;
   flex-direction: column;
   row-gap: var(--spacing-medium);

@@ -6,7 +6,7 @@ const props = defineProps<{
   programme: Programme
 }>()
 
-const mainImage = computed(() => props.programme.details.generic.image || EMPTY_IMG)
+const mainImage = computed(() => props.programme.details?.generic?.image || EMPTY_IMG)
 </script>
 
 <template>
@@ -14,7 +14,7 @@ const mainImage = computed(() => props.programme.details.generic.image || EMPTY_
     <div class="asset-image">
       <nuxt-img
         :src="mainImage"
-        :alt="props.programme.details.generic.title"
+        :alt="props.programme.details?.generic?.title"
         width="615"
         height="400"
         loading="lazy"
@@ -26,7 +26,7 @@ const mainImage = computed(() => props.programme.details.generic.image || EMPTY_
           {{ props.programme.subgenre }}
         </strong> {{ props.programme.descr }}
       </p>
-      <MetaInfo :programme="props.programme" :details="props.programme.details" />
+      <MetaInfo v-if="props.programme.details" :programme="props.programme" :details="props.programme.details" />
     </div>
   </div>
 </template>

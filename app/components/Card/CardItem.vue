@@ -1,5 +1,5 @@
 <template>
-  <li class="card" :class="$attrs.class">
+  <li class="card">
     <slot />
   </li>
 </template>

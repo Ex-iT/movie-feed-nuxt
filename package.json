@@ -15,17 +15,17 @@
     "lint:ts": "nuxt typecheck"
   },
   "dependencies": {
-    "@nuxt/image": "1.11.0",
-    "@sindresorhus/slugify": "^2.2.1",
-    "nuxt": "^4.0.3",
-    "vue": "^3.5.20",
-    "vue-router": "^4.5.1"
+    "@nuxt/image": "2.0.0",
+    "@sindresorhus/slugify": "^3.0.0",
+    "nuxt": "^4.3.1",
+    "vue": "^3.5.29",
+    "vue-router": "^5.0.3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^5.2.1",
-    "eslint": "^9.34.0",
-    "eslint-plugin-format": "^1.0.1",
-    "typescript": "^5.9.2",
-    "vue-tsc": "^3.0.6"
+    "@antfu/eslint-config": "^7.6.1",
+    "eslint": "^10.0.2",
+    "eslint-plugin-format": "^2.0.1",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.2.5"
   }
 }

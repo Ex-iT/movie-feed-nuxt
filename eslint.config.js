@@ -16,4 +16,9 @@ export default antfu({
       caughtErrorsIgnorePattern: '^_',
     }],
   },
+}, {
+  files: ['pnpm-workspace.yaml'],
+  rules: {
+    'pnpm/yaml-enforce-settings': 'off',
+  },
 })

@@ -4,33 +4,33 @@ on:
   push:
     branches:
       - main
-      - nuxt-vue-migration
+      - dev
   pull_request:
     branches:
       - main
-      - nuxt-vue-migration
+      - dev
 
 jobs:
   ci:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout 🛎
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install pnpm env 🏗
+      - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           run_install: false
 
-      - name: Install Node.js 🏗
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
 
-      - name: Install dependencies 👨🏻‍💻
+      - name: Install dependencies
         run: pnpm install
 
-      - name: Run linter 👀
+      - name: Run linter
         run: pnpm run lint

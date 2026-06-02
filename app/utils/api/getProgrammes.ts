@@ -1,72 +1,38 @@
 import type { Programme, Programmes } from '~~/shared/types/Common'
 import { Days } from '~~/shared/types/Common'
-import getDetails from '~/utils/api/getDetails'
 import getMovies from '~/utils/api/getMovies'
 
-const epoch = Math.floor(new Date().getTime() / 1000)
-
-async function getMovieData(): Promise<Programmes> {
-  const messages: string[] = []
-  let success = true
-  let today: Programme[] = []
-  let tomorrow: Programme[] = []
+export default async function getProgrammes(): Promise<Programmes> {
+  const epoch = Math.floor(Date.now() / 1000)
 
   try {
-    const [todayProg, tomorrowProg] = await Promise.all([
+    const [today, tomorrow] = await Promise.all([
       getMovies(Days.today) as Promise<Programme[]>,
       getMovies(Days.tomorrow) as Promise<Programme[]>,
     ])
 
-    // 'ok' is only in the object as the request fails and is set to false
-    if ('ok' in todayProg && 'ok' in tomorrowProg) {
-      success = false
-      messages.push('Unable to fetch movies data.')
+    if ('ok' in today && 'ok' in tomorrow) {
+      return {
+        createdAt: epoch,
+        today: [],
+        tomorrow: [],
+        log: { message: 'Unable to fetch movies data.', success: false },
+      }
     }
 
-    try {
-      today = await Promise.all(
-        todayProg.map(async (prog) => {
-          prog.details = await getDetails(prog.main_id)
-          return prog
-        }),
-      )
-    }
-    catch (_error) {
-      success = false
-      messages.push('Unable to fetch details for today.')
-    }
-
-    try {
-      tomorrow = await Promise.all(
-        tomorrowProg.map(async (prog) => {
-          prog.details = await getDetails(prog.main_id)
-          return prog
-        }),
-      )
-    }
-    catch (_error) {
-      success = false
-      messages.push('Unable to fetch details for tomorrow.')
+    return {
+      createdAt: epoch,
+      today,
+      tomorrow,
+      log: { message: '', success: true },
     }
   }
   catch (_error) {
-    success = false
-    messages.push('Unable to fetch programmes data')
-  }
-
-  return {
-    createdAt: epoch,
-    today,
-    tomorrow,
-    log: {
-      message: messages.join(' '),
-      success,
-    },
+    return {
+      createdAt: epoch,
+      today: [],
+      tomorrow: [],
+      log: { message: 'Unable to fetch programmes data', success: false },
+    }
   }
 }
-
-async function getProgrammes(): Promise<Programmes> {
-  return await getMovieData()
-}
-
-export default getProgrammes

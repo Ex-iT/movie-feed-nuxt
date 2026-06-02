@@ -1,20 +1,38 @@
 <script setup lang="ts">
-import type { Programme } from '~~/shared/types/Common'
+import type { MovieDetails, Programme } from '~~/shared/types/Common'
 
 const props = defineProps<{
   programme: Programme
 }>()
+
+const detailsData = ref<MovieDetails | undefined>(props.programme.details)
+const loading = ref(false)
 
 const { progress, updateProgress } = useProgress()
 
 onMounted(() => {
   updateProgress(props.programme)
 })
+
+async function fetchDetails() {
+  if (detailsData.value)
+    return
+  loading.value = true
+  try {
+    detailsData.value = await $fetch<MovieDetails>(`/api/v1/programmes/${props.programme.main_id}`)
+  }
+  catch {
+    detailsData.value = undefined
+  }
+  finally {
+    loading.value = false
+  }
+}
 </script>
 
 <template>
   <article>
-    <Accordion>
+    <Accordion @open="fetchDetails">
       <template #summary>
         <nuxt-img
           :src="props.programme.channel_logo"
@@ -31,9 +49,24 @@ onMounted(() => {
         </div>
       </template>
       <template #content>
-        <Details :programme="props.programme" />
+        <div v-if="loading" class="loading">
+          Details laden...
+        </div>
+        <Details
+          v-else-if="detailsData"
+          :programme="props.programme"
+          :details="detailsData"
+        />
       </template>
     </Accordion>
     <ProgressIndicator :progress="progress" />
   </article>
 </template>
+
+<style scoped>
+.loading {
+  color: rgb(255 255 255 / 60%);
+  font-style: italic;
+  padding-top: var(--spacing-medium);
+}
+</style>

@@ -1,7 +1,7 @@
 const API_URI = 'https://json.tvgids.nl'
 const API_VERSION = 'v6'
 const ASSET_URI = 'https://tvgidsassets.nl'
-const ASSET_VERSION = 'v374'
+const ASSET_VERSION = 'v378'
 const ASSET_DIMENSIONS = '40x40'
 
 export const MOVIES_URI = `${API_URI}/${API_VERSION}/movies`
@@ -25,8 +25,7 @@ export const CHANNELS: { [key: number]: string } = {
   460: 'SBS 9',
   496: 'Paramount Network',
 }
-export const EMPTY_IMG
-  = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+export const EMPTY_IMG = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 export const HOUR_SEC = 3600
 export const CACHING_DEFAULT = `public, max-age=${HOUR_SEC * 0.5}` // 30 minutes
 export const TICK_TIME = 1e3

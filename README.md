@@ -3,30 +3,64 @@
 
 # Moviefeed
 
-Daily listing of movies on Dutch TV using the [TVgids.nl](https://www.tvgids.nl/) API. This web app is suitable to be 'installed' on a mobile device which allows native sharing.
+Daily overview of movies on Dutch TV. Lists today's and tomorrow's films from the major Dutch channels, sourced from [TVgids.nl](https://www.tvgids.nl/). Works as a PWA — installable on mobile, supports native sharing via the Web Share API.
 
-This is a [NuxtJS](https://nuxtjs.org/) with [TypeScript](https://www.typescriptlang.org/) project bootstrapped with [`create-nuxt-app`](https://nuxtjs.org/docs/get-started/installation/).
+## Stack
+
+| Layer     | Technology                                         |
+| --------- | -------------------------------------------------- |
+| Framework | [Nuxt 4](https://nuxt.com/) with Nitro server      |
+| Language  | TypeScript (strict, `typeCheck: true`)             |
+| Bundler   | Vite                                               |
+| Server    | Nitro 2 (runs on Vercel)                           |
+| UI        | Vue 3, CSS custom properties                       |
+| Images    | `@nuxt/image` (optimized via tvgidsassets CDN)     |
+| Linting   | ESLint via `@antfu/eslint-config` (sole formatter) |
+
+## Architecture
+
+Movie listings are **server-side rendered** (SSR) — the page arrives with both columns of movies, titles, times, and channel logos already in the HTML. No client fetch needed for the initial view.
+
+Clicking a movie title triggers a lazy fetch for the detail data (description, image, rating, metadata, kijkwijzer). The accordion shows a loading state while it arrives.
+
+### API endpoints
+
+| Route                            | Caching    | Purpose                                                         |
+| -------------------------------- | ---------- | --------------------------------------------------------------- |
+| `GET /api/v1/programmes`         | 30 min SWR | Enriched list (no details). Called from `useFetch` during SSR.  |
+| `GET /api/v1/programmes/:mainId` | 1h SWR     | Single movie details. Called on-demand from `MovieCardContent`. |
+
+## Features
+
+- **Today / tomorrow** split into two side-by-side columns (stacked on mobile)
+- **Channel logos** from TVgids assets CDN
+- **Live progress bar** on currently-airing movies
+- **Lazy details** with loading state — synopsis, year, rating, kijkwijzer icons, IMDb / YouTube links
+- **PWA** — installable, works offline (cached via Vite)
+- **Native share** via Web Share API (Android/iOS)
+- **Dutch language** UI (nl-NL locale, Europe/Amsterdam timezone)
 
 ## Development
 
-First, install dependencies:
-
 ```bash
-pnpm install
+pnpm run install      # install deps + generate .nuxt/ types
+pnpm run dev          # http://localhost:3000
 ```
 
-And run the development server:
+### Production build
 
 ```bash
-pnpm run dev
+pnpm run build        # production build
+pnpm run generate     # static generation
+pnpm run preview      # preview production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Linting
-
-To run the linting (Eslint and Typescript):
+### Linting
 
 ```bash
-pnpm run lint
+pnpm run lint         # eslint → nuxt typecheck
+pnpm run lint:js      # eslint only
+pnpm run lint:ts      # nuxt typecheck only
 ```
+
+CI runs `pnpm run lint` only (no test or deploy step).

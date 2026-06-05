@@ -27,7 +27,7 @@ export interface MovieDetails {
 }
 
 export interface Programme extends EnrichedProgrammesRaw {
-  details: MovieDetails
+  details?: MovieDetails
 }
 
 export interface ProgrammesLog {

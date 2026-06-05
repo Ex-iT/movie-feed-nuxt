@@ -3,7 +3,6 @@ import type { FetchData, Programmes } from '~~/shared/types/Common'
 
 const { data: pageData, status, error, refresh } = useFetch<Programmes>('/api/v1/programmes', {
   lazy: true,
-  server: false,
 })
 
 const fetchData = computed<FetchData>(() => ({

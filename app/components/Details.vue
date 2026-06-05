@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import type { Programme } from '~~/shared/types/Common'
+import type { MovieDetails, Programme } from '~~/shared/types/Common'
 import { EMPTY_IMG } from '~/config'
 
 const props = defineProps<{
   programme: Programme
+  details: MovieDetails
 }>()
 
-const mainImage = computed(() => props.programme.details?.generic?.image || EMPTY_IMG)
+const mainImage = computed(() => props.details?.generic?.image || EMPTY_IMG)
 </script>
 
 <template>
@@ -14,7 +15,7 @@ const mainImage = computed(() => props.programme.details?.generic?.image || EMPT
     <div class="asset-image">
       <nuxt-img
         :src="mainImage"
-        :alt="props.programme.details?.generic?.title"
+        :alt="props.details?.generic?.title"
         width="615"
         height="400"
         loading="lazy"
@@ -26,7 +27,7 @@ const mainImage = computed(() => props.programme.details?.generic?.image || EMPT
           {{ props.programme.subgenre }}
         </strong> {{ props.programme.descr }}
       </p>
-      <MetaInfo v-if="props.programme.details" :programme="props.programme" :details="props.programme.details" />
+      <MetaInfo :programme="props.programme" :details="props.details" />
     </div>
   </div>
 </template>

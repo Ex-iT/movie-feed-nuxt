@@ -1,9 +1,17 @@
 <script setup lang="ts">
+const emit = defineEmits<{
+  open: []
+}>()
+
 const detailsRef = useTemplateRef<HTMLDetailsElement>('detailsRef')
 
 function handleClick() {
   if (detailsRef.value) {
-    detailsRef.value.open = !detailsRef.value.open
+    const wasOpen = detailsRef.value.open
+    detailsRef.value.open = !wasOpen
+    if (!wasOpen) {
+      emit('open')
+    }
   }
 }
 </script>

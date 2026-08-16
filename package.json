@@ -3,7 +3,7 @@
   "type": "module",
   "version": "2.0.0",
   "private": true,
-  "packageManager": "pnpm@10.34.1",
+  "packageManager": "pnpm@11.22.0+sha512.1ff870c4c6133dfd88fb2afc46dd13d47f09c9794b438c6fdb47ca98caf3bc16381ee0be93a091b8e3824cf01f889f46d7d9e20910fb0be1ab0fb5baa80dd621",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -15,17 +15,17 @@
     "lint:ts": "nuxt typecheck"
   },
   "dependencies": {
-    "@nuxt/image": "2.0.0",
+    "@nuxt/image": "^2.1.0",
     "@sindresorhus/slugify": "^3.0.0",
-    "nuxt": "^4.4.6",
-    "vue": "^3.5.35",
-    "vue-router": "^5.1.0"
+    "nuxt": "^4.5.2",
+    "vue": "^3.5.41",
+    "vue-router": "^5.2.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^9.0.0",
-    "eslint": "^10.4.1",
+    "@antfu/eslint-config": "^9.3.0",
+    "eslint": "^10.8.1",
     "eslint-plugin-format": "^2.0.1",
     "typescript": "^6.0.3",
-    "vue-tsc": "^3.3.3"
+    "vue-tsc": "^3.3.10"
   }
 }

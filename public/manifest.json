@@ -5,7 +5,7 @@
   "id": "/?homescreen=1",
   "start_url": "/?homescreen=1",
   "display": "standalone",
-  "theme_color": "#FFFFFF",
+  "theme_color": "#000000",
   "background_color": "#000000",
   "orientation": "portrait-primary",
   "icons": [

@@ -1,9 +1,14 @@
 import { DETAIL_URI } from '../../config'
 
-export default async function getDetails(id: string) {
+export default async function getDetails(id: string, signal?: AbortSignal) {
   try {
     const url = `${DETAIL_URI}/${id}`
-    const response = await fetch(url)
+    const response = await fetch(url, { signal })
+
+    if (!response.ok) {
+      throw new Error(`Unable to fetch details for ${id}.`)
+    }
+
     const { data: json } = await response.json()
 
     if (json) {
@@ -26,9 +31,12 @@ export default async function getDetails(id: string) {
       return details
     }
 
-    return { ok: false, error: `Unable to fetch details for ${id}.` }
+    throw new Error(`Unable to fetch details for ${id}.`)
   }
-  catch (_error) {
-    return { ok: false, error: `Unable to fetch details for ${id}.` }
+  catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      throw error
+    }
+    throw new Error(`Unable to fetch details for ${id}.`)
   }
 }

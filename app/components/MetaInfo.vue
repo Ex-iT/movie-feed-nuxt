@@ -28,7 +28,7 @@ const hasExternalLinks = computed(() => props.details.generic.imdb || props.deta
       <strong>Kijkwijzer:</strong>
       <ul>
         <li v-for="({ name, icon }, index) in props.details.metadata.guidance.filter((guidance) => Boolean(guidance.icon))" :key="`guidance-${index}`">
-          <nuxt-img
+          <NuxtImg
             loading="lazy"
             :src="icon"
             :alt="name"

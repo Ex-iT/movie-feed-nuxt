@@ -4,12 +4,24 @@ import getProgress from '~/utils/getProgress'
 
 export function useProgress() {
   const progress = ref(0)
+  let rAF: number | undefined
+  let timer: ReturnType<typeof setTimeout> | undefined
+
+  function cleanup() {
+    if (rAF !== undefined) {
+      window.cancelAnimationFrame(rAF)
+      rAF = undefined
+    }
+    if (timer !== undefined) {
+      clearTimeout(timer)
+      timer = undefined
+    }
+  }
 
   function updateProgress(programme: Programme) {
     const startTime = Number.parseInt(programme.ps, 10)
     const endTime = Number.parseInt(programme.pe, 10)
     let now = getEpoch()
-    let rAF: number
 
     const updateOnrAF = () => {
       if (!programme.is_passed && now >= startTime && now < endTime) {
@@ -20,17 +32,16 @@ export function useProgress() {
         }
       }
 
-      if (programme.is_passed) {
+      if (programme.is_passed || now > endTime) {
+        if (!programme.is_passed) {
+          programme.is_passed = true
+        }
         progress.value = 0
-        window.cancelAnimationFrame(rAF)
+        cleanup()
+        return
       }
 
-      if (!programme.is_passed && now > endTime) {
-        programme.is_passed = true
-        window.cancelAnimationFrame(rAF)
-      }
-
-      setTimeout(() => {
+      timer = setTimeout(() => {
         now = getEpoch()
         rAF = window.requestAnimationFrame(updateOnrAF)
       }, TICK_TIME)
@@ -38,6 +49,8 @@ export function useProgress() {
 
     updateOnrAF()
   }
+
+  onUnmounted(cleanup)
 
   return {
     updateProgress,

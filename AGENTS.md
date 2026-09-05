@@ -18,7 +18,7 @@
 | `pnpm lint:js`                                  | ESLint only                                                                    |
 | `pnpm lint:ts`                                  | `nuxt typecheck` only                                                          |
 
-CI only runs `pnpm lint` — no test or deploy step.
+CI runs `pnpm lint` + `pnpm build` — no test or deploy step. Node version pinned via `.nvmrc` (`v24`).
 
 ## Layout
 
@@ -30,6 +30,7 @@ CI only runs `pnpm lint` — no test or deploy step.
 - `public/` — PWA icons, manifest, favicon, robots.txt
 - `app/config.ts` — API URIs, channel map, caching headers
 - `app/utils/api/` — API client helpers; `app/composables/` — composables
+- `app/utils/slugifyTitle.ts` — wrapper around `@sindresorhus/slugify` with custom replacements for deep links
 
 The `@/` path alias resolves to `app/` (Nuxt 4 default).
 
@@ -38,6 +39,7 @@ The `@/` path alias resolves to `app/` (Nuxt 4 default).
 - **SSR for list**: `index.vue` fetches `/api/v1/programmes` with `useFetch` (no `server: false`). The page renders both day-columns immediately with title, time, channel logo — no detail data.
 - **Lazy details**: Clicking a movie fires `@open` on the Accordion → `MovieCardContent` calls `$fetch('/api/v1/programmes/:mainId')`. Details render on arrival with a loading state in between.
 - List endpoint uses `defineCachedEventHandler` (30 min, stale-while-revalidate); detail endpoint caches 1h.
+- **Route rules** in `nuxt.config.ts` add Cache-Control headers and SWR caching for `/`, `/api/**`, `/_nuxt/**`, `/assets/**`.
 
 ## Notable
 

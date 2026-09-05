@@ -10,16 +10,49 @@ const loading = ref(false)
 
 const { progress, updateProgress } = useProgress()
 
+const abortController = new AbortController()
+const pendingRequests = new Map<string, Promise<MovieDetails>>()
+
 onMounted(() => {
   updateProgress(props.programme)
+})
+
+onUnmounted(() => {
+  abortController.abort()
 })
 
 async function fetchDetails() {
   if (detailsData.value)
     return
+
+  const mainId = props.programme.main_id
+
+  if (pendingRequests.has(mainId)) {
+    loading.value = true
+    try {
+      detailsData.value = await pendingRequests.get(mainId)!
+    }
+    catch {
+      detailsData.value = undefined
+    }
+    finally {
+      loading.value = false
+    }
+    return
+  }
+
   loading.value = true
+
+  const fetchPromise = $fetch<MovieDetails>(`/api/v1/programmes/${mainId}`, {
+    signal: abortController.signal,
+  }).finally(() => {
+    pendingRequests.delete(mainId)
+  })
+
+  pendingRequests.set(mainId, fetchPromise)
+
   try {
-    detailsData.value = await $fetch<MovieDetails>(`/api/v1/programmes/${props.programme.main_id}`)
+    detailsData.value = await fetchPromise
   }
   catch {
     detailsData.value = undefined
@@ -39,6 +72,7 @@ async function fetchDetails() {
           :alt="props.programme.channel_label"
           width="40"
           height="40"
+          loading="lazy"
         />
         <div class="info">
           <div class="details">

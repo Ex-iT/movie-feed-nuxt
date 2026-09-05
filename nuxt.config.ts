@@ -40,6 +40,14 @@ export default defineNuxtConfig({
 
   modules: ['@nuxt/image'],
 
+  routeRules: {
+    '/': { swr: 1800 },
+    '/api/v1/programmes': { swr: 1800, headers: { 'Cache-Control': 'public, max-age=1800, stale-while-revalidate=3600' } },
+    '/api/v1/programmes/**': { swr: 3600, headers: { 'Cache-Control': 'public, max-age=3600, stale-while-revalidate=7200' } },
+    '/_nuxt/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
+    '/assets/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
+  },
+
   typescript: {
     typeCheck: true,
     strict: true,

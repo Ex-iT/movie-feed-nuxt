@@ -1,5 +1,4 @@
 import type { ProgrammesRaw } from '~~/shared/types/Common'
-import slugify from '@sindresorhus/slugify'
 import { Days } from '~~/shared/types/Common'
 import {
   CHANNEL_LOGO_SRC,
@@ -14,28 +13,32 @@ import formatHours from '~/utils/formatHours'
 import formatTime from '~/utils/formatTime'
 import getEpoch from '~/utils/getEpoch'
 import getProgress from '~/utils/getProgress'
+import slugifyTitle from '~/utils/slugifyTitle'
 
-export default async function getMovies(day = Days.today) {
+export default async function getMovies(day = Days.today, signal?: AbortSignal) {
   try {
     const url = `${MOVIES_URI}/?day=${day}`
-    const response = await fetch(url)
+    const response = await fetch(url, { signal })
     const { data: json } = await response.json()
 
     if (json) {
       return filterChannels(json || [])
     }
 
-    return { ok: false, error: `Unable to fetch data from: ${url}` }
+    throw new Error(`Unable to fetch data from: ${url}`)
   }
   catch (error) {
-    return { ok: false, error: `Unable to fetch data. ${error}` }
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      throw error
+    }
+    throw new Error(`Unable to fetch data. ${error}`)
   }
 }
 
+const CHANNEL_IDS = new Set(Object.keys(CHANNELS))
+
 function filterChannels(channels: Array<ProgrammesRaw>) {
-  const channelData = channels.filter((channel) => {
-    return Object.keys(CHANNELS).includes(channel.ch_id)
-  })
+  const channelData = channels.filter(channel => CHANNEL_IDS.has(channel.ch_id))
 
   return enrichData(channelData)
 }
@@ -79,8 +82,13 @@ function enrichData(channelData: Array<ProgrammesRaw>) {
         pe: String(end),
       }
     })
-    .sort((a, z) => Number.parseInt(a.ps, 10) - Number.parseInt(z.ps, 10)) // Sort with original timestamp
-    .sort((a, z) => Number.parseInt(a.ch_id, 10) - Number.parseInt(z.ch_id, 10))
+    .sort((a, z) => {
+      const channelDiff = Number.parseInt(a.ch_id, 10) - Number.parseInt(z.ch_id, 10)
+      if (channelDiff !== 0) {
+        return channelDiff
+      }
+      return Number.parseInt(a.ps, 10) - Number.parseInt(z.ps, 10)
+    })
 }
 
 function getChannelLogo(id: string) {
@@ -88,11 +96,5 @@ function getChannelLogo(id: string) {
 }
 
 function getDeepLinkUrl(title: string) {
-  return `${DEEP_LINK}/${slugify(title, {
-    decamelize: false,
-    customReplacements: [
-      ['\'', '-'],
-      ['&', ''],
-    ],
-  })}`
+  return `${DEEP_LINK}/${slugifyTitle(title)}`
 }

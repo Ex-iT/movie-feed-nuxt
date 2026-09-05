@@ -11,15 +11,6 @@ export default async function getProgrammes(): Promise<Programmes> {
       getMovies(Days.tomorrow) as Promise<Programme[]>,
     ])
 
-    if ('ok' in today && 'ok' in tomorrow) {
-      return {
-        createdAt: epoch,
-        today: [],
-        tomorrow: [],
-        log: { message: 'Unable to fetch movies data.', success: false },
-      }
-    }
-
     return {
       createdAt: epoch,
       today,

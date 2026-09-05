@@ -1,6 +1,16 @@
+const dateCache = new Map<number, string>()
+
 export default function formatDate(timestamp: number) {
-  return new Date(timestamp * 1000).toLocaleDateString('nl-NL', {
+  const cached = dateCache.get(timestamp)
+  if (cached) {
+    return cached
+  }
+
+  const formatted = new Date(timestamp * 1000).toLocaleDateString('nl-NL', {
     weekday: 'long',
     timeZone: 'Europe/Amsterdam',
   })
+
+  dateCache.set(timestamp, formatted)
+  return formatted
 }

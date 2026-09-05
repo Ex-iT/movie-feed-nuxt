@@ -1,14 +1,22 @@
 <script setup lang="ts">
 import type { FetchData, Programmes } from '~~/shared/types/Common'
 
+const EMPTY_PROGRAMMES: Programmes = {
+  today: [],
+  tomorrow: [],
+  log: { message: '', success: true },
+  createdAt: 0,
+}
+
 const { data: pageData, status, error, refresh } = useFetch<Programmes>('/api/v1/programmes', {
   lazy: true,
+  default: () => EMPTY_PROGRAMMES,
 })
 
 const fetchData = computed<FetchData>(() => ({
   pending: status.value === 'pending' || status.value === 'idle',
-  error: error.value,
-  data: pageData.value || { today: [], tomorrow: [], log: {}, createdAt: 0 },
+  error: error.value as Record<string, any> | undefined,
+  data: pageData.value,
   refresh,
 }))
 </script>

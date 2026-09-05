@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@nuxt/image": "^2.1.0",
-    "@sindresorhus/slugify": "^3.0.0",
+    "@sindresorhus/slugify": "^3.0.1",
     "nuxt": "^4.5.2",
     "vue": "^3.5.41",
     "vue-router": "^5.2.0"

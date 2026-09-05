@@ -10,10 +10,6 @@ export default defineCachedEventHandler(async (event) => {
 
   const details = await getDetails(mainId)
 
-  if (details && (details as Record<string, unknown>).ok === false) {
-    throw createError({ statusCode: 404, statusMessage: 'Details not found' })
-  }
-
   setHeader(event, 'Cache-Control', CACHING_DEFAULT)
   return details
 }, {

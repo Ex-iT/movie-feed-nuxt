@@ -1,7 +1,8 @@
+const numberFormatter = new Intl.NumberFormat('en-US', {
+  maximumFractionDigits: 2,
+})
+
 export default function getProgress(now: number, start: number, end: number) {
-  const numberFormatter = new Intl.NumberFormat('en-US', {
-    maximumFractionDigits: 2,
-  })
   const progress = Number.parseFloat(
     numberFormatter.format(((now - start) / (end - start)) * 100),
   )

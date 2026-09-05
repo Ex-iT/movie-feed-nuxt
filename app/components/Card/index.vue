@@ -12,12 +12,24 @@ const props = defineProps<{
       <CardItem v-for="i in 10" :key="`loading-${i}`" class="loading" />
     </template>
 
-    <CardItem v-if="props.fetchData.error" class="error">
+    <CardItem v-else-if="props.fetchData.error" class="error">
       <h2>Film informatie kan niet worden opgehaald, probeer het later opnieuw.</h2>
 
       <button type="button" @click="props.fetchData.refresh">
         Opnieuw proberen
       </button>
+    </CardItem>
+
+    <CardItem v-else-if="props.fetchData.data.log && !props.fetchData.data.log.success" class="error">
+      <h2>{{ props.fetchData.data.log.message || 'Film informatie kan niet worden opgehaald, probeer het later opnieuw.' }}</h2>
+
+      <button type="button" @click="props.fetchData.refresh">
+        Opnieuw proberen
+      </button>
+    </CardItem>
+
+    <CardItem v-else-if="!props.fetchData.data.today.length && !props.fetchData.data.tomorrow.length" class="empty">
+      <h2>Geen films gevonden voor vandaag en morgen.</h2>
     </CardItem>
 
     <template v-else>
@@ -27,7 +39,8 @@ const props = defineProps<{
 </template>
 
 <style scoped>
-.error {
+.error,
+.empty {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,6 +53,7 @@ h2 {
   padding-inline: var(--spacing-medium);
   margin: 0;
   font-size: 1rem;
+  text-align: center;
 }
 
 button {
@@ -55,6 +69,9 @@ button {
   box-shadow:
     0 1px 3px 0 rgba(0, 0, 0, 0.1),
     0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition:
+    background-color 200ms ease-in-out,
+    color 200ms ease-in-out;
 
   &:hover {
     background-color: var(--foreground-color-main);

@@ -1,17 +1,18 @@
-import { CACHING_DEFAULT } from '@/config'
 import getDetails from '@/utils/api/getDetails'
 
 export default defineCachedEventHandler(async (event) => {
   const { mainId } = getRouterParams(event)
 
-  if (!mainId) {
-    throw createError({ statusCode: 400, statusMessage: 'Missing programme id' })
+  if (!mainId || !/^\d+$/.test(mainId)) {
+    throw createError({ statusCode: 400, statusMessage: 'Missing or invalid programme id' })
   }
 
-  const details = await getDetails(mainId)
-
-  setHeader(event, 'Cache-Control', CACHING_DEFAULT)
-  return details
+  try {
+    return await getDetails(mainId)
+  }
+  catch {
+    throw createError({ statusCode: 404, statusMessage: 'Details not found' })
+  }
 }, {
   maxAge: 3600,
   swr: true,

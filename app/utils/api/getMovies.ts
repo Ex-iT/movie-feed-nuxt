@@ -16,22 +16,21 @@ import getProgress from '~/utils/getProgress'
 import slugifyTitle from '~/utils/slugifyTitle'
 
 export default async function getMovies(day = Days.today, signal?: AbortSignal) {
+  const url = `${MOVIES_URI}/?day=${day}`
+
   try {
-    const url = `${MOVIES_URI}/?day=${day}`
     const response = await fetch(url, { signal })
+
+    if (!response.ok) {
+      throw new Error(`Unable to fetch data from: ${url}`)
+    }
+
     const { data: json } = await response.json()
 
-    if (json) {
-      return filterChannels(json || [])
-    }
-
-    throw new Error(`Unable to fetch data from: ${url}`)
+    return filterChannels(json || [])
   }
-  catch (error) {
-    if (error instanceof DOMException && error.name === 'AbortError') {
-      throw error
-    }
-    throw new Error(`Unable to fetch data. ${error}`)
+  catch {
+    throw new Error(`Unable to fetch data from: ${url}`)
   }
 }
 

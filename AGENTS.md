@@ -25,10 +25,10 @@ CI runs `pnpm lint` + `pnpm build` — no test or deploy step. Node version pinn
 - `app/` — Nuxt app layer (pages, components, composables, layouts, utils, assets)
 - `server/api/v1/` — Nitro server routes
   - `programmes.get.ts` — list endpoint (SSR, returns enriched movie data without details)
-  - `programmes/[mainId].get.ts` — detail endpoint (lazy, cached 1h)
+  - `programmes/[mainId].get.ts` — detail endpoint (lazy, cached 1h), validates `mainId` is numeric
 - `shared/types/` — TypeScript types shared between app and server
 - `public/` — PWA icons, manifest, favicon, robots.txt
-- `app/config.ts` — API URIs, channel map, caching headers
+- `app/config.ts` — API URIs, channel map, tick interval
 - `app/utils/api/` — API client helpers; `app/composables/` — composables
 - `app/utils/slugifyTitle.ts` — wrapper around `@sindresorhus/slugify` with custom replacements for deep links
 
@@ -36,10 +36,10 @@ The `@/` path alias resolves to `app/` (Nuxt 4 default).
 
 ## Architecture
 
-- **SSR for list**: `index.vue` fetches `/api/v1/programmes` with `useFetch` (no `server: false`). The page renders both day-columns immediately with title, time, channel logo — no detail data.
-- **Lazy details**: Clicking a movie fires `@open` on the Accordion → `MovieCardContent` calls `$fetch('/api/v1/programmes/:mainId')`. Details render on arrival with a loading state in between.
-- List endpoint uses `defineCachedEventHandler` (30 min, stale-while-revalidate); detail endpoint caches 1h.
-- **Route rules** in `nuxt.config.ts` add Cache-Control headers and SWR caching for `/`, `/api/**`, `/_nuxt/**`, `/assets/**`.
+- **SSR for list**: `index.vue` fetches `/api/v1/programmes` with `useFetch` (no `server: false`, no `default` option — uses `pageData.value ?? fallback` in computed to avoid hydration mismatch). The page renders both day-columns immediately with title, time, channel logo — no detail data.
+- **Lazy details**: Clicking a movie fires `@open` on the Accordion → `MovieCardContent` calls `$fetch('/api/v1/programmes/:mainId')`. Details render on arrival with a loading state in between. Each component has its own `AbortController` for cleanup on unmount.
+- **Caching**: Route rules in `nuxt.config.ts` set SWR values (`/` 30 min, `/api/v1/programmes` 30 min, `/api/v1/programmes/**` 60 min). `/_nuxt/**` and `/assets/**` get immutable cache headers. Server handlers use `defineCachedEventHandler` with matching `maxAge`/`swr` values — no redundant `setHeader` calls.
+- **Error handling**: API utils (`getMovies`, `getDetails`) throw `Error` on failure (not returning `{ ok: false }`). `getProgrammes` uses `Promise.allSettled` to serve partial data when one day fails. `Card` component shows error/empty states with retry buttons.
 
 ## Notable
 

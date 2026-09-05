@@ -1,22 +1,16 @@
 <script setup lang="ts">
 import type { FetchData, Programmes } from '~~/shared/types/Common'
 
-const EMPTY_PROGRAMMES: Programmes = {
-  today: [],
-  tomorrow: [],
-  log: { message: '', success: true },
-  createdAt: 0,
-}
+const LOADING_TIMEOUT_MS = 10_000
 
 const { data: pageData, status, error, refresh } = useFetch<Programmes>('/api/v1/programmes', {
-  lazy: true,
-  default: () => EMPTY_PROGRAMMES,
+  timeout: LOADING_TIMEOUT_MS,
 })
 
 const fetchData = computed<FetchData>(() => ({
   pending: status.value === 'pending' || status.value === 'idle',
-  error: error.value as Record<string, any> | undefined,
-  data: pageData.value,
+  error: error.value ?? undefined,
+  data: pageData.value ?? { today: [], tomorrow: [], log: { message: '', success: true }, createdAt: 0 },
   refresh,
 }))
 </script>
@@ -26,31 +20,35 @@ const fetchData = computed<FetchData>(() => ({
     <section class="today">
       <h1>Films vandaag op televisie</h1>
       <Card :fetch-data="fetchData">
-        <CardItem
-          v-for="programme in fetchData.data.today"
-          :key="`${programme.ps}:${programme.main_id}`"
-          :class="{ passed: programme.is_passed }"
-        >
-          <MovieCardContent
-            :ref="`${programme.ps}:${programme.main_id}`"
-            :programme="programme"
-          />
-        </CardItem>
+        <template v-if="fetchData.data.today.length">
+          <CardItem
+            v-for="programme in fetchData.data.today"
+            :key="`${programme.ps}:${programme.main_id}`"
+            :class="{ passed: programme.is_passed }"
+          >
+            <MovieCardContent
+              :ref="`${programme.ps}:${programme.main_id}`"
+              :programme="programme"
+            />
+          </CardItem>
+        </template>
       </Card>
     </section>
     <section class="tomorrow">
       <h1>Films morgen op televisie</h1>
       <Card :fetch-data="fetchData">
-        <CardItem
-          v-for="programme in fetchData.data.tomorrow"
-          :key="`${programme.ps}:${programme.main_id}`"
-          :class="{ passed: programme.is_passed }"
-        >
-          <MovieCardContent
-            :ref="`${programme.ps}:${programme.main_id}`"
-            :programme="programme"
-          />
-        </CardItem>
+        <template v-if="fetchData.data.tomorrow.length">
+          <CardItem
+            v-for="programme in fetchData.data.tomorrow"
+            :key="`${programme.ps}:${programme.main_id}`"
+            :class="{ passed: programme.is_passed }"
+          >
+            <MovieCardContent
+              :ref="`${programme.ps}:${programme.main_id}`"
+              :programme="programme"
+            />
+          </CardItem>
+        </template>
       </Card>
     </section>
   </main>

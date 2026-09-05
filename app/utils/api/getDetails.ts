@@ -33,10 +33,7 @@ export default async function getDetails(id: string, signal?: AbortSignal) {
 
     throw new Error(`Unable to fetch details for ${id}.`)
   }
-  catch (error) {
-    if (error instanceof DOMException && error.name === 'AbortError') {
-      throw error
-    }
+  catch {
     throw new Error(`Unable to fetch details for ${id}.`)
   }
 }

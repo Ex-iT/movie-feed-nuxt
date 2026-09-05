@@ -49,7 +49,7 @@ export interface Status {
 
 export interface FetchData {
   pending: boolean
-  error: Record<string, any> | undefined
+  error: Error | undefined
   data: Programmes | {
     today: never[]
     tomorrow: never[]

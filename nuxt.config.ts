@@ -1,3 +1,5 @@
+import { HALF_HOUR_SEC, HOUR_SEC } from './app/config'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2026-08-16',
@@ -32,6 +34,12 @@ export default defineNuxtConfig({
           rel: 'manifest',
           href: '/manifest.json',
         },
+        {
+          rel: 'alternate',
+          type: 'application/rss+xml',
+          title: 'MovieFeed RSS',
+          href: '/rss',
+        },
       ],
     },
   },
@@ -41,9 +49,10 @@ export default defineNuxtConfig({
   modules: ['@nuxt/image'],
 
   routeRules: {
-    '/': { swr: 1800 },
-    '/api/v1/programmes': { swr: 1800 },
-    '/api/v1/programmes/**': { swr: 3600 },
+    '/': { swr: HALF_HOUR_SEC },
+    '/rss': { swr: HOUR_SEC, headers: { 'content-type': 'application/rss+xml; charset=utf-8' } },
+    '/api/v1/programmes': { swr: HALF_HOUR_SEC },
+    '/api/v1/programmes/**': { swr: HOUR_SEC },
     '/_nuxt/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
     '/assets/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
   },

@@ -1,3 +1,4 @@
+import { HOUR_SEC, TWO_HOUR_SEC } from '~~/app/config'
 import getDetails from '@/utils/api/getDetails'
 
 export default defineCachedEventHandler(async (event) => {
@@ -14,7 +15,7 @@ export default defineCachedEventHandler(async (event) => {
     throw createError({ statusCode: 404, statusMessage: 'Details not found' })
   }
 }, {
-  maxAge: 3600,
+  maxAge: HOUR_SEC,
   swr: true,
-  staleMaxAge: 7200,
+  staleMaxAge: TWO_HOUR_SEC,
 })

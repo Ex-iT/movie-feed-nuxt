@@ -17,21 +17,15 @@ import slugifyTitle from '~/utils/slugifyTitle'
 
 export default async function getMovies(day = Days.today, signal?: AbortSignal) {
   const url = `${MOVIES_URI}/?day=${day}`
+  const response = await fetch(url, { signal })
 
-  try {
-    const response = await fetch(url, { signal })
-
-    if (!response.ok) {
-      throw new Error(`Unable to fetch data from: ${url}`)
-    }
-
-    const { data: json } = await response.json()
-
-    return filterChannels(json || [])
-  }
-  catch {
+  if (!response.ok) {
     throw new Error(`Unable to fetch data from: ${url}`)
   }
+
+  const { data: json } = await response.json()
+
+  return filterChannels(json || [])
 }
 
 const CHANNEL_IDS = new Set(Object.keys(CHANNELS))

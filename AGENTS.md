@@ -42,6 +42,7 @@ The `@/` path alias resolves to `app/` (Nuxt 4 default).
 - **Lazy details**: Clicking a movie fires `@open` on the Accordion → `MovieCardContent` calls `$fetch('/api/v1/programmes/:mainId')`. Details render on arrival with a loading state in between. Each component has its own `AbortController` for cleanup on unmount.
 - **Caching**: Route rules in `nuxt.config.ts` set SWR values (`/` 30 min, `/rss` 1h, `/api/v1/programmes` 30 min, `/api/v1/programmes/**` 60 min). `/_nuxt/**` and `/assets/**` get immutable cache headers. Server handlers use `defineCachedEventHandler` with matching `maxAge`/`swr` values — no redundant `setHeader` calls.
 - **Error handling**: API utils (`getMovies`, `getDetails`) throw `Error` on failure (not returning `{ ok: false }`). `getProgrammes` uses `Promise.allSettled` to serve partial data when one day fails. `Card` component shows error/empty states with retry buttons.
+- **Passed state**: The `passed` CSS class is computed reactively in `index.vue` from a ticking `now` ref (1s interval via `rAF` + `setTimeout`), not from the server-provided `is_passed`. This is because `useFetch` stores data in a `shallowRef`, so mutating `programme.is_passed` client-side in `useProgress` doesn't trigger a re-render. The `isPassed(pe)` function reads `now.value` to ensure Vue tracks it as a dependency. `useProgress` still sets `programme.is_passed` for its internal progress-bar logic.
 
 ## Notable
 

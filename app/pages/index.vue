@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { FetchData, Programmes } from '~~/shared/types/Common'
+import { TICK_TIME } from '~/config'
+import getEpoch from '~/utils/getEpoch'
 
 const LOADING_TIMEOUT_MS = 10_000
 
@@ -13,6 +15,35 @@ const fetchData = computed<FetchData>(() => ({
   data: pageData.value ?? { today: [], tomorrow: [], log: { message: '', success: true }, createdAt: 0 },
   refresh,
 }))
+
+const now = ref(getEpoch())
+
+let rAF: number | undefined
+let timer: ReturnType<typeof setTimeout> | undefined
+
+function tick() {
+  now.value = getEpoch()
+  timer = setTimeout(() => {
+    rAF = window.requestAnimationFrame(tick)
+  }, TICK_TIME)
+}
+
+onMounted(() => {
+  tick()
+})
+
+onUnmounted(() => {
+  if (rAF !== undefined) {
+    window.cancelAnimationFrame(rAF)
+  }
+  if (timer !== undefined) {
+    clearTimeout(timer)
+  }
+})
+
+function isPassed(pe: string) {
+  return now.value > Number.parseInt(pe, 10)
+}
 </script>
 
 <template>
@@ -24,7 +55,7 @@ const fetchData = computed<FetchData>(() => ({
           <CardItem
             v-for="programme in fetchData.data.today"
             :key="`${programme.ps}:${programme.main_id}`"
-            :class="{ passed: programme.is_passed }"
+            :class="{ passed: isPassed(programme.pe) }"
           >
             <MovieCardContent
               :ref="`${programme.ps}:${programme.main_id}`"
@@ -41,7 +72,7 @@ const fetchData = computed<FetchData>(() => ({
           <CardItem
             v-for="programme in fetchData.data.tomorrow"
             :key="`${programme.ps}:${programme.main_id}`"
-            :class="{ passed: programme.is_passed }"
+            :class="{ passed: isPassed(programme.pe) }"
           >
             <MovieCardContent
               :ref="`${programme.ps}:${programme.main_id}`"

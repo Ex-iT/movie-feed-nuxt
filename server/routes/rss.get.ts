@@ -1,16 +1,22 @@
 import { Days } from '~~/shared/types/Common'
-import { DEEP_LINK, HOUR_SEC, SITE_URL } from '~/config'
+import { HOUR_SEC, SITE_URL } from '~/config'
 import getMovies from '~/utils/api/getMovies'
 import formatRssDate from '~/utils/formatRssDate'
 import getEpoch from '~/utils/getEpoch'
-import slugifyTitle from '~/utils/slugifyTitle'
 
 export default defineCachedEventHandler(async () => {
-  const movies = await getMovies(Days.today)
+  let movies: Awaited<ReturnType<typeof getMovies>>
+
+  try {
+    movies = await getMovies(Days.today)
+  }
+  catch {
+    movies = []
+  }
 
   const items = movies
     .map((m) => {
-      const link = `${DEEP_LINK}/${slugifyTitle(m.title)}`
+      const link = m.deep_link
       const description = m.descr
         ? `${m.channel_label} · ${m.start} - ${m.end}\n\n${m.subgenre} - ${m.descr}`
         : `${m.channel_label} · ${m.start} - ${m.end}`

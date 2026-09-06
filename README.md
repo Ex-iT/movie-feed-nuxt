@@ -64,4 +64,4 @@ pnpm run lint:js      # eslint only
 pnpm run lint:ts      # nuxt typecheck only
 ```
 
-CI runs `pnpm run lint` only (no test or deploy step).
+CI runs `pnpm run lint` + `pnpm run build` (no test or deploy step).

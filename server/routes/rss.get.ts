@@ -1,5 +1,5 @@
 import { Days } from '~~/shared/types/Common'
-import { HOUR_SEC, SITE_URL } from '~/config'
+import { HALF_HOUR_SEC, SITE_URL } from '~/config'
 import getMovies from '~/utils/api/getMovies'
 import formatRssDate from '~/utils/formatRssDate'
 import getEpoch from '~/utils/getEpoch'
@@ -46,9 +46,9 @@ ${items}
   </channel>
 </rss>`
 }, {
-  maxAge: HOUR_SEC,
+  maxAge: HALF_HOUR_SEC,
   swr: true,
-  staleMaxAge: HOUR_SEC,
+  staleMaxAge: HALF_HOUR_SEC,
 })
 
 function escapeXml(str: string): string {

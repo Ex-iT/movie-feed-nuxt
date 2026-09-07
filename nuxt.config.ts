@@ -48,6 +48,14 @@ export default defineNuxtConfig({
 
   modules: ['@nuxt/image'],
 
+  nitro: {
+    devStorage: {
+      cache: {
+        driver: 'memory',
+      },
+    },
+  },
+
   routeRules: {
     '/': { swr: FIFTEEN_MIN_SEC },
     '/rss': { swr: HALF_HOUR_SEC, headers: { 'content-type': 'application/rss+xml; charset=utf-8' } },

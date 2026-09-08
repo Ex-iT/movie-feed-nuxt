@@ -5,7 +5,11 @@ const props = defineProps<{
   programme: Programme
 }>()
 
-const canShare = typeof window !== 'undefined' ? !!window.navigator?.share : false
+const canShare = ref(false)
+
+onMounted(() => {
+  canShare.value = !!navigator.share
+})
 
 function share() {
   const { deep_link, title, channel_label, start, end, day } = props.programme

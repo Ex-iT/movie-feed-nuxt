@@ -57,6 +57,11 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    '/**': {
+      headers: {
+        'Permissions-Policy': 'camera=(), display-capture=(), fullscreen=(), geolocation=(), microphone=()',
+      },
+    },
     '/': { headers: { 'Cache-Control': 'no-store, max-age=0' } },
     '/rss': { swr: HALF_HOUR_SEC, headers: { 'content-type': 'application/rss+xml; charset=utf-8' } },
     '/api/v1/programmes': { headers: { 'Cache-Control': 'no-store, max-age=0' } },

@@ -38,7 +38,7 @@ Clicking a movie title triggers a lazy fetch for the detail data (description, i
 - **Channel logos** from TVgids assets CDN
 - **Live progress bar** on currently-airing movies
 - **Lazy details** with loading state — synopsis, year, rating, kijkwijzer icons, IMDb / YouTube links
-- **PWA** — installable, works offline (cached via Vite)
+- **PWA** — installable on mobile homescreen (manifest + icons)
 - **Native share** via Web Share API (Android/iOS)
 - **Dutch language** UI (nl-NL locale, Europe/Amsterdam timezone)
 

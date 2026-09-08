@@ -17,6 +17,7 @@ const fetchData = computed<FetchData>(() => ({
 }))
 
 const now = ref(getEpoch())
+const isMounted = ref(false)
 
 let rAF: number | undefined
 let timer: ReturnType<typeof setTimeout> | undefined
@@ -29,6 +30,7 @@ function tick() {
 }
 
 onMounted(() => {
+  isMounted.value = true
   tick()
 })
 
@@ -42,7 +44,7 @@ onUnmounted(() => {
 })
 
 function isPassed(pe: string) {
-  return now.value > Number.parseInt(pe, 10)
+  return isMounted.value && now.value > Number.parseInt(pe, 10)
 }
 </script>
 

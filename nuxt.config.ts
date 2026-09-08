@@ -1,4 +1,4 @@
-import { FIFTEEN_MIN_SEC, HALF_HOUR_SEC } from './app/config'
+import { HALF_HOUR_SEC } from './app/config'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -57,9 +57,9 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/': { swr: FIFTEEN_MIN_SEC },
+    '/': { headers: { 'Cache-Control': 'no-store, max-age=0' } },
     '/rss': { swr: HALF_HOUR_SEC, headers: { 'content-type': 'application/rss+xml; charset=utf-8' } },
-    '/api/v1/programmes': { swr: FIFTEEN_MIN_SEC },
+    '/api/v1/programmes': { headers: { 'Cache-Control': 'no-store, max-age=0' } },
     '/api/v1/programmes/**': { swr: HALF_HOUR_SEC },
     '/_nuxt/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
     '/assets/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },

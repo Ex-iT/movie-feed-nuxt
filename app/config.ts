@@ -26,7 +26,6 @@ export const CHANNELS: { [key: number]: string } = {
   496: 'Paramount Network',
 }
 export const EMPTY_IMG = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
-export const FIFTEEN_MIN_SEC = 900
 export const HALF_HOUR_SEC = 1800
 export const TICK_TIME = 1e3
 export const IMDB_URL = 'https://www.imdb.com/title/'

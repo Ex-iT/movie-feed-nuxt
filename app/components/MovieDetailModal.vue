@@ -381,8 +381,9 @@ onUnmounted(() => {
   position: absolute;
   inset: 0;
   content: '';
-  background-color: rgb(255 255 255 / 20%);
-  animation: 1.5s linear 0.5s infinite alternate none running pulse;
+  background: linear-gradient(90deg, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 20%) 50%, rgb(255 255 255 / 0%) 100%);
+  background-size: 200% 100%;
+  animation: 2.5s ease-in-out infinite none running sweep;
 }
 
 .skeleton-lines {
@@ -402,8 +403,9 @@ onUnmounted(() => {
   position: absolute;
   inset: 0;
   content: '';
-  background-color: rgb(255 255 255 / 15%);
-  animation: 1.5s linear 0.5s infinite alternate none running pulse;
+  background: linear-gradient(90deg, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 15%) 50%, rgb(255 255 255 / 0%) 100%);
+  background-size: 200% 100%;
+  animation: 2.5s ease-in-out infinite none running sweep;
 }
 
 .skeleton-line.short {

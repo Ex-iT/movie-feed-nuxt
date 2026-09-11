@@ -169,8 +169,9 @@ main {
   position: absolute;
   inset: 0;
   content: '';
-  background-color: rgb(255 255 255 / 20%);
-  animation: 1.5s linear 0.5s infinite alternate none running pulse;
+  background: linear-gradient(90deg, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 20%) 50%, rgb(255 255 255 / 0%) 100%);
+  background-size: 200% 100%;
+  animation: 2.5s ease-in-out infinite none running sweep;
 }
 
 .asset-image img {
@@ -186,16 +187,17 @@ main {
   position: absolute;
   inset: 0;
   content: '';
-  background-color: rgb(255 255 255 / 20%);
-  animation: 1.5s linear 0.5s infinite alternate none running pulse;
+  background: linear-gradient(90deg, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 20%) 50%, rgb(255 255 255 / 0%) 100%);
+  background-size: 200% 100%;
+  animation: 2.5s ease-in-out infinite none running sweep;
 }
 
-@keyframes pulse {
+@keyframes sweep {
   0% {
-    opacity: 0;
+    background-position: 200% 0;
   }
 
   100% {
-    opacity: 1;
+    background-position: -200% 0;
   }
 }

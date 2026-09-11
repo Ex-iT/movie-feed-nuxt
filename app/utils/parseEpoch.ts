@@ -1,8 +1,8 @@
-export default function parseEpoch(value: string | undefined): Date | null {
-  if (!value) {
+export default function parseEpoch(value: string | number | undefined): Date | null {
+  if (value === undefined || value === '') {
     return null
   }
-  const ts = Number.parseInt(value, 10)
+  const ts = typeof value === 'string' ? Number.parseInt(value, 10) : value
   if (!Number.isFinite(ts)) {
     return null
   }

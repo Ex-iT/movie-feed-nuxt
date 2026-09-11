@@ -12,7 +12,7 @@ interface NextBroadcast {
   channel: string
   start: string
   end: string
-  day: string
+  date: string
 }
 
 const props = defineProps<{
@@ -40,11 +40,18 @@ const nextBroadcast = computed<NextBroadcast | null>(() => {
   if (!upcoming) {
     return null
   }
+  const date = parseEpoch(upcoming.start)
   return {
     channel: upcoming.channel?.name || '',
     start: formatTime(upcoming.start),
     end: formatTime(upcoming.end),
-    day: formatDate(upcoming.start),
+    date: date
+      ? date.toLocaleDateString('nl-NL', {
+          day: 'numeric',
+          month: 'long',
+          timeZone: 'Europe/Amsterdam',
+        })
+      : '',
   }
 })
 
@@ -208,7 +215,7 @@ onUnmounted(() => {
 
       <div v-if="nextBroadcast" class="next-broadcast">
         <strong>Volgende uitzending:</strong>
-        {{ nextBroadcast.day }}, {{ nextBroadcast.start }} - {{ nextBroadcast.end }}
+        {{ nextBroadcast.date }}, {{ nextBroadcast.start }} - {{ nextBroadcast.end }}
         <template v-if="nextBroadcast.channel">
           op {{ nextBroadcast.channel }}
         </template>

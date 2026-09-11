@@ -176,6 +176,7 @@ main {
 .asset-image img {
   position: relative;
   max-width: 100%;
+  width: 100%;
   height: auto;
   aspect-ratio: 123/80;
   vertical-align: bottom;

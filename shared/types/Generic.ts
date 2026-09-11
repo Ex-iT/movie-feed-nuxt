@@ -7,4 +7,5 @@ export interface Generic {
   subcategory?: string
   image?: string
   duration?: string
+  long?: string
 }

@@ -77,7 +77,9 @@ async function fetchDetails() {
         <div class="info">
           <div class="details">
             <h2>{{ props.programme.title }}</h2>
-            {{ props.programme.start }} - {{ props.programme.end }}
+            <time :datetime="new Date(Number.parseInt(props.programme.ps, 10) * 1000).toISOString()">
+              {{ props.programme.start }} - {{ props.programme.end }}
+            </time>
           </div>
           <Sharer :programme="props.programme" />
         </div>

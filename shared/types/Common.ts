@@ -21,9 +21,20 @@ export interface ProgrammesRaw {
   main_id: string
 }
 
+export interface LinearBroadcast {
+  start: number
+  end: number
+  channel: {
+    id: string
+    name: string
+    logo: string
+  }
+}
+
 export interface MovieDetails {
   generic: Generic
   metadata: MetaData
+  linear?: LinearBroadcast[]
 }
 
 export interface Programme extends EnrichedProgrammesRaw {

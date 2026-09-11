@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import type { FetchData, Programmes } from '~~/shared/types/Common'
-import { TICK_TIME } from '~/config'
+import type { FetchData, MovieDetails, Programme, Programmes } from '~~/shared/types/Common'
+import { CHANNEL_LOGO_SRC, CHANNELS, EMPTY_IMG, TICK_TIME } from '~/config'
+import formatDate from '~/utils/formatDate'
+import formatTime from '~/utils/formatTime'
 import getEpoch from '~/utils/getEpoch'
+import parseEpoch from '~/utils/parseEpoch'
 
 const LOADING_TIMEOUT_MS = 10_000
+
+const route = useRoute()
+const router = useRouter()
 
 const { data: pageData, status, error, refresh } = useFetch<Programmes>('/api/v1/programmes', {
   timeout: LOADING_TIMEOUT_MS,
@@ -46,6 +52,90 @@ onUnmounted(() => {
 function isPassed(pe: string) {
   return isMounted.value && now.value > Number.parseInt(pe, 10)
 }
+
+// Modal state
+const modalDetails = ref<MovieDetails | null>(null)
+const modalLoading = ref(false)
+const modalError = ref(false)
+
+function constructProgrammeFromQuery(query: Record<string, string>): Programme {
+  const chId = (query.ch || '').toString()
+  const ps = (query.ps || '').toString()
+  const pe = (query.pe || '').toString()
+  const mainId = (query.movie || '').toString()
+
+  const psDate = parseEpoch(ps)
+  const peDate = parseEpoch(pe)
+  const start = psDate ? formatTime(psDate) : ''
+  const end = peDate ? formatTime(peDate) : ''
+  const day = psDate ? formatDate(psDate) : ''
+  const channelLogo = chId ? CHANNEL_LOGO_SRC.replace(/%s/g, chId) : EMPTY_IMG
+  const channelLabel = chId ? CHANNELS[Number.parseInt(chId, 10)] || '' : ''
+
+  return {
+    main_id: mainId,
+    ch_id: chId,
+    ps,
+    pe,
+    title: '',
+    channel_logo: channelLogo,
+    channel_label: channelLabel,
+    start,
+    end,
+    is_passed: peDate ? getEpoch() > peDate.getTime() / 1000 : false,
+    progress: 0,
+    deep_link: '',
+    day,
+  }
+}
+
+const modalProgramme = computed(() => {
+  const movieId = route.query.movie
+  if (!movieId) {
+    return null
+  }
+  return constructProgrammeFromQuery(route.query as Record<string, string>)
+})
+
+const modalOpen = computed(() => !!route.query.movie)
+
+async function fetchModalDetails(mainId: string) {
+  if (modalDetails.value) {
+    return
+  }
+  modalLoading.value = true
+  modalError.value = false
+  try {
+    const result = await $fetch<MovieDetails>(`/api/v1/programmes/${mainId}`)
+    if ('error' in result) {
+      modalError.value = true
+    }
+    else {
+      modalDetails.value = result
+    }
+  }
+  catch {
+    modalDetails.value = null
+    modalError.value = true
+  }
+  finally {
+    modalLoading.value = false
+  }
+}
+
+watch(modalOpen, (open) => {
+  if (open && modalProgramme.value) {
+    fetchModalDetails(modalProgramme.value.main_id)
+  }
+  else {
+    modalDetails.value = null
+    modalError.value = false
+  }
+}, { immediate: true })
+
+function closeModal() {
+  router.push('/')
+}
 </script>
 
 <template>
@@ -85,6 +175,14 @@ function isPassed(pe: string) {
       </Card>
     </section>
   </main>
+  <MovieDetailModal
+    v-if="modalOpen"
+    :programme="modalProgramme"
+    :details="modalDetails"
+    :loading="modalLoading"
+    :error="modalError"
+    @close="closeModal"
+  />
 </template>
 
 <style scoped>

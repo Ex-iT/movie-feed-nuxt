@@ -15,7 +15,6 @@ export default async function getDetails(id: string, signal?: AbortSignal) {
   }
 
   const details = json
-  delete details.linear
   delete details.linearMore
   delete details.streaming
   delete details.streamingMore

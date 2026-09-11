@@ -7,13 +7,15 @@ export default antfu({
   files: ['**/*.vue'],
   rules: {
     'vue/singleline-html-element-content-newline': ['error', {
-      ignores: ['NuxtLink'],
+      ignores: ['NuxtLink', 'time', 'span', 'strong', 'template'],
     }],
   },
 }, {
   rules: {
     'unused-imports/no-unused-vars': ['error', {
       caughtErrorsIgnorePattern: '^_',
+      varsIgnorePattern: '^_',
+      argsIgnorePattern: '^_',
     }],
   },
 }, {

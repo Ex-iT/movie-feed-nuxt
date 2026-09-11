@@ -40,6 +40,7 @@ Clicking a movie title triggers a lazy fetch for the detail data (description, i
 - **Lazy details** with loading state — synopsis, year, rating, kijkwijzer icons, IMDb / YouTube links
 - **PWA** — installable on mobile homescreen (manifest + icons)
 - **Native share** via Web Share API (Android/iOS)
+- **Shareable deep links** — open a movie detail modal directly via URL (`/?movie=<id>&ch=<id>&ps=<epoch>&pe=<epoch>`)
 - **Dutch language** UI (nl-NL locale, Europe/Amsterdam timezone)
 
 ## Development

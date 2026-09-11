@@ -1,16 +1,22 @@
 const dateCache = new Map<number, string>()
 
-export default function formatDate(timestamp: number) {
-  const cached = dateCache.get(timestamp)
+export default function formatDate(value: Date | number) {
+  const date = value instanceof Date ? value : new Date(value * 1000)
+  if (Number.isNaN(date.getTime())) {
+    return ''
+  }
+
+  const key = date.getTime()
+  const cached = dateCache.get(key)
   if (cached) {
     return cached
   }
 
-  const formatted = new Date(timestamp * 1000).toLocaleDateString('nl-NL', {
+  const formatted = date.toLocaleDateString('nl-NL', {
     weekday: 'long',
     timeZone: 'Europe/Amsterdam',
   })
 
-  dateCache.set(timestamp, formatted)
+  dateCache.set(key, formatted)
   return formatted
 }

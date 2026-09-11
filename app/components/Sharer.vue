@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { SITE_URL } from '~/config'
 import ucFirst from '~/utils/ucFirst'
 
 const props = defineProps<{
@@ -11,13 +12,18 @@ onMounted(() => {
   canShare.value = !!navigator.share
 })
 
+function getShareUrl() {
+  const { main_id, ch_id, ps, pe } = props.programme
+  return `${SITE_URL}/?movie=${main_id}&ch=${ch_id}&ps=${ps}&pe=${pe}`
+}
+
 function share() {
-  const { deep_link, title, channel_label, start, end, day } = props.programme
+  const { title, channel_label, start, end, day } = props.programme
 
   navigator.share({
     title: `${title} ${day} op ${channel_label} om ${start}`,
     text: `${title}\n${ucFirst(day)} ${channel_label}, ${start} - ${end}\n`,
-    url: deep_link,
+    url: getShareUrl(),
   })
 }
 </script>

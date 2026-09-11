@@ -27,6 +27,7 @@ const emit = defineEmits<{ close: [] }>()
 const CHANNEL_IDS = new Set(Object.keys(CHANNELS))
 
 const dialogRef = ref<HTMLDialogElement>()
+const closing = ref(false)
 
 const nextBroadcast = computed<NextBroadcast | null>(() => {
   if (!props.details?.linear?.length) {
@@ -116,7 +117,13 @@ const tvgRating = computed(() => {
 })
 
 function onClose() {
-  emit('close')
+  if (closing.value) {
+    return
+  }
+  closing.value = true
+  dialogRef.value?.addEventListener('animationend', () => {
+    emit('close')
+  }, { once: true })
 }
 
 function onBackdropClick(event: MouseEvent) {
@@ -139,6 +146,7 @@ onUnmounted(() => {
   <dialog
     ref="dialogRef"
     class="modal-dialog"
+    :class="{ closing }"
     @click="onBackdropClick"
     @close="onClose"
   >
@@ -211,29 +219,42 @@ onUnmounted(() => {
 
 <style scoped>
 .modal-dialog {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   padding: 0;
   margin: 0;
   border: none;
   background: transparent;
-  overflow: visible;
 }
 
 .modal-dialog::backdrop {
   background-color: rgb(0 0 0 / 80%);
 }
 
+.modal-dialog.closing::backdrop {
+  animation: fade-out 200ms ease-out forwards;
+}
+
+.modal-dialog.closing {
+  animation: fade-out 200ms ease-out forwards;
+}
+
+@keyframes fade-out {
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
 .modal-content {
   position: relative;
   width: 100%;
-  min-height: 50vh;
+  min-height: 100vh;
   height: 100%;
   overflow-y: auto;
   background: var(--background-color-main) url('/assets/bg.jpg') top left / cover fixed;

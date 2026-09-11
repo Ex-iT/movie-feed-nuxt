@@ -29,7 +29,7 @@ Clicking a movie title triggers a lazy fetch for the detail data (description, i
 | -------------------------------- | ---------- | --------------------------------------------------------------- |
 | `/`                              | `no-store` | SSR page. Uses `useFetch` for programme list.                   |
 | `GET /api/v1/programmes`         | `no-store` | Enriched list (no details). Called from `useFetch` during SSR.  |
-| `GET /api/v1/programmes/:mainId` | 30 min SWR | Single movie details. Called on-demand from `MovieCardContent`. |
+| `GET /api/v1/programmes/:mainId` | 24 hr SWR  | Single movie details. Called on-demand from `MovieCardContent`. |
 | `GET /rss`                       | 30 min SWR | RSS 2.0 feed of today's movies.                                 |
 
 ## Features

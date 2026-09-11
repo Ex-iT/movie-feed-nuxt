@@ -25,7 +25,7 @@ CI runs `pnpm lint` + `pnpm build` — no test or deploy step. Node version pinn
 - `app/` — Nuxt app layer (pages, components, composables, layouts, utils, assets)
 - `server/api/v1/` — Nitro server routes
   - `programmes.get.ts` — list endpoint (SSR, returns enriched movie data without details)
-  - `programmes/[mainId].get.ts` — detail endpoint (lazy, cached 30 min), validates `mainId` is numeric
+  - `programmes/[mainId].get.ts` — detail endpoint (lazy, cached 24 hr), validates `mainId` is numeric
 - `server/routes/` — Nitro top-level routes
   - `rss.get.ts` — RSS 2.0 feed (today's movies only, cached 30 min SWR)
 - `shared/types/` — TypeScript types shared between app and server

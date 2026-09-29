@@ -8,11 +8,25 @@ const props = defineProps<{
 }>()
 
 const mainImage = computed(() => props.details?.generic?.image || EMPTY_IMG)
+
+const assetRef = ref<HTMLElement | null>(null)
+const imageLoaded = ref(false)
+
+function onImageLoad() {
+  imageLoaded.value = true
+}
+
+onMounted(() => {
+  const img = assetRef.value?.querySelector('img')
+  if (img?.complete) {
+    imageLoaded.value = true
+  }
+})
 </script>
 
 <template>
   <div class="asset-details">
-    <div class="asset-image">
+    <div ref="assetRef" class="asset-image" :class="{ loaded: imageLoaded }" @load.capture="onImageLoad">
       <nuxt-img
         :src="mainImage"
         :alt="props.details?.generic?.title"

@@ -162,6 +162,10 @@ main {
   animation: 2.5s ease-in-out infinite none running sweep;
 }
 
+.asset-image.loaded::before {
+  animation: none;
+}
+
 .asset-image img {
   position: relative;
   max-width: 100%;

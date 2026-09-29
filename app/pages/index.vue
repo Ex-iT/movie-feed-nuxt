@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FetchData, MovieDetails, Programme, Programmes } from '~~/shared/types/Common'
-import { CHANNEL_LOGO_SRC, CHANNELS, EMPTY_IMG, TICK_TIME } from '~/config'
+import { CHANNEL_LOGO_SRC, CHANNELS, EMPTY_IMG } from '~/config'
 import formatTime from '~/utils/formatTime'
 import getEpoch from '~/utils/getEpoch'
 import parseEpoch from '~/utils/parseEpoch'
@@ -20,37 +20,6 @@ const fetchData = computed<FetchData>(() => ({
   data: pageData.value ?? { today: [], tomorrow: [], log: { message: '', success: true }, createdAt: 0 },
   refresh,
 }))
-
-const now = ref(getEpoch())
-const isMounted = ref(false)
-
-let rAF: number | undefined
-let timer: ReturnType<typeof setTimeout> | undefined
-
-function tick() {
-  now.value = getEpoch()
-  timer = setTimeout(() => {
-    rAF = window.requestAnimationFrame(tick)
-  }, TICK_TIME)
-}
-
-onMounted(() => {
-  isMounted.value = true
-  tick()
-})
-
-onUnmounted(() => {
-  if (rAF !== undefined) {
-    window.cancelAnimationFrame(rAF)
-  }
-  if (timer !== undefined) {
-    clearTimeout(timer)
-  }
-})
-
-function isPassed(pe: string) {
-  return isMounted.value && now.value > Number.parseInt(pe, 10)
-}
 
 // Modal state
 const modalDetails = ref<MovieDetails | null>(null)
@@ -165,7 +134,7 @@ function closeModal() {
           <CardItem
             v-for="programme in fetchData.data.today"
             :key="`${programme.ps}:${programme.main_id}`"
-            :class="{ passed: isPassed(programme.pe) }"
+            :pe="programme.pe"
           >
             <MovieCardContent
               :ref="`${programme.ps}:${programme.main_id}`"
@@ -182,7 +151,7 @@ function closeModal() {
           <CardItem
             v-for="programme in fetchData.data.tomorrow"
             :key="`${programme.ps}:${programme.main_id}`"
-            :class="{ passed: isPassed(programme.pe) }"
+            :pe="programme.pe"
           >
             <MovieCardContent
               :ref="`${programme.ps}:${programme.main_id}`"

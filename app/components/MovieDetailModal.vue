@@ -132,6 +132,13 @@ const tvgRating = computed(() => {
   return props.programme?.tvg_rating || ''
 })
 
+const detailsProgramme = computed<Programme>(() => ({
+  ...(props.programme ?? {}),
+  descr: descr.value,
+  subgenre: subgenre.value,
+  tvg_rating: tvgRating.value,
+} as Programme))
+
 function onClose() {
   if (closing.value) {
     return
@@ -214,12 +221,7 @@ onUnmounted(() => {
 
       <Details
         v-else-if="details"
-        :programme="{
-          ...programme,
-          descr,
-          subgenre,
-          tvg_rating: tvgRating,
-        } as Programme"
+        :programme="detailsProgramme"
         :details="details"
       />
 

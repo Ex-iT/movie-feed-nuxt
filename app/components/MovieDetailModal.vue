@@ -250,7 +250,7 @@ onUnmounted(() => {
 }
 
 .modal-dialog::backdrop {
-  background-color: rgb(0 0 0 / 80%);
+  background-color: var(--color-overlay);
 }
 
 .modal-dialog.closing::backdrop {
@@ -274,12 +274,12 @@ onUnmounted(() => {
   min-height: 100vh;
   height: 100%;
   overflow-y: auto;
-  background: var(--background-color-main) url('/assets/bg.jpg') top left / cover fixed;
+  background: var(--color-bg) url('/assets/bg.jpg') top left / cover fixed;
   padding: var(--spacing-large);
-  font-family: Arial, sans-serif;
-  font-size: 1em;
-  line-height: 1.375em;
-  color: var(--foreground-color-main);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-body);
+  color: var(--color-text);
 }
 
 @media (min-width: 720px) {
@@ -295,7 +295,7 @@ onUnmounted(() => {
     height: auto;
     max-height: 90vh;
     border-radius: var(--border-radius);
-    box-shadow: 0 4px 30px rgb(255 255 255 / 25%);
+    box-shadow: var(--shadow-modal);
   }
 }
 
@@ -309,17 +309,17 @@ onUnmounted(() => {
   cursor: pointer;
   background: transparent;
   border: none;
-  fill: var(--foreground-color-main);
+  fill: var(--color-text);
 }
 
 .modal-close svg {
   width: 24px;
   height: 24px;
-  transition: fill 200ms ease-in;
+  transition: fill var(--transition-fill);
 }
 
 .modal-close:hover svg {
-  fill: var(--highlight-color-main);
+  fill: var(--color-accent);
 }
 
 .modal-header {
@@ -337,28 +337,28 @@ onUnmounted(() => {
 
 .modal-header-info h2 {
   margin: 0;
-  font-size: 1.2em;
-  font-weight: bold;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
 }
 
 .modal-broadcast {
-  color: rgb(255 255 255 / 70%);
-  transition: color 300ms ease-in;
+  color: var(--color-text-muted);
+  transition: color var(--transition-color);
 }
 
 .modal-broadcast.past {
-  color: rgb(255 255 255 / 45%);
+  color: var(--color-text-past);
 }
 
 .modal-error h2 {
-  color: var(--error-color-main);
+  color: var(--color-error);
 }
 
 .next-broadcast {
   margin-top: var(--spacing-large);
   padding-top: var(--spacing-medium);
-  border-top: 1px solid rgb(255 255 255 / 20%);
-  color: rgb(255 255 255 / 70%);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
 }
 
 .skeleton {
@@ -388,7 +388,7 @@ onUnmounted(() => {
 .skeleton-image {
   position: relative;
   aspect-ratio: 123 / 80;
-  border: 1px solid rgb(255 255 255 / 20%);
+  border: 1px solid var(--color-border);
   overflow: hidden;
 }
 
@@ -396,7 +396,7 @@ onUnmounted(() => {
   position: absolute;
   inset: 0;
   content: '';
-  background: linear-gradient(90deg, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 20%) 50%, rgb(255 255 255 / 0%) 100%);
+  background: var(--gradient-shimmer);
   background-size: 200% 100%;
   animation: 2.5s ease-in-out infinite none running sweep;
 }
@@ -410,7 +410,7 @@ onUnmounted(() => {
 .skeleton-line {
   position: relative;
   height: 1rem;
-  border-radius: 2px;
+  border-radius: var(--border-radius);
   overflow: hidden;
 }
 
@@ -418,7 +418,7 @@ onUnmounted(() => {
   position: absolute;
   inset: 0;
   content: '';
-  background: linear-gradient(90deg, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 15%) 50%, rgb(255 255 255 / 0%) 100%);
+  background: var(--gradient-shimmer-soft);
   background-size: 200% 100%;
   animation: 2.5s ease-in-out infinite none running sweep;
 }

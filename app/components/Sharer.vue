@@ -56,14 +56,14 @@ button {
   cursor: pointer;
   background: transparent;
   border: none;
-  fill: #fff;
+  fill: var(--color-text);
 }
 
 svg {
-  transition: fill 200ms ease-in;
+  transition: fill var(--transition-fill);
 }
 
 button:hover svg {
-  fill: var(--highlight-color-main);
+  fill: var(--color-accent);
 }
 </style>

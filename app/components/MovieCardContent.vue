@@ -134,7 +134,7 @@ async function fetchDetails() {
 .skeleton-image {
   position: relative;
   aspect-ratio: 123 / 80;
-  border: 1px solid rgb(255 255 255 / 20%);
+  border: 1px solid var(--color-border);
   overflow: hidden;
 }
 
@@ -142,7 +142,7 @@ async function fetchDetails() {
   position: absolute;
   inset: 0;
   content: '';
-  background: linear-gradient(90deg, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 20%) 50%, rgb(255 255 255 / 0%) 100%);
+  background: var(--gradient-shimmer);
   background-size: 200% 100%;
   animation: 2.5s ease-in-out infinite none running sweep;
 }
@@ -156,7 +156,7 @@ async function fetchDetails() {
 .skeleton-line {
   position: relative;
   height: 1rem;
-  border-radius: 2px;
+  border-radius: var(--border-radius);
   overflow: hidden;
 }
 
@@ -164,7 +164,7 @@ async function fetchDetails() {
   position: absolute;
   inset: 0;
   content: '';
-  background: linear-gradient(90deg, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 15%) 50%, rgb(255 255 255 / 0%) 100%);
+  background: var(--gradient-shimmer-soft);
   background-size: 200% 100%;
   animation: 2.5s ease-in-out infinite none running sweep;
 }

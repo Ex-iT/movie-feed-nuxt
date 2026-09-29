@@ -191,7 +191,7 @@ main {
   row-gap: var(--spacing-extra-large);
   min-height: 100vh;
   overflow: hidden;
-  font-size: 1em;
+  font-size: var(--font-size-base);
 }
 
 @media (min-width: 720px) {

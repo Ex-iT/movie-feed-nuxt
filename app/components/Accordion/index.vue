@@ -56,9 +56,7 @@ summary {
 }
 
 ::details-content {
-  transition:
-    height 0.3s ease-in-out,
-    content-visibility 0.3s allow-discrete;
+  transition: var(--transition-accordion);
   height: 0;
   overflow: clip;
 }

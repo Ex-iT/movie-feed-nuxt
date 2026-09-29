@@ -52,30 +52,28 @@ const props = defineProps<{
 h2 {
   padding-inline: var(--spacing-medium);
   margin: 0;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   text-align: center;
 }
 
 button {
   cursor: pointer;
   padding: var(--spacing-medium);
-  background-color: var(--highlight-color-main);
-  color: #fff;
+  background-color: var(--color-accent);
+  color: var(--color-text);
   border: none;
-  font-size: 1rem;
-  font-weight: bold;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
   border-radius: var(--border-radius);
   margin-bottom: var(--spacing-medium);
-  box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-button);
   transition:
-    background-color 200ms ease-in-out,
-    color 200ms ease-in-out;
+    background-color var(--transition-button),
+    color var(--transition-button);
 
   &:hover {
-    background-color: var(--foreground-color-main);
-    color: var(--highlight-color-main);
+    background-color: var(--color-text);
+    color: var(--color-accent);
   }
 }
 </style>

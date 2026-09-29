@@ -22,11 +22,11 @@ progress {
   inset: auto 0 0 0;
   width: 100%;
   height: 2px;
-  background-color: rgb(225 75 75 / 30%);
+  background-color: var(--color-progress-track);
   border: none;
   border-bottom-right-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
-  transition: all 500ms ease-out;
+  transition: all var(--transition-progress);
 }
 
 progress[value='0'] {
@@ -34,22 +34,22 @@ progress[value='0'] {
 }
 
 progress::-webkit-progress-bar {
-  background-color: rgb(225 75 75 / 30%);
+  background-color: var(--color-progress-track);
   border-bottom-right-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
 }
 
 progress::-webkit-progress-value {
-  background-color: rgb(225 75 75 / 80%);
+  background-color: var(--color-progress-fill);
   border-bottom-right-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
-  transition: width 500ms ease-out;
+  transition: width var(--transition-progress);
 }
 
 progress::-moz-progress-bar {
-  background-color: rgb(225 75 75 / 80%);
+  background-color: var(--color-progress-fill);
   border-bottom-right-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
-  transition: width 500ms ease-out;
+  transition: width var(--transition-progress);
 }
 </style>

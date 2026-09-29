@@ -95,7 +95,7 @@ const hasExternalLinks = computed(() => props.details.generic.imdb || props.deta
 }
 
 .guidance img {
-  background-color: #fff;
+  background-color: var(--color-badge-bg);
   border-radius: 50%;
 }
 

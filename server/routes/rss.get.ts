@@ -1,8 +1,10 @@
 import { Days } from '~~/shared/types/Common'
 import { HALF_HOUR_SEC, SITE_URL } from '~/config'
 import getMovies from '~/utils/api/getMovies'
+import formatDate from '~/utils/formatDate'
 import formatRssDate from '~/utils/formatRssDate'
 import getEpoch from '~/utils/getEpoch'
+import ucFirst from '~/utils/ucFirst'
 
 export default defineCachedEventHandler(async () => {
   let movies: Awaited<ReturnType<typeof getMovies>>
@@ -17,9 +19,13 @@ export default defineCachedEventHandler(async () => {
   const items = movies
     .map((m) => {
       const link = m.deep_link
+      const date = formatDate(Number.parseInt(m.ps, 10))
+      const schedule = date
+        ? `${ucFirst(date)}, ${m.start} - ${m.end}`
+        : `${m.start} - ${m.end}`
       const description = m.descr
-        ? `${m.channel_label} · ${m.start} - ${m.end}\n\n${m.subgenre} - ${m.descr}`
-        : `${m.channel_label} · ${m.start} - ${m.end}`
+        ? `${m.channel_label} · ${schedule}\n\n${m.subgenre} - ${m.descr}`
+        : `${m.channel_label} · ${schedule}`
 
       return `    <item>
       <title>${escapeXml(m.title)}</title>

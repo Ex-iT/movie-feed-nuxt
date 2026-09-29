@@ -67,7 +67,7 @@ export default defineNuxtConfig({
     '/api/v1/programmes': { headers: { 'Cache-Control': 'no-store, max-age=0' } },
     '/api/v1/programmes/**': { swr: DAY_SEC },
     '/_nuxt/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
-    '/assets/**': { headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
+    '/assets/**': { headers: { 'Cache-Control': 'public, max-age=0, must-revalidate' } },
   },
 
   typescript: {

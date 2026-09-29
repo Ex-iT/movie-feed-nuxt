@@ -4,7 +4,6 @@ import {
   CHANNEL_LOGO_SRC,
   CHANNELS,
   DAY_STARTS_AT,
-  DEEP_LINK,
   EMPTY_IMG,
   MOVIES_URI,
 } from '~/config'
@@ -12,7 +11,6 @@ import formatHours from '~/utils/formatHours'
 import formatTime from '~/utils/formatTime'
 import getEpoch from '~/utils/getEpoch'
 import getProgress from '~/utils/getProgress'
-import slugifyTitle from '~/utils/slugifyTitle'
 
 export default async function getMovies(day = Days.today) {
   const url = `${MOVIES_URI}/?day=${day}`
@@ -66,7 +64,6 @@ function enrichData(channelData: Array<ProgrammesRaw>) {
         end: formatTime(end),
         is_passed: now > end,
         progress: getProgress(now, start, end),
-        deep_link: getDeepLinkUrl(movie.title),
         // Overwriting the `ps` and `pe` here to
         // return the updated start and end time
         ps: String(start),
@@ -84,8 +81,4 @@ function enrichData(channelData: Array<ProgrammesRaw>) {
 
 function getChannelLogo(id: string) {
   return id ? CHANNEL_LOGO_SRC.replace(/%s/g, id) : EMPTY_IMG
-}
-
-function getDeepLinkUrl(title: string) {
-  return `${DEEP_LINK}/${slugifyTitle(title)}`
 }

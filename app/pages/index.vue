@@ -51,7 +51,6 @@ function constructProgrammeFromQuery(query: Record<string, string>): Programme {
     end,
     is_passed: peDate ? getEpoch() > peDate.getTime() / 1000 : false,
     progress: 0,
-    deep_link: '',
   }
 }
 

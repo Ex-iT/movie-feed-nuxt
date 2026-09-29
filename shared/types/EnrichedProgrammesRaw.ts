@@ -7,5 +7,4 @@ export interface EnrichedProgrammesRaw extends ProgrammesRaw {
   end: string
   is_passed: boolean
   progress: number
-  deep_link: string
 }

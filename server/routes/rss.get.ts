@@ -4,6 +4,7 @@ import getMovies from '~/utils/api/getMovies'
 import formatDate from '~/utils/formatDate'
 import formatRssDate from '~/utils/formatRssDate'
 import getEpoch from '~/utils/getEpoch'
+import getProgrammeUrl from '~/utils/getProgrammeUrl'
 import ucFirst from '~/utils/ucFirst'
 
 export default defineCachedEventHandler(async () => {
@@ -11,7 +12,7 @@ export default defineCachedEventHandler(async () => {
 
   const items = movies
     .map((m) => {
-      const link = m.deep_link
+      const link = escapeXml(getProgrammeUrl(m))
       const date = formatDate(Number.parseInt(m.ps, 10))
       const schedule = date
         ? `${ucFirst(date)}, ${m.start} - ${m.end}`

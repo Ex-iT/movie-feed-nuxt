@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { SITE_URL } from '~/config'
 import formatDate from '~/utils/formatDate'
+import getProgrammeUrl from '~/utils/getProgrammeUrl'
 import parseEpoch from '~/utils/parseEpoch'
 import ucFirst from '~/utils/ucFirst'
 
@@ -14,11 +14,6 @@ onMounted(() => {
   canShare.value = !!navigator.share
 })
 
-function getShareUrl() {
-  const { main_id, ch_id, ps, pe } = props.programme
-  return `${SITE_URL}/?movie=${main_id}&ch=${ch_id}&ps=${ps}&pe=${pe}`
-}
-
 function share() {
   const { title, channel_label, start, end, ps } = props.programme
   const date = parseEpoch(ps)
@@ -27,7 +22,7 @@ function share() {
   navigator.share({
     title: `${title} ${day} op ${channel_label} om ${start}`,
     text: `${title}\n${ucFirst(day)} ${channel_label}, ${start} - ${end}\n`,
-    url: getShareUrl(),
+    url: getProgrammeUrl(props.programme),
   }).catch(() => {})
 }
 </script>

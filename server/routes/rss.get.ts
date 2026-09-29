@@ -7,14 +7,7 @@ import getEpoch from '~/utils/getEpoch'
 import ucFirst from '~/utils/ucFirst'
 
 export default defineCachedEventHandler(async () => {
-  let movies: Awaited<ReturnType<typeof getMovies>>
-
-  try {
-    movies = await getMovies(Days.today)
-  }
-  catch {
-    movies = []
-  }
+  const movies = await getMovies(Days.today)
 
   const items = movies
     .map((m) => {

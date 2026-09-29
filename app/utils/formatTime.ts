@@ -1,4 +1,5 @@
 const timeCache = new Map<number, string>()
+const MAX_CACHE_SIZE = 512
 
 export default function formatTime(value: Date | number) {
   const date = value instanceof Date ? value : new Date(value * 1000)
@@ -18,6 +19,9 @@ export default function formatTime(value: Date | number) {
     timeZone: 'Europe/Amsterdam',
   })
 
+  if (timeCache.size >= MAX_CACHE_SIZE) {
+    timeCache.clear()
+  }
   timeCache.set(key, formatted)
   return formatted
 }

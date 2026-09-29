@@ -75,10 +75,6 @@ main {
   border-radius: var(--border-radius);
 }
 
-.card.passed .channel-logo {
-  opacity: 0.75;
-}
-
 .card.passed .details {
   color: var(--color-text-muted);
   transition: color var(--transition-color);

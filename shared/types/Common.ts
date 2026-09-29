@@ -37,9 +37,7 @@ export interface MovieDetails {
   linear?: LinearBroadcast[]
 }
 
-export interface Programme extends EnrichedProgrammesRaw {
-  details?: MovieDetails
-}
+export type Programme = EnrichedProgrammesRaw
 
 export interface ProgrammesLog {
   message: string
@@ -50,11 +48,6 @@ export interface Programmes {
   createdAt: number
   today: Programme[]
   tomorrow: Programme[]
-  log: ProgrammesLog
-}
-
-export interface Status {
-  createdAt: string
   log: ProgrammesLog
 }
 

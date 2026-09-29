@@ -26,7 +26,7 @@ progress {
   border: none;
   border-bottom-right-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
-  transition: all var(--transition-progress);
+  transition: background-color var(--transition-progress);
 }
 
 progress[value='0'] {

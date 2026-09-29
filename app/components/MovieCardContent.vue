@@ -5,7 +5,7 @@ const props = defineProps<{
   programme: Programme
 }>()
 
-const detailsData = ref<MovieDetails | undefined>(props.programme.details)
+const detailsData = ref<MovieDetails | undefined>()
 const loading = ref(false)
 
 const { progress, updateProgress } = useProgress()

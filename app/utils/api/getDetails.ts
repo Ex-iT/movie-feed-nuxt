@@ -1,8 +1,9 @@
+import type { MovieDetails } from '~~/shared/types/Common'
 import { DETAIL_URI } from '../../config'
 
-export default async function getDetails(id: string, signal?: AbortSignal) {
+export default async function getDetails(id: string): Promise<MovieDetails> {
   const url = `${DETAIL_URI}/${id}`
-  const response = await fetch(url, { signal })
+  const response = await fetch(url)
 
   if (!response.ok) {
     throw new Error(`Unable to fetch details for ${id}.`)
@@ -29,5 +30,9 @@ export default async function getDetails(id: string, signal?: AbortSignal) {
     )
   }
 
-  return details
+  return {
+    ...details,
+    generic: { id: 0, title: '', ...(details.generic ?? {}) },
+    metadata: details.metadata ?? {},
+  }
 }

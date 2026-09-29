@@ -137,7 +137,6 @@ function closeModal() {
             :pe="programme.pe"
           >
             <MovieCardContent
-              :ref="`${programme.ps}:${programme.main_id}`"
               :programme="programme"
             />
           </CardItem>
@@ -154,7 +153,6 @@ function closeModal() {
             :pe="programme.pe"
           >
             <MovieCardContent
-              :ref="`${programme.ps}:${programme.main_id}`"
               :programme="programme"
             />
           </CardItem>

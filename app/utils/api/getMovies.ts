@@ -14,9 +14,9 @@ import getEpoch from '~/utils/getEpoch'
 import getProgress from '~/utils/getProgress'
 import slugifyTitle from '~/utils/slugifyTitle'
 
-export default async function getMovies(day = Days.today, signal?: AbortSignal) {
+export default async function getMovies(day = Days.today) {
   const url = `${MOVIES_URI}/?day=${day}`
-  const response = await fetch(url, { signal })
+  const response = await fetch(url)
 
   if (!response.ok) {
     throw new Error(`Unable to fetch data from: ${url}`)

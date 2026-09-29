@@ -8,7 +8,6 @@ import {
   EMPTY_IMG,
   MOVIES_URI,
 } from '~/config'
-import formatDate from '~/utils/formatDate'
 import formatHours from '~/utils/formatHours'
 import formatTime from '~/utils/formatTime'
 import getEpoch from '~/utils/getEpoch'
@@ -68,7 +67,6 @@ function enrichData(channelData: Array<ProgrammesRaw>) {
         is_passed: now > end,
         progress: getProgress(now, start, end),
         deep_link: getDeepLinkUrl(movie.title),
-        day: formatDate(start),
         // Overwriting the `ps` and `pe` here to
         // return the updated start and end time
         ps: String(start),

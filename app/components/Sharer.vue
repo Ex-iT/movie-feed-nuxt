@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { SITE_URL } from '~/config'
+import formatDate from '~/utils/formatDate'
+import parseEpoch from '~/utils/parseEpoch'
 import ucFirst from '~/utils/ucFirst'
 
 const props = defineProps<{
@@ -18,7 +20,9 @@ function getShareUrl() {
 }
 
 function share() {
-  const { title, channel_label, start, end, day } = props.programme
+  const { title, channel_label, start, end, ps } = props.programme
+  const date = parseEpoch(ps)
+  const day = date ? formatDate(date) : ''
 
   navigator.share({
     title: `${title} ${day} op ${channel_label} om ${start}`,

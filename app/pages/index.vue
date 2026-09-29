@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { FetchData, MovieDetails, Programme, Programmes } from '~~/shared/types/Common'
 import { CHANNEL_LOGO_SRC, CHANNELS, EMPTY_IMG, TICK_TIME } from '~/config'
-import formatDate from '~/utils/formatDate'
 import formatTime from '~/utils/formatTime'
 import getEpoch from '~/utils/getEpoch'
 import parseEpoch from '~/utils/parseEpoch'
@@ -68,7 +67,6 @@ function constructProgrammeFromQuery(query: Record<string, string>): Programme {
   const peDate = parseEpoch(pe)
   const start = psDate ? formatTime(psDate) : ''
   const end = peDate ? formatTime(peDate) : ''
-  const day = psDate ? formatDate(psDate) : ''
   const channelLogo = chId ? CHANNEL_LOGO_SRC.replace(/%s/g, chId) : EMPTY_IMG
   const channelLabel = chId ? CHANNELS[Number.parseInt(chId, 10)] || '' : ''
 
@@ -85,7 +83,6 @@ function constructProgrammeFromQuery(query: Record<string, string>): Programme {
     is_passed: peDate ? getEpoch() > peDate.getTime() / 1000 : false,
     progress: 0,
     deep_link: '',
-    day,
   }
 }
 

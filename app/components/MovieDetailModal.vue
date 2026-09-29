@@ -101,7 +101,7 @@ const endTime = computed(() => {
 
 const broadcastDay = computed(() => {
   const date = parseEpoch(props.programme?.ps)
-  const raw = props.programme?.day || (date ? formatDate(date) : '')
+  const raw = date ? formatDate(date) : ''
   return raw ? ucFirst(raw) : ''
 })
 

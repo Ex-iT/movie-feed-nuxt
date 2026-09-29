@@ -46,8 +46,8 @@ Clicking a movie title triggers a lazy fetch for the detail data (description, i
 ## Development
 
 ```bash
-pnpm run install      # install deps + generate .nuxt/ types
-pnpm run dev          # http://localhost:3000
+pnpm install           # install deps + generate .nuxt/ types
+pnpm run dev           # http://localhost:3000
 ```
 
 ### Production build

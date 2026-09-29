@@ -96,14 +96,23 @@ const modalProgramme = computed(() => {
 
 const modalOpen = computed(() => !!route.query.movie)
 
+let modalFetchSeq = 0
+let modalAbort: AbortController | undefined
+
 async function fetchModalDetails(mainId: string) {
-  if (modalDetails.value) {
-    return
-  }
-  modalLoading.value = true
+  const seq = ++modalFetchSeq
+  modalAbort?.abort()
+  modalAbort = new AbortController()
+  const { signal } = modalAbort
+
+  modalDetails.value = null
   modalError.value = false
+  modalLoading.value = true
   try {
-    const result = await $fetch<MovieDetails>(`/api/v1/programmes/${mainId}`)
+    const result = await $fetch<MovieDetails>(`/api/v1/programmes/${mainId}`, { signal })
+    if (seq !== modalFetchSeq) {
+      return
+    }
     if ('error' in result) {
       modalError.value = true
     }
@@ -112,21 +121,33 @@ async function fetchModalDetails(mainId: string) {
     }
   }
   catch {
-    modalDetails.value = null
+    if (seq !== modalFetchSeq || signal.aborted) {
+      return
+    }
     modalError.value = true
   }
   finally {
-    modalLoading.value = false
+    if (seq === modalFetchSeq) {
+      modalLoading.value = false
+    }
   }
 }
 
-watch(modalOpen, (open) => {
-  if (open && modalProgramme.value) {
-    fetchModalDetails(modalProgramme.value.main_id)
+function resetModalState() {
+  modalFetchSeq++
+  modalAbort?.abort()
+  modalAbort = undefined
+  modalDetails.value = null
+  modalError.value = false
+  modalLoading.value = false
+}
+
+watch(() => modalProgramme.value?.main_id ?? null, (mainId) => {
+  if (mainId) {
+    fetchModalDetails(mainId)
   }
   else {
-    modalDetails.value = null
-    modalError.value = false
+    resetModalState()
   }
 }, { immediate: true })
 

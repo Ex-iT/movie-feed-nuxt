@@ -28,6 +28,15 @@ const CHANNEL_IDS = new Set(Object.keys(CHANNELS))
 
 const dialogRef = ref<HTMLDialogElement>()
 const closing = ref(false)
+const isMounted = ref(false)
+
+const isPast = computed(() => {
+  if (!isMounted.value) {
+    return false
+  }
+  const end = parseEpoch(props.programme?.pe)
+  return end ? getEpoch() > end.getTime() / 1000 : false
+})
 
 const nextBroadcast = computed<NextBroadcast | null>(() => {
   if (!props.details?.linear?.length) {
@@ -140,6 +149,7 @@ function onBackdropClick(event: MouseEvent) {
 }
 
 onMounted(() => {
+  isMounted.value = true
   document.body.style.overflow = 'hidden'
   dialogRef.value?.showModal()
 })
@@ -180,7 +190,7 @@ onUnmounted(() => {
         />
         <div class="modal-header-info">
           <h2>{{ title }}</h2>
-          <div v-if="broadcastDay || startTime" class="modal-broadcast">
+          <div v-if="broadcastDay || startTime" class="modal-broadcast" :class="{ past: isPast }">
             <time v-if="broadcastDay" :datetime="broadcastStartIso">{{ broadcastDay }}</time>
             <span v-if="broadcastDay && startTime">,&nbsp;</span>
             <time v-if="startTime" :datetime="broadcastEndIso">{{ startTime }} - {{ endTime }}</time>
@@ -333,6 +343,11 @@ onUnmounted(() => {
 
 .modal-broadcast {
   color: rgb(255 255 255 / 70%);
+  transition: color 300ms ease-in;
+}
+
+.modal-broadcast.past {
+  color: rgb(255 255 255 / 45%);
 }
 
 .modal-error h2 {

@@ -14,6 +14,8 @@ export default function formatDate(value: Date | number) {
 
   const formatted = date.toLocaleDateString('nl-NL', {
     weekday: 'long',
+    day: 'numeric',
+    month: 'long',
     timeZone: 'Europe/Amsterdam',
   })
 
